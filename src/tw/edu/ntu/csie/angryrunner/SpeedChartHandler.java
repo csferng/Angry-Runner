@@ -12,14 +12,14 @@ import android.graphics.Color;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-public class DialChartHandler {
+public class SpeedChartHandler {
 	Activity activity;
 	private CategorySeries dialData;
 	private GraphicalView dialView;
 	private DialRenderer dialRenderer;
 	private AnimateThread animateThread;
 	
-	public DialChartHandler(Activity activity, ViewGroup frame) {
+	public SpeedChartHandler(Activity activity, ViewGroup frame) {
 		this.activity = activity;
 		dialData = new CategorySeries("Speed");
 	    dialData.add("current", 0);		// index 0

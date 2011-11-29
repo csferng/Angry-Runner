@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class WorkoutActivity extends Activity {
 	private Button btStart, btStop, btWorkout;
-	private DialChartHandler dialChart;
+	private SpeedChartHandler speedChart;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -21,18 +21,18 @@ public class WorkoutActivity extends Activity {
         btStop = (Button) findViewById(R.id.btStop);
         btWorkout = (Button) findViewById(R.id.btWorkout);
         
-        dialChart = new DialChartHandler(this, (ViewGroup) findViewById(R.id.frDialChart));
+        speedChart = new SpeedChartHandler(this, (ViewGroup) findViewById(R.id.frDialChart));
         btStart.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialChart.setCurrentValue((new Random()).nextDouble()*10);
+				speedChart.setCurrentValue((new Random()).nextDouble()*10);
 			}
 		});
     }
     
     @Override
     public void onDestroy() {
-    	dialChart.cleanUp();
+    	speedChart.cleanUp();
     	super.onDestroy();
     }
 }
