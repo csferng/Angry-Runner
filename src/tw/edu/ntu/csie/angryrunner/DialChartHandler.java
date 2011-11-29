@@ -13,9 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
 public class DialChartHandler {
-	private static final int ANIMATION_LENGTH = 500;
-	private static final int ANIMATION_STEP = 50;
-
 	Activity activity;
 	private CategorySeries dialData;
 	private GraphicalView dialView;
@@ -52,11 +49,7 @@ public class DialChartHandler {
 	}
 
     public void setCurrentValue(double value) {
-    	double d = (value-dialData.getValue(0)) * ANIMATION_STEP / ANIMATION_LENGTH;
-    	animateThread.set(d, ANIMATION_LENGTH);
-//    	if(animateThread.getState() == Thread.State.NEW) animateThread.start();
-//    	dialData.set(0, "current", value);
-//    	invalidate();
+    	animateThread.setGoal(value);
     }
     
     public void setExpectedValue(double value) {
@@ -70,6 +63,7 @@ public class DialChartHandler {
     }
 
 	private void invalidate() {
+		if(activity == null) return;
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -84,12 +78,12 @@ public class DialChartHandler {
 	}
 	
 	private class AnimateThread extends Thread {
-		private double step;
-		private int timeRemain = 0;
+		private static final int ANIMATION_STEP = 50;
+
+		private double goal;
 		private boolean end = false;
-		public void set(double step, int timeRemain) {
-			this.step = step;
-			this.timeRemain = timeRemain;
+		public void setGoal(double goal) {
+			this.goal = goal;
 		}
 		public void finish() {
 			end = true;
@@ -101,9 +95,11 @@ public class DialChartHandler {
 					Thread.sleep(ANIMATION_STEP);
 				} catch (InterruptedException e) {
 				}
-				if(timeRemain > 0) {
-					timeRemain -= ANIMATION_STEP;
-					dialData.set(0, "current", dialData.getValue(0)+step);
+				if(dialData.getValue(0) != goal) {
+					double d = goal - dialData.getValue(0);
+					if(Math.abs(d) > dialRenderer.getMaxValue()/20.0)
+						d = dialRenderer.getMaxValue()/20.0 * d / Math.abs(d);
+					dialData.set(0, "current", dialData.getValue(0)+d);
 					invalidate();
 				}
 			}

@@ -33,5 +33,6 @@ public class WorkoutActivity extends Activity {
     @Override
     public void onDestroy() {
     	dialChart.cleanUp();
+    	super.onDestroy();
     }
 }
