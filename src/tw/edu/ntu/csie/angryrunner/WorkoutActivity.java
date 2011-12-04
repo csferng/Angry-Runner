@@ -11,6 +11,7 @@ import android.widget.Button;
 public class WorkoutActivity extends Activity {
 	private Button btStart, btStop, btWorkout;
 	private SpeedChartHandler speedChart;
+	private StatusItemLayout statDuration, statCalorie, statDistance;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -26,6 +27,28 @@ public class WorkoutActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				speedChart.setCurrentValue((new Random()).nextDouble()*10);
+			}
+		});
+        statDuration = (StatusItemLayout) findViewById(R.id.statDuration);
+        statCalorie = (StatusItemLayout) findViewById(R.id.statCalorie);
+        statDistance = (StatusItemLayout) findViewById(R.id.statDistance);
+		statDuration.setType("Duration");
+		statDuration.setUnit("sec");
+		statCalorie.setType("Calories");
+		statCalorie.setUnit("kcal");
+		statDistance.setType("Distance");
+		statDistance.setUnit("km");
+		statDistance.setNumber("0.00");
+        btWorkout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				statDuration.setNumber(Integer.toString((new Random()).nextInt(60)));
+			}
+		});
+        btStop.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				statCalorie.setNumber(Integer.toString((new Random()).nextInt(1000)));
 			}
 		});
     }

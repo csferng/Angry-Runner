@@ -8,65 +8,77 @@
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Running" android:gravity="center_vertical|center_horizontal"/>
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Running" />
 
     <TableLayout
         android:id="@+id/tableLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:gravity="fill_horizontal">
+        android:layout_height="fill_parent"
+        android:gravity="fill_horizontal" >
 
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="top">
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:layout_weight="1" >
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/frDialChart"
-                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="1" android:clipChildren="false" android:foregroundGravity="top" android:scrollbars="none" android:layout_gravity="top|center_horizontal" android:clickable="false">
-            </LinearLayout>
+                android:layout_height="fill_parent"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:clipChildren="false"
+                android:foregroundGravity="top"
+                android:orientation="horizontal"
+                android:scrollbars="none" >
+            </FrameLayout>
 
             <TableLayout
                 android:id="@+id/tableLayout2"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:layout_weight="1">
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
 
                 <TableRow
                     android:id="@+id/tableRow5"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Distance"/>
-
+            <tw.edu.ntu.csie.angryrunner.StatusItemLayout
+                android:id="@+id/statDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow6"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Progress"/>
-
+                        android:text="Progress" />
                 </TableRow>
             </TableLayout>
-
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_weight="0">
+            android:layout_height="wrap_content"
+            android:layout_weight="0" >
 
-            <TextView
+            <!--
+                 <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,39 +89,56 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories" android:layout_weight="1"/>
+            -->
 
+            <tw.edu.ntu.csie.angryrunner.StatusItemLayout
+                android:id="@+id/statDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+            </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
+
+            <tw.edu.ntu.csie.angryrunner.StatusItemLayout
+                android:id="@+id/statCalorie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+            </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_weight="0">
+            android:layout_height="wrap_content"
+            android:layout_weight="0" >
 
             <Button
                 android:id="@+id/btStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start" android:layout_weight="1"/>
-
+                android:layout_weight="1"
+                android:text="Start" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow4"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_weight="0">
+            android:layout_height="wrap_content"
+            android:layout_weight="0" >
 
             <Button
                 android:id="@+id/btWorkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Workout" android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="Workout" />
 
             <Button
                 android:id="@+id/btStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stop" android:layout_weight="1"/>
-
+                android:layout_weight="1"
+                android:text="Stop" />
         </TableRow>
     </TableLayout>
 
