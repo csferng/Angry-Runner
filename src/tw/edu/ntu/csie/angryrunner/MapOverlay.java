@@ -2,8 +2,6 @@ package tw.edu.ntu.csie.angryrunner;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,11 +12,11 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
-public class myOverlay extends Overlay {
+public class MapOverlay extends Overlay {
 	List<GeoPoint> pts;
 	Paint paint;
 	
-	public myOverlay(List<GeoPoint> pos) {
+	public MapOverlay(List<GeoPoint> pos) {
 		super();
 		pts = pos;
 		paint = new Paint();

@@ -37,7 +37,7 @@ public class GmapHandler{
 		mc.animateTo(positions.get(positions.size()-1));
 		List<Overlay> ol = mv.getOverlays();
 		ol.clear();
-		ol.add(new myOverlay(positions));
+		ol.add(new MapOverlay(positions));
 	}
 
 }
