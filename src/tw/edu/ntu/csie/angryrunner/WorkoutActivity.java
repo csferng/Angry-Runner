@@ -45,7 +45,7 @@ public class WorkoutActivity extends MapActivity {
         initButtons(pageViews.get(0));
         
         positions = new ArrayList<GeoPoint>();
-        gMapH = new GmapHandler(pageViews.get(1), this);
+        gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
         gpsH = new GpsHandler(this);
     }
 

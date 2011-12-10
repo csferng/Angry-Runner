@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -13,14 +15,21 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
 public class MapOverlay extends Overlay {
-	List<GeoPoint> pts;
+	List<GeoPoint> pts = null;
 	Paint paint;
+	ViewPager vpfrom;
 	
-	public MapOverlay(List<GeoPoint> pos) {
+	public MapOverlay(ViewPager vp) {
+		vpfrom = vp;
+	}
+	
+	public MapOverlay(List<GeoPoint> pos, ViewPager vp) {
 		super();
 		pts = pos;
 		paint = new Paint();
 		paint.setColor(Color.BLUE);
+		
+		vpfrom = vp;
 	}
 	
 	@Override
@@ -28,9 +37,10 @@ public class MapOverlay extends Overlay {
 		super.draw(canvas, mapView, shadow);
 		
 		float savx, savy;
-		if(!shadow){
+		if(!shadow && pts != null){
 			Projection proj = mapView.getProjection();
 			Point po = new Point();
+			
 			if(pts.size() == 1){
 				proj.toPixels(pts.get(0), po);
 				canvas.drawPoint(po.x, po.y, paint);
@@ -55,6 +65,16 @@ public class MapOverlay extends Overlay {
 			}
 			
 		}
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent e, MapView mapView) {
+		if(mapView.isEnabled()){
+			vpfrom.requestDisallowInterceptTouchEvent(true);
+			return super.onTouchEvent(e, mapView);
+		}
+		
+		return false;
 	}
 
 }
