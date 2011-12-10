@@ -51,16 +51,19 @@ public class SettingActivity extends Activity {
 					case 0:
 						break;
 					case 1:
+						it.setClass(SettingActivity.this, UnitActivity.class);
+						startActivityForResult(it, 1);
 						break;
 					case 2:
 						it.setClass(SettingActivity.this, ModeActivity.class);
 						startActivityForResult(it, 2);
 						break;
 					case 3:
+						it.setClass(SettingActivity.this, CountdownActivity.class);
+						startActivityForResult(it, 3);
 						break;
 					default:
 				}
-				//startActivityForResult(it, 0);
 			}
         	
         });
@@ -69,7 +72,6 @@ public class SettingActivity extends Activity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	// TODO Auto-generated method stub
     	super.onActivityResult(requestCode, resultCode, data);
     	if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
