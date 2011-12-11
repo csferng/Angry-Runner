@@ -91,7 +91,7 @@ public class SettingActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
-    	if(resultCode == RESULT_OK){
+    	if(requestCode != 0 && resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		settingAdapter.notifyDataSetChanged();
     		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));

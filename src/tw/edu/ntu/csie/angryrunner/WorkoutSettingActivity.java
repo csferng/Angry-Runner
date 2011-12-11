@@ -76,6 +76,15 @@ public class WorkoutSettingActivity extends Activity {
         	
         });
 
+        bt_confirm.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO 
+				settingPrefEdt.putString(workoutsettings[0], alhm.get(0).get("value"));
+	    		settingPrefEdt.commit();
+	    		finish();
+			}
+        });
 		
 		bt_cancel.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -92,8 +101,6 @@ public class WorkoutSettingActivity extends Activity {
 		if(requestCode == 0 && resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		wsAdapter.notifyDataSetChanged();
-    		settingPrefEdt.putString(workoutsettings[requestCode], data.getExtras().getString("value"));
-    		settingPrefEdt.commit();
     	}
 	}
 	
