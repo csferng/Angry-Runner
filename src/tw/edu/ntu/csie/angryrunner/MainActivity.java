@@ -1,7 +1,5 @@
 package tw.edu.ntu.csie.angryrunner;
 
-import tw.edu.ntu.csie.angryrunner.MusicHandler;
-
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
