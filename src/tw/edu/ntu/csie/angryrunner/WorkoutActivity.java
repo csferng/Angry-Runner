@@ -7,6 +7,7 @@ import java.util.Random;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -62,7 +63,10 @@ public class WorkoutActivity extends MapActivity {
         btWorkout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				statDuration.setNumber(Integer.toString((new Random()).nextInt(60)));
+				Intent it = new Intent();
+				it.setClass(WorkoutActivity.this, WorkoutSettingActivity.class);
+				startActivity(it);
+				//statDuration.setNumber(Integer.toString((new Random()).nextInt(60)));
 			}
 		});
         btStop.setOnClickListener(new View.OnClickListener() {
