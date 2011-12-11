@@ -1,5 +1,7 @@
 package tw.edu.ntu.csie.angryrunner;
 
+import tw.edu.ntu.csie.angryrunner.MusicHandler;
+
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -21,15 +23,23 @@ public class MainActivity extends TabActivity {
         res = getResources();
         tabHost = getTabHost();
         
-        addTab("Workout", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_test));
-        addTab("Setting", SettingActivity.class, res.getDrawable(R.drawable.icon_tab_test));
-        addTab("Workout", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_test));
+        addTab("Main", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_test));
+        addTab("Playlist", MusicActivity.class, res.getDrawable(R.drawable.icon_tab_test));
+        addTab("History", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_test));
         addTab("Setting", SettingActivity.class, res.getDrawable(R.drawable.icon_tab_test));
         
     }
 
 	private void addTab(String tag, Class<? extends Activity> activity, Drawable icon) {
 		Intent intent = new Intent().setClass(this, activity);
+        TabHost.TabSpec spec = tabHost.newTabSpec(tag)
+        		.setIndicator(tag, icon)
+        		.setContent(intent);
+        tabHost.addTab(spec);
+	}
+
+	private void addTab(String tag, Class<? extends Activity> activity, Intent intent, Drawable icon) {
+		intent.setClass(this, activity);
         TabHost.TabSpec spec = tabHost.newTabSpec(tag)
         		.setIndicator(tag, icon)
         		.setContent(intent);
