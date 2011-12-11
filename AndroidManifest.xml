@@ -28,7 +28,10 @@
         <activity android:screenOrientation="portrait" android:name="ModeActivity"></activity>
         <activity android:name="UnitActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="CountdownActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="TimeActivity"></activity>
+        <activity android:name="WeightActivity"></activity>
         <activity android:screenOrientation="portrait" android:name="WorkoutSettingActivity"></activity>
+        <activity android:name="HistoryActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

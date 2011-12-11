@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +19,10 @@ public class WorkoutSettingActivity extends Activity {
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter wsAdapter;
 	String[] workoutsettings = {"Mode", "Speed", "Time", "Distance"};
+	String[] inits = {"Walking", "", "", ""};
 	Button bt_confirm, bt_cancel;
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +32,14 @@ public class WorkoutSettingActivity extends Activity {
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
 		bt_cancel = (Button) findViewById(R.id.btCancel);
+		settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
 		
 		for(int i=0; i<workoutsettings.length; ++i){
 			HashMap<String,String> tmphm = new HashMap<String,String>();
 			tmphm.put("name", workoutsettings[i]);
-			tmphm.put("value", "");
+			tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
+			//tmphm.put("value", inits[i]);
 			alhm.add(tmphm);
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
@@ -58,6 +65,8 @@ public class WorkoutSettingActivity extends Activity {
 					case 1:
 						break;
 					case 2:
+						it.setClass(WorkoutSettingActivity.this, TimeActivity.class);
+						startActivityForResult(it, 2);
 						break;
 					case 3:
 						break;
@@ -67,6 +76,15 @@ public class WorkoutSettingActivity extends Activity {
         	
         });
 
+        bt_confirm.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO 
+				settingPrefEdt.putString(workoutsettings[0], alhm.get(0).get("value"));
+	    		settingPrefEdt.commit();
+	    		finish();
+			}
+        });
 		
 		bt_cancel.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -80,7 +98,7 @@ public class WorkoutSettingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode == RESULT_OK){
+		if(requestCode == 0 && resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		wsAdapter.notifyDataSetChanged();
     	}
