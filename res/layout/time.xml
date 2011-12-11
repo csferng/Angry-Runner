@@ -31,7 +31,7 @@
                 android:layout_marginBottom="3dp"
                 android:text="Hours" />
             
-            <tw.edu.ntu.csie.angryrunner.WheelView android:id="@+id/hour"
+            <kankan.wheel.widget.WheelView android:id="@+id/hour"
                 android:layout_gravity="center_horizontal"
             	android:layout_height="wrap_content"
             	android:layout_width="60dp"

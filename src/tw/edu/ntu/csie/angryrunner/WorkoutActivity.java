@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
 
 public class WorkoutActivity extends MapActivity {
 	private Button btStart, btStop, btWorkout;

@@ -43,7 +43,7 @@ public class WeightActivity extends Activity {
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         dec_tv.setTextColor(Color.YELLOW);
-        dec_tv.setTextSize(18);
+        dec_tv.setTextSize(22);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);

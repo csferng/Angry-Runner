@@ -49,6 +49,8 @@ public class SettingActivity extends Activity {
 				Intent it = new Intent();
 				switch(arg2){
 					case 0:
+						it.setClass(SettingActivity.this, WeightActivity.class);
+						startActivityForResult(it, 0);
 						break;
 					case 1:
 						it.setClass(SettingActivity.this, UnitActivity.class);

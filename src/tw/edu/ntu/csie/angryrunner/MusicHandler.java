@@ -5,13 +5,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.content.pm.ResolveInfo;
-import android.content.pm.PackageInfo;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.ResolveInfo;
 import android.media.AudioManager;
 import android.widget.Toast;
 
