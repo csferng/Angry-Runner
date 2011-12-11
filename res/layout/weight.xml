@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/layout_bg" >
+    
+    <TextView
+        android:id="@+id/minuteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+		android:layout_centerHorizontal="true"
+        android:layout_above="@+id/linearLayout1"
+        android:text="kg" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:layout_gravity="center" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:layout_marginRight="1dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+            
+            <kankan.wheel.widget.WheelView android:id="@+id/centesimal"
+                android:layout_gravity="center_horizontal"
+            	android:layout_height="wrap_content"
+            	android:layout_width="60dp"
+            	android:layout_toLeftOf="@+id/decimal"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:layout_marginRight="1dp"
+    		android:layout_marginLeft="1dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+            
+            <kankan.wheel.widget.WheelView android:id="@+id/decimal"
+                android:layout_gravity="center_horizontal"
+            	android:layout_height="wrap_content"
+            	android:layout_width="60dp"
+            	android:layout_toLeftOf="@+id/unit"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    		android:layout_marginLeft="1dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+            
+            <kankan.wheel.widget.WheelView android:id="@+id/unit"
+                android:layout_gravity="center_horizontal"
+            	android:layout_height="wrap_content"
+            	android:layout_width="60dp" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/confirmBT"
+            android:layout_width="157dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp"
+            android:text="Confirm" />
+
+        <Button
+            android:id="@+id/cancelBT"
+            android:layout_width="157dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="5dp"
+            android:text="Cancel" />
+    </LinearLayout>
+
+</RelativeLayout>

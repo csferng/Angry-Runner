@@ -65,6 +65,8 @@ public class WorkoutSettingActivity extends Activity {
 					case 1:
 						break;
 					case 2:
+						it.setClass(WorkoutSettingActivity.this, TimeActivity.class);
+						startActivityForResult(it, 2);
 						break;
 					case 3:
 						break;
@@ -87,7 +89,7 @@ public class WorkoutSettingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode == RESULT_OK){
+		if(requestCode == 0 && resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		wsAdapter.notifyDataSetChanged();
     		settingPrefEdt.putString(workoutsettings[requestCode], data.getExtras().getString("value"));

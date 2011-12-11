@@ -4,8 +4,8 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DialRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.DialRenderer.Type;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.app.Activity;
 import android.graphics.Color;
