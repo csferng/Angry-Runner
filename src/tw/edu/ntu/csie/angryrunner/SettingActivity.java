@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,18 @@ public class SettingActivity extends Activity {
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter settingAdapter;
 	String[] settings = {"Weight", "Units", "Mode", "Countdown"};
+	String[] inits = {"60 kg", "Kilometers", "Walking", "Off"};
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		for(int i=0; i<settings.length; ++i){
+			alhm.get(i).put("value", settingPref.getString(settings[i], inits[i]));
+			settingAdapter.notifyDataSetChanged();
+		}
+	}
 	
     /** Called when the activity is first created. */
     @Override
@@ -25,11 +38,14 @@ public class SettingActivity extends Activity {
         setContentView(R.layout.setting);
         
         settinglist = (ListView) findViewById(R.id.listView1);
+        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
         
         for(int i=0; i<settings.length; ++i){
         	HashMap<String,String> tmphm = new HashMap<String,String>();
         	tmphm.put("name", settings[i]);
-        	tmphm.put("value", "");
+        	tmphm.put("value", settingPref.getString(settings[i], inits[i]));
+        	//tmphm.put("value", inits[i]);
         	alhm.add(tmphm);
         }
         settingAdapter = new SimpleAdapter(SettingActivity.this, 
@@ -76,6 +92,8 @@ public class SettingActivity extends Activity {
     	if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		settingAdapter.notifyDataSetChanged();
+    		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
+    		settingPrefEdt.commit();
     	}
     }
     

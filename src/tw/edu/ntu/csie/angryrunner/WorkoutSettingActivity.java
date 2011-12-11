@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +19,10 @@ public class WorkoutSettingActivity extends Activity {
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter wsAdapter;
 	String[] workoutsettings = {"Mode", "Speed", "Time", "Distance"};
+	String[] inits = {"Walking", "", "", ""};
 	Button bt_confirm, bt_cancel;
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +32,14 @@ public class WorkoutSettingActivity extends Activity {
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
 		bt_cancel = (Button) findViewById(R.id.btCancel);
+		settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
 		
 		for(int i=0; i<workoutsettings.length; ++i){
 			HashMap<String,String> tmphm = new HashMap<String,String>();
 			tmphm.put("name", workoutsettings[i]);
-			tmphm.put("value", "");
+			tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
+			//tmphm.put("value", inits[i]);
 			alhm.add(tmphm);
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
@@ -83,6 +90,8 @@ public class WorkoutSettingActivity extends Activity {
 		if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		wsAdapter.notifyDataSetChanged();
+    		settingPrefEdt.putString(workoutsettings[requestCode], data.getExtras().getString("value"));
+    		settingPrefEdt.commit();
     	}
 	}
 	
