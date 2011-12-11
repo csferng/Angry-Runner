@@ -1,11 +1,11 @@
 package tw.edu.ntu.csie.angryrunner;
 
+//import kankan.wheel.R;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,14 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class TimeActivity extends Activity {
-	
-	TextView hour_tv, min_tv, sec_tv;
+public class WeightActivity extends Activity {
+
+	TextView dec_tv;
+	WheelView cen, dec, unit;
 	Button confirm_bt, cancel_bt;
-	WheelView hour, min, sec;
 	
-	int curHour, curMin, curSec;
-	String [] hours, ms;
+	int curCen, curDec, curUnit;
+	String [] digits;
 	
 	
 	String [] initArray(int size, int start) {
@@ -36,19 +36,14 @@ public class TimeActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.time);
+        setContentView(R.layout.weight);
         
-        setTitle("Time");
+        setTitle("Weight");
         
-        hour_tv = (TextView)findViewById(R.id.hourText);
-        hour_tv.setTypeface(Typeface.DEFAULT_BOLD);
-        hour_tv.setTextColor(Color.YELLOW);
-        min_tv = (TextView)findViewById(R.id.minuteText);
-        min_tv.setTypeface(Typeface.DEFAULT_BOLD);
-        min_tv.setTextColor(Color.YELLOW);
-        sec_tv = (TextView)findViewById(R.id.secondText);
-        sec_tv.setTypeface(Typeface.DEFAULT_BOLD);
-        sec_tv.setTextColor(Color.YELLOW);
+        dec_tv = (TextView)findViewById(R.id.minuteText);
+        dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
+        dec_tv.setTextColor(Color.YELLOW);
+        dec_tv.setTextSize(18);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
@@ -57,9 +52,6 @@ public class TimeActivity extends Activity {
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
-        		Intent intent = new Intent();
-        		//intent.setClass(TimeActivity.this, WeightActivity.class);
-        		//startActivity(intent);
         	}
         });
         
@@ -74,40 +66,39 @@ public class TimeActivity extends Activity {
         });
         
         
-        hours = initArray(24, 0);
-        ms = initArray(60, 0);
+        digits = initArray(9, 0);
         
-        hour = (WheelView)findViewById(R.id.hour);
-        min = (WheelView)findViewById(R.id.minute);
-        sec = (WheelView)findViewById(R.id.second);
+        cen = (WheelView)findViewById(R.id.centesimal);
+        dec = (WheelView)findViewById(R.id.decimal);
+        unit = (WheelView)findViewById(R.id.unit);
         
         OnWheelChangedListener listener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 //updateDays(year, month, day);
-            	curHour = hour.getCurrentItem();
-            	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHour));
-            	curMin = min.getCurrentItem();
-            	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMin));
-            	curSec = sec.getCurrentItem();
-            	sec.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curSec));
+            	curCen = cen.getCurrentItem();
+            	cen.setViewAdapter(new DateArrayAdapter(WeightActivity.this, digits, curCen));
+            	curDec = dec.getCurrentItem();
+            	dec.setViewAdapter(new DateArrayAdapter(WeightActivity.this, digits, curDec));
+            	curUnit = unit.getCurrentItem();
+            	unit.setViewAdapter(new DateArrayAdapter(WeightActivity.this, digits, curUnit));
             	//tv.setText(day.getCurrentItem()+"_"+month.getCurrentItem()+"_"+year.getCurrentItem());
             }
         };
         
-        curHour = 0;
-        hour.setViewAdapter(new DateArrayAdapter(this, hours, curHour));
-        hour.setCurrentItem(curHour);
-        hour.addChangingListener(listener);
+        curCen = 0;
+        cen.setViewAdapter(new DateArrayAdapter(this, digits, curCen));
+        cen.setCurrentItem(curCen);
+        cen.addChangingListener(listener);
         
-        curMin = 0;
-        min.setViewAdapter(new DateArrayAdapter(this, ms, curMin));
-        min.setCurrentItem(curMin);
-        min.addChangingListener(listener);
+        curDec = 0;
+        dec.setViewAdapter(new DateArrayAdapter(this, digits, curDec));
+        dec.setCurrentItem(curDec);
+        dec.addChangingListener(listener);
         
-        curSec = 0;
-        sec.setViewAdapter(new DateArrayAdapter(this, ms, curSec));
-        sec.setCurrentItem(curSec);
-        sec.addChangingListener(listener);
+        curUnit = 0;
+        unit.setViewAdapter(new DateArrayAdapter(this, digits, curUnit));
+        unit.setCurrentItem(curUnit);
+        unit.addChangingListener(listener);
         
 	}
 	
@@ -141,5 +132,5 @@ public class TimeActivity extends Activity {
             return super.getItem(index, cachedView, parent);
         }
     }
-
+	
 }

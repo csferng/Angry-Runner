@@ -28,7 +28,7 @@ public class MusicActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.music);
+		setContentView(R.layout.music);
 		
 		audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
@@ -41,8 +41,9 @@ public class MusicActivity extends Activity {
 					jo.put("label", p.applicationInfo.name);
 					jo.put("packageName", p.applicationInfo.packageName);
 					ja.put(jo);
-					if (p.applicationInfo.packageName.endsWith("android.music")) {
+					if (p.applicationInfo.packageName.endsWith("music")) {
 						musicPackageName = p.applicationInfo.packageName;
+						setTitle(musicPackageName);
 						break;
 					}
 				}
