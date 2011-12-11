@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class CountdownActivity extends Activity {
 	ListView countdownlist;
 	ArrayAdapter<String> countdownAdapter;
-	String[] countdowns = {"Off", "10 sec", "20 sec", "30 sec", "60 sec"};
+	String[] countdowns = {"Off", "10 secs", "20 secs", "30 secs", "60 secs"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
