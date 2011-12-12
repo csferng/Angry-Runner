@@ -16,7 +16,7 @@ public class StatusItemLayout extends RelativeLayout {
 		tvType = (TextView)findViewById(R.id.tvType);
 		tvUnit = (TextView)findViewById(R.id.tvUnit);
 		tvNumber = (TextView)findViewById(R.id.tvNumber);
-		if(tvNumber != null) tvNumber.setTextSize(tvNumber.getTextSize()*1.5f);
+		if(tvNumber != null) tvNumber.setTextSize(tvNumber.getTextSize()*1.25f);
 	}
 	
 	public void setType(String type) {

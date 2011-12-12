@@ -30,7 +30,6 @@ public class SpeedChartHandler {
 	    dialRenderer.addSeriesRenderer(new SimpleSeriesRenderer());
 	    dialRenderer.getSeriesRendererAt(0).setColor(Color.rgb(224, 224, 0));
 	    dialRenderer.getSeriesRendererAt(1).setColor(Color.rgb(192, 128, 0));
-	    dialRenderer.setChartTitleTextSize(20);
 	    dialRenderer.setLegendTextSize(15);
 	    dialRenderer.setLabelsTextSize(10);
 	    dialRenderer.setLabelsColor(Color.WHITE);
@@ -38,6 +37,8 @@ public class SpeedChartHandler {
 	    dialRenderer.setShowLegend(false);
 	    dialRenderer.setZoomEnabled(false);
 	    dialRenderer.setPanEnabled(false);
+	    dialRenderer.setChartTitle("Speed (m/s)");
+	    dialRenderer.setChartTitleTextSize(20);
 	    dialRenderer.setVisualTypes(new DialRenderer.Type[] {Type.ARROW, Type.ARROW});
 	    dialRenderer.setMinValue(0);
 	    dialRenderer.setMaxValue(10);
@@ -66,12 +67,6 @@ public class SpeedChartHandler {
 	private void invalidate() {
 		if(activity == null) return;
 		dialView.postInvalidate();
-/*		activity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				dialView.invalidate();
-			}
-		});*/
 	}
 	
 	public void cleanUp() {
