@@ -41,6 +41,7 @@ public class SpeedChartHandler {
 	    dialRenderer.setVisualTypes(new DialRenderer.Type[] {Type.ARROW, Type.ARROW});
 	    dialRenderer.setMinValue(0);
 	    dialRenderer.setMaxValue(10);
+	    dialRenderer.setInScroll(true);		// prevent shrinking when sliding
 	    dialView = ChartFactory.getDialChartView(activity, dialData, dialRenderer);
 	    dialView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	    frame.addView(dialView);
@@ -64,12 +65,13 @@ public class SpeedChartHandler {
 
 	private void invalidate() {
 		if(activity == null) return;
-		activity.runOnUiThread(new Runnable() {
+		dialView.postInvalidate();
+/*		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				dialView.invalidate();
 			}
-		});
+		});*/
 	}
 	
 	public void cleanUp() {

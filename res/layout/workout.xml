@@ -8,176 +8,117 @@
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        
-    	<TextView
-        	android:id="@+id/tvMode"
-        	android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-        	android:gravity="center_vertical"
-        	android:text="Running" />
-    	
-    	<TextView
-        	android:id="@+id/textView2"
-        	android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-        	android:gravity="center_vertical"
-        	android:layout_weight="1"
-        	android:text=" Mode" />
 
-    	<Button
-    	    android:id="@+id/btMap"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:text="Map" />
+        <TextView
+            android:id="@+id/tvMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Running" />
 
-    </LinearLayout>
-    
-    <TableLayout
-        android:id="@+id/tableLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="fill_horizontal" >
-
-        <TableRow
-            android:id="@+id/tableRow1"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="top"
-            android:layout_weight="1" >
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=" Mode" />
+
+        <Button
+            android:id="@+id/btMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Map" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" android:layout_weight="1">
 
             <FrameLayout
                 android:id="@+id/frDialChart"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="top|center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="false"
                 android:clipChildren="false"
                 android:foregroundGravity="top"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:scrollbars="none" >
             </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout1"
+            
+            <tw.edu.ntu.csie.angryrunner.ProgressBarView
+                android:id="@+id/progressBar"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1" >
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="2" />
 
-                <tw.edu.ntu.csie.angryrunner.StatusItemLayout
-                    android:id="@+id/statDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
+        </LinearLayout>
 
-                <tw.edu.ntu.csie.angryrunner.ProgressBarView
-                    android:id="@+id/progressBar"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" 
-                    android:layout_margin="1dp" 
-                    android:padding="1dp"/>
-
-                </LinearLayout>
-
-<!--            <TableLayout
-                android:id="@+id/tableLayout2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <TableRow
-                    android:id="@+id/tableRow5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" >
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" >
-
-                     <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Progress" />
-                </TableRow>
-
-            </TableLayout> -->
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
+        <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" android:layout_weight="1">
 
-            <!--
-                 <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Duration" android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calories" android:layout_weight="1"/>
-            -->
+            <tw.edu.ntu.csie.angryrunner.StatusItemLayout
+                android:id="@+id/statDistance"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
                 android:id="@+id/statDuration"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
                 android:id="@+id/statCalorie"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
-        </TableRow>
 
-        <TableRow
-            android:id="@+id/tableRow3"
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btStart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Start" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btWorkout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0" >
+            android:layout_weight="1"
+            android:text="Workout" />
 
-            <Button
-                android:id="@+id/btStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Start" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4"
+        <Button
+            android:id="@+id/btStop"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0" >
+            android:layout_weight="1"
+            android:text="Stop" />
 
-            <Button
-                android:id="@+id/btWorkout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout" />
-
-            <Button
-                android:id="@+id/btStop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Stop" />
-        </TableRow>
-    </TableLayout>
+    </LinearLayout>
 
 </LinearLayout>
