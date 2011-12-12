@@ -35,12 +35,4 @@ public class MainActivity extends TabActivity {
         		.setContent(intent);
         tabHost.addTab(spec);
 	}
-
-	private void addTab(String tag, Class<? extends Activity> activity, Intent intent, Drawable icon) {
-		intent.setClass(this, activity);
-        TabHost.TabSpec spec = tabHost.newTabSpec(tag)
-        		.setIndicator(tag, icon)
-        		.setContent(intent);
-        tabHost.addTab(spec);
-	}
 }

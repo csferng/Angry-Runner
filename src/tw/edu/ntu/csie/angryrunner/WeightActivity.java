@@ -6,6 +6,8 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ public class WeightActivity extends Activity {
 	
 	int curCen, curDec, curUnit;
 	String [] digits;
+	
 	
 	
 	String [] initArray(int size, int start) {
@@ -52,6 +55,18 @@ public class WeightActivity extends Activity {
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
+        		
+        		int sum = curCen*100 + curDec*10 + curUnit;
+        		
+        		String target = new Integer(sum).toString()+" kg";
+        		
+        		Intent it = new Intent();
+				Bundle bun = new Bundle();
+				bun.putString("value", target);
+				it.putExtras(bun);
+				
+				setResult(RESULT_OK, it);
+				finish();
         	}
         });
         

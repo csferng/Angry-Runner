@@ -34,8 +34,8 @@
             
             <kankan.wheel.widget.WheelView android:id="@+id/hour"
                 android:layout_gravity="center_horizontal"
-            	android:layout_height="wrap_content"
-            	android:layout_width="60dp"
+            	android:layout_height="170dp"
+            	android:layout_width="75dp"
             	android:layout_toLeftOf="@+id/minute"/>
 
         </LinearLayout>
@@ -59,8 +59,8 @@
             
             <kankan.wheel.widget.WheelView android:id="@+id/minute"
                 android:layout_gravity="center_horizontal"
-            	android:layout_height="wrap_content"
-            	android:layout_width="60dp"
+            	android:layout_height="170dp"
+            	android:layout_width="75dp"
             	android:layout_toLeftOf="@+id/second"/>
 
         </LinearLayout>
@@ -83,8 +83,8 @@
             
             <kankan.wheel.widget.WheelView android:id="@+id/second"
                 android:layout_gravity="center_horizontal"
-            	android:layout_height="wrap_content"
-            	android:layout_width="60dp" />
+            	android:layout_height="170dp"
+            	android:layout_width="75dp" />
 
         </LinearLayout>
         

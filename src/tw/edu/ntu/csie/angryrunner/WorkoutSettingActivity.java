@@ -63,12 +63,16 @@ public class WorkoutSettingActivity extends Activity {
 						startActivityForResult(it, 0);
 						break;
 					case 1:
+						it.setClass(WorkoutSettingActivity.this, PaceActivity.class);
+						startActivityForResult(it, 1);
 						break;
 					case 2:
 						it.setClass(WorkoutSettingActivity.this, TimeActivity.class);
 						startActivityForResult(it, 2);
 						break;
 					case 3:
+						it.setClass(WorkoutSettingActivity.this, DistanceActivity.class);
+						startActivityForResult(it, 3);
 						break;
 					default:
 				}
@@ -81,6 +85,9 @@ public class WorkoutSettingActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO 
 				settingPrefEdt.putString(workoutsettings[0], alhm.get(0).get("value"));
+				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
+				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
+				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
 	    		settingPrefEdt.commit();
 	    		finish();
 			}
@@ -98,7 +105,7 @@ public class WorkoutSettingActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 0 && resultCode == RESULT_OK){
+		if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
     		wsAdapter.notifyDataSetChanged();
     	}

@@ -32,6 +32,8 @@
         <activity android:name="WeightActivity"></activity>
         <activity android:screenOrientation="portrait" android:name="WorkoutSettingActivity"></activity>
         <activity android:name="HistoryActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="DistanceActivity"></activity>
+        <activity android:name="PaceActivity"></activity>
     </application>
 
 </manifest>
