@@ -21,6 +21,7 @@ public class WorkoutActivity extends MapActivity {
 	private Button btStart, btStop, btWorkout, btMap;
 	private TextView tvMode;
 	private SpeedChartHandler speedChart;
+	private ProgressBarView progressBar;
 	private StatusItemLayout statDuration, statCalorie, statDistance;
 	ArrayList<View> pageViews;
 	ViewPager vpWorkout;
@@ -48,6 +49,7 @@ public class WorkoutActivity extends MapActivity {
         vpWorkout.setAdapter(vpAdapter);
         
         speedChart = new SpeedChartHandler(this, (ViewGroup) pageViews.get(0).findViewById(R.id.frDialChart));
+        progressBar = (ProgressBarView) pageViews.get(0).findViewById(R.id.progressBar);
         initStatus(pageViews.get(0));
         initButtons(pageViews.get(0));
         initMode(pageViews.get(0));
@@ -81,13 +83,15 @@ public class WorkoutActivity extends MapActivity {
 				Intent it = new Intent();
 				it.setClass(WorkoutActivity.this, WorkoutSettingActivity.class);
 				startActivity(it);
-				//statDuration.setNumber(Integer.toString((new Random()).nextInt(60)));
 			}
 		});
         btStop.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				statCalorie.setNumber(Integer.toString((new Random()).nextInt(1000)));
+				Random rand = new Random();
+				statCalorie.setNumber(Integer.toString(rand.nextInt(1000)));
+				statDuration.setNumber(Integer.toString(rand.nextInt(60)));
+				progressBar.setProgress(rand.nextFloat()*100.0f);
 			}
 		});
         btMap.setOnClickListener(new Button.OnClickListener(){

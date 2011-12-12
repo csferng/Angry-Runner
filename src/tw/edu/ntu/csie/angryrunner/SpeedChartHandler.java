@@ -74,6 +74,15 @@ public class SpeedChartHandler {
 	
 	public void cleanUp() {
 		animateThread.finish();
+		boolean retry = true;
+		while(retry) {
+			try {
+				animateThread.join();
+				retry = false;
+			} catch (InterruptedException e) {
+				// simply try again until the thread finish
+			}
+		}
 		activity = null;
 	}
 	

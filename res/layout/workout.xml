@@ -58,7 +58,29 @@
                 android:scrollbars="none" >
             </FrameLayout>
 
-            <TableLayout
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1" >
+
+                <tw.edu.ntu.csie.angryrunner.StatusItemLayout
+                    android:id="@+id/statDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
+
+                <tw.edu.ntu.csie.angryrunner.ProgressBarView
+                    android:id="@+id/progressBar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" 
+                    android:layout_margin="1dp" 
+                    android:padding="1dp"/>
+
+                </LinearLayout>
+
+<!--            <TableLayout
                 android:id="@+id/tableLayout2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -69,12 +91,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" >
-
-            <tw.edu.ntu.csie.angryrunner.StatusItemLayout
-                android:id="@+id/statDistance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-            </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
                 </TableRow>
 
                 <TableRow
@@ -83,13 +99,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" >
 
-                    <TextView
+                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Progress" />
                 </TableRow>
-            </TableLayout>
+
+            </TableLayout> -->
         </TableRow>
 
         <TableRow
