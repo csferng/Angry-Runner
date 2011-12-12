@@ -43,11 +43,11 @@ public class WeightActivity extends Activity {
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         dec_tv.setTextColor(Color.YELLOW);
-        dec_tv.setTextSize(22);
+        dec_tv.setTextSize(24);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -56,7 +56,7 @@ public class WeightActivity extends Activity {
         });
         
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -66,7 +66,7 @@ public class WeightActivity extends Activity {
         });
         
         
-        digits = initArray(9, 0);
+        digits = initArray(10, 0);
         
         cen = (WheelView)findViewById(R.id.centesimal);
         dec = (WheelView)findViewById(R.id.decimal);
@@ -114,7 +114,7 @@ public class WeightActivity extends Activity {
         public DateArrayAdapter(Context context, String[] items, int current) {
             super(context, items);
             this.currentValue = current;
-            setTextSize(22);
+            setTextSize(28);
         }
         
         @Override

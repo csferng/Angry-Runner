@@ -43,16 +43,19 @@ public class TimeActivity extends Activity {
         hour_tv = (TextView)findViewById(R.id.hourText);
         hour_tv.setTypeface(Typeface.DEFAULT_BOLD);
         hour_tv.setTextColor(Color.YELLOW);
+        hour_tv.setTextSize(16);
         min_tv = (TextView)findViewById(R.id.minuteText);
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
         min_tv.setTextColor(Color.YELLOW);
+        min_tv.setTextSize(16);
         sec_tv = (TextView)findViewById(R.id.secondText);
         sec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         sec_tv.setTextColor(Color.YELLOW);
+        sec_tv.setTextSize(16);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -64,7 +67,7 @@ public class TimeActivity extends Activity {
         });
         
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -123,7 +126,7 @@ public class TimeActivity extends Activity {
         public DateArrayAdapter(Context context, String[] items, int current) {
             super(context, items);
             this.currentValue = current;
-            setTextSize(22);
+            setTextSize(28);
         }
         
         @Override
