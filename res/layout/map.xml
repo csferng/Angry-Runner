@@ -10,17 +10,23 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable" />
+            android:text="Back" />
 
         <Button
-        	android:id="@+id/button1"
-        	android:layout_width="wrap_content"
+        	android:id="@+id/btCenter"
+        	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
-        	android:layout_gravity="center_horizontal"
+        	android:layout_weight="1"
         	android:text="Center" />
+        
+        <Button
+            android:id="@+id/btEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable " />
 
     </TableRow>
     
