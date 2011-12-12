@@ -15,15 +15,16 @@ import com.google.android.maps.Overlay;
 public class GmapHandler{
 	MapView mv;
 	MapController mc;
-	Button center;
-	Button isEnable;
+	Button center, isEnable, back;
 	ViewPager vpfrom;
 	
 	public GmapHandler(View v, final Activity activity, ViewPager vp) {
 		super();
 		mv = (MapView) v.findViewById(R.id.mv1);
-		center = (Button) v.findViewById(R.id.button1);
-		isEnable = (Button) v.findViewById(R.id.button2);
+		center = (Button) v.findViewById(R.id.btCenter);
+		isEnable = (Button) v.findViewById(R.id.btEnable);
+		back = (Button) v.findViewById(R.id.btBack);
+		vpfrom = vp;
 		
 		mc = mv.getController();
 		mv.setBuiltInZoomControls(true);
@@ -43,7 +44,7 @@ public class GmapHandler{
 			public void onClick(View arg0) {
 				if(mv.isEnabled()){
 					mv.setEnabled(false);
-					isEnable.setText("Enable");
+					isEnable.setText("Enable ");
 				}else{
 					mv.setEnabled(true);
 					isEnable.setText("Disable");
@@ -53,9 +54,14 @@ public class GmapHandler{
 		
 		List<Overlay> ol = mv.getOverlays();
 		ol.clear();
-		ol.add(new MapOverlay(vp));
+		ol.add(new MapOverlay(vpfrom));
 		
-		vpfrom = vp;
+		back.setOnClickListener(new Button.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				vpfrom.setCurrentItem(0);
+			}
+		});
 		
 	}
 	
