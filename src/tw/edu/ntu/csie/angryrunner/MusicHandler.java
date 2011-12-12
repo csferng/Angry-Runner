@@ -17,18 +17,20 @@ import android.widget.Toast;
 
 public class MusicHandler {
 
-	Activity ac;
+	static Activity ac;
 
-	String musicPackageName;
-	AudioManager audioManager;
+	static String musicPackageName;
+	static AudioManager audioManager;
 	
-	final String appNameSuffix = "android.music";
+	static final String appNameSuffix = "music";
+	
+	public static Intent musicIntent;
 	
 	public MusicHandler() {
-		getIntent();
+		musicIntent = getIntent();
 	}
 	
-	public Intent getIntent(){
+	public static Intent getIntent(){
 		
 		audioManager = (AudioManager) ac.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
@@ -55,7 +57,7 @@ public class MusicHandler {
 		return null;
 	}
 
-	private Intent startApplication(String application_name){
+	private static Intent startApplication(String application_name){
 	    try{
 	        Intent intent = new Intent("android.intent.action.MAIN");
 	        intent.addCategory("android.intent.category.LAUNCHER");

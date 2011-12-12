@@ -6,6 +6,8 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ public class WeightActivity extends Activity {
 	
 	int curCen, curDec, curUnit;
 	String [] digits;
+	
 	
 	
 	String [] initArray(int size, int start) {
@@ -43,20 +46,32 @@ public class WeightActivity extends Activity {
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         dec_tv.setTextColor(Color.YELLOW);
-        dec_tv.setTextSize(22);
+        dec_tv.setTextSize(24);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
+        		
+        		int sum = curCen*100 + curDec*10 + curUnit;
+        		
+        		String target = new Integer(sum).toString()+" kg";
+        		
+        		Intent it = new Intent();
+				Bundle bun = new Bundle();
+				bun.putString("value", target);
+				it.putExtras(bun);
+				
+				setResult(RESULT_OK, it);
+				finish();
         	}
         });
         
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -66,7 +81,7 @@ public class WeightActivity extends Activity {
         });
         
         
-        digits = initArray(9, 0);
+        digits = initArray(10, 0);
         
         cen = (WheelView)findViewById(R.id.centesimal);
         dec = (WheelView)findViewById(R.id.decimal);
@@ -114,7 +129,7 @@ public class WeightActivity extends Activity {
         public DateArrayAdapter(Context context, String[] items, int current) {
             super(context, items);
             this.currentValue = current;
-            setTextSize(22);
+            setTextSize(28);
         }
         
         @Override

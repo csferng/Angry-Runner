@@ -14,12 +14,24 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MusicActivity extends Activity {
 	
-	String musicPackageName;
+	String musicPackageName = "none";
+	String musicName = "none";
+	
 	AudioManager audioManager;
+	
+	final String appNameSuffix = ".music";
+	
+	public static Intent musicIntent;
+	
+	
+	public MusicActivity(){
+		//this.musicIntent = startApplication(musicPackageName);
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,22 +50,27 @@ public class MusicActivity extends Activity {
 					jo.put("label", p.applicationInfo.name);
 					jo.put("packageName", p.applicationInfo.packageName);
 					ja.put(jo);
-					if (p.applicationInfo.packageName.endsWith("music")) {
+					if (p.applicationInfo.packageName.endsWith(appNameSuffix)) {
 						musicPackageName = p.applicationInfo.packageName;
-						setTitle(musicPackageName);
 						break;
 					}
 				}
 			}
+			//tv.setText(musicPackageName);
 			startApplication(musicPackageName);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
 	}
 	
-	public void startApplication(String application_name){
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//startApplication(musicPackageName);
+	}
+	
+	private void startApplication(String application_name){
 	    try{
 	        Intent intent = new Intent("android.intent.action.MAIN");
 	        intent.addCategory("android.intent.category.LAUNCHER");
@@ -78,7 +95,6 @@ public class MusicActivity extends Activity {
 	    launch_intent.addCategory("android.intent.category.LAUNCHER");
 	    launch_intent.setComponent(new ComponentName(packageName, name));
 	    launch_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    
 	    this.startActivity(launch_intent);
 	}
 	
