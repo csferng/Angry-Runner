@@ -35,7 +35,7 @@ public class StatusHandler {
 	void start() {
 		// TODO
 		state = State.WORKING;
-
+		distance = 0.0;
 		startTime = System.currentTimeMillis();
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -103,10 +103,6 @@ public class StatusHandler {
 		positions.add(newgp);
 		if (state == State.WORKING)
 			updateDistance();
-	}
-
-	void clearPositions() {
-		positions.clear();
 	}
 
 	boolean isStateBeforeStart() {

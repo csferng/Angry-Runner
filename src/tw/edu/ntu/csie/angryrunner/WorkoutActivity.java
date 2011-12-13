@@ -1,7 +1,6 @@
 package tw.edu.ntu.csie.angryrunner;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,6 +65,7 @@ public class WorkoutActivity extends MapActivity {
     	super.onActivityResult(requestCode, resultCode, data);
     	if(requestCode == 0 && resultCode == RESULT_OK){
     		speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
+    		initStatus(pageViews.get(0));
     	}
     }
 
@@ -138,18 +138,25 @@ public class WorkoutActivity extends MapActivity {
 	}
 
 	private void initStatus(View v) {
-		statDuration = (StatusItemLayout) v.findViewById(R.id.statDuration);
-        statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
-        statDistance = (StatusItemLayout) v.findViewById(R.id.statDistance);
+		StatusItemLayout statMajor = (StatusItemLayout) v.findViewById(R.id.statMajor);
+		StatusItemLayout statMinor = (StatusItemLayout) v.findViewById(R.id.statMinor);
+		if(settingpref.getString("TimeGoal", "0").equals("0")) {
+			statDistance = statMajor;
+			statDuration = statMinor;
+		} else {
+			statDuration = statMajor;
+			statDistance = statMinor;
+		}
 		statDuration.setType("Duration");
 		statDuration.setUnit("h:mm:ss");
-		statCalorie.setType("Calories");
-		statCalorie.setUnit("kcal");
 		statDistance.setType("Distance");
 		statDistance.setUnit(getUnit());
+		statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
+		statCalorie.setType("Calories");
+		statCalorie.setUnit("kcal");
 		zeroStatus();
 	}
-	
+
 	private String getUnit(){
 		String nowUnit = settingpref.getString("Unit", "Kilometer");
 		if(nowUnit.equals("Kilometer"))

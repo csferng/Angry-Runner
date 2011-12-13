@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class StatusItemLayout extends RelativeLayout {
-	TextView tvType, tvUnit, tvNumber;
+	private TextView tvType, tvUnit, tvNumber;
 
 	public StatusItemLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);

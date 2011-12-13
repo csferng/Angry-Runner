@@ -69,13 +69,13 @@
             android:orientation="vertical" android:layout_weight="1" android:layout_marginLeft="1dp" android:gravity="center">
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
-                android:id="@+id/statDistance"
+                android:id="@+id/statMajor"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
-                android:id="@+id/statDuration"
+                android:id="@+id/statMinor"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
