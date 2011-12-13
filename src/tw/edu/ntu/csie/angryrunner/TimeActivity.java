@@ -62,13 +62,16 @@ public class TimeActivity extends Activity {
         	public void onClick(View v) {
 
         		String target = "";
+        		int seconds = 0;
         		
         		if (curHour != 0) {
         			target += new Integer(curHour).toString()+" hr ";
+        			seconds += (curHour * 60 * 60);
         		}
         		
         		if (curMin != 0) {
         			target += new Integer(curMin).toString()+" min ";
+        			seconds += (curMin * 60);
         		}else {
         			if (curHour != 0 && curSec != 0) {
         				target += new Integer(curMin).toString()+" min ";
@@ -77,11 +80,13 @@ public class TimeActivity extends Activity {
         		
         		if (curSec != 0) {
         			target += new Integer(curSec).toString()+" sec ";
+        			seconds += curSec;
         		}
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
-				bun.putString("value", target);
+				bun.putString("display", target);
+				bun.putString("value", seconds + "");
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);

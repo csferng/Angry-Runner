@@ -73,11 +73,12 @@ public class DistanceActivity extends Activity {
         		
         		int sum = curCen*100 + curDec*10 + curUnit;
         		
-        		String target = new Integer(sum).toString()+" "+Unit;
+        		String target = new Integer(sum).toString();
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("value", target);
+				bun.putString("display", target + " " + Unit);
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);

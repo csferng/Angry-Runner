@@ -88,11 +88,12 @@ public class PaceActivity extends Activity {
         			speed = new Double(1609.344)/new Double(curMin*60 + curSec);
         		}
         		
-        		String target = new BigDecimal(speed).setScale(2, 1).toString()+" m/s";
+        		String target = new BigDecimal(speed).setScale(2, 1).toString();
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("value", target);
+				bun.putString("display", target + " m/s");
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);

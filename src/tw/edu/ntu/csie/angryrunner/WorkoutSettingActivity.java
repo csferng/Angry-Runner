@@ -20,6 +20,7 @@ public class WorkoutSettingActivity extends Activity {
 	SimpleAdapter wsAdapter;
 	String[] workoutsettings = {"Mode", "Speed", "Time", "Distance"};
 	String[] inits = {"Walking", "", "", ""};
+	String[] values = new String[4];
 	Button bt_confirm, bt_cancel;
 	SharedPreferences settingPref;
 	SharedPreferences.Editor settingPrefEdt;
@@ -39,8 +40,10 @@ public class WorkoutSettingActivity extends Activity {
 			HashMap<String,String> tmphm = new HashMap<String,String>();
 			tmphm.put("name", workoutsettings[i]);
 			tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
-			//tmphm.put("value", inits[i]);
 			alhm.add(tmphm);
+			
+			if(i > 0)
+				values[i] = settingPref.getString(workoutsettings[i]+"Goal", "0.0");
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
         		alhm, 
@@ -88,7 +91,12 @@ public class WorkoutSettingActivity extends Activity {
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
 				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
 				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
+				settingPrefEdt.putString(workoutsettings[1]+"Goal", values[1]);
+				settingPrefEdt.putString(workoutsettings[2]+"Goal", values[2]);
+				settingPrefEdt.putString(workoutsettings[3]+"Goal", values[3]);
 	    		settingPrefEdt.commit();
+	    		
+	    		setResult(RESULT_OK);
 	    		finish();
 			}
         });
@@ -106,8 +114,9 @@ public class WorkoutSettingActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode == RESULT_OK){
-    		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
+    		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		wsAdapter.notifyDataSetChanged();
+    		values[requestCode] = data.getExtras().getString("value");
     	}
 	}
 	

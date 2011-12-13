@@ -33,6 +33,7 @@ public class ModeActivity extends Activity {
 				Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("value", (String) modelist.getItemAtPosition(arg2));
+				bun.putString("display", (String) modelist.getItemAtPosition(arg2));
 				it.putExtras(bun);
 				setResult(RESULT_OK, it);
 				finish();

@@ -48,6 +48,7 @@ public class WorkoutActivity extends MapActivity {
         vpWorkout.setAdapter(vpAdapter);
         
         speedChart = new SpeedChartHandler(this, (ViewGroup) pageViews.get(0).findViewById(R.id.frDialChart));
+        speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
         progressBar = (ProgressBarView) pageViews.get(0).findViewById(R.id.progressBar);
         initStatus(pageViews.get(0));
         initButtons(pageViews.get(0));
@@ -58,6 +59,14 @@ public class WorkoutActivity extends MapActivity {
         
         statusHandler = new StatusHandler(WorkoutActivity.this);
         
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if(requestCode == 0 && resultCode == RESULT_OK){
+    		speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
+    	}
     }
 
 	private void initMode(View v) {
@@ -92,7 +101,8 @@ public class WorkoutActivity extends MapActivity {
 			public void onClick(View v) {
 				Intent it = new Intent();
 				it.setClass(WorkoutActivity.this, WorkoutSettingActivity.class);
-				startActivity(it);
+				startActivityForResult(it, 0);
+				//startActivity(it);
 			}
 		});
         btStop.setOnClickListener(new View.OnClickListener() {

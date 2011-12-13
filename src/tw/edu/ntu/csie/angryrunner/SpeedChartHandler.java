@@ -23,7 +23,7 @@ public class SpeedChartHandler {
 		this.activity = activity;
 		dialData = new CategorySeries("Speed");
 	    dialData.add("current", 0);		// index 0
-	    dialData.add("expected", 6);	// index 1
+	    dialData.add("expected", 0);	// index 1
 	    dialRenderer = new DialRenderer();
 	    dialRenderer.setMargins(new int[] {0, 0, 0, 0});
 	    dialRenderer.addSeriesRenderer(new SimpleSeriesRenderer());
