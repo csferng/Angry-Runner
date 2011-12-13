@@ -34,33 +34,31 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:layout_weight="1">
+        android:layout_height="wrap_content" android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" android:layout_weight="1">
+            android:orientation="vertical" android:layout_weight="1" android:layout_marginRight="1dp" android:gravity="center">
 
             <FrameLayout
                 android:id="@+id/frDialChart"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:clickable="false"
                 android:clipChildren="false"
-                android:foregroundGravity="top"
+                android:foregroundGravity="center"
                 android:orientation="vertical"
-                android:scrollbars="none" >
+                android:scrollbars="none" android:background="@drawable/border_background" android:paddingBottom="1dp" android:paddingTop="1dp" android:layout_marginTop="1dp" android:layout_marginBottom="2dp">
             </FrameLayout>
             
             <tw.edu.ntu.csie.angryrunner.ProgressBarView
                 android:id="@+id/progressBar"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="2" />
+                android:layout_height="fill_parent"
+                android:layout_weight="2" android:paddingBottom="1dp" android:paddingTop="1dp" android:layout_marginBottom="1dp" android:layout_marginTop="2dp"/>
 
         </LinearLayout>
 
@@ -68,26 +66,26 @@
             android:id="@+id/linearLayout4"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" android:layout_weight="1">
+            android:orientation="vertical" android:layout_weight="1" android:layout_marginLeft="1dp" android:gravity="center">
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
                 android:id="@+id/statDistance"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="fill_parent" android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
                 android:id="@+id/statDuration"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_height="fill_parent"
+                android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
             <tw.edu.ntu.csie.angryrunner.StatusItemLayout
                 android:id="@+id/statCalorie"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_height="fill_parent"
+                android:layout_weight="1" android:paddingBottom="1dp" android:paddingTop="1dp">
             </tw.edu.ntu.csie.angryrunner.StatusItemLayout>
 
         </LinearLayout>
