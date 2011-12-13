@@ -1,8 +1,5 @@
 package tw.edu.ntu.csie.angryrunner;
 
-//import kankan.wheel.R;
-import java.math.BigDecimal;
-
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -87,9 +84,8 @@ public class PaceActivity extends Activity {
         		}else if (Unit.equals("Mile")) {
         			speed = new Double(1609.344)/new Double(curMin*60 + curSec);
         		}
-        		
-        		String target = new BigDecimal(speed).setScale(2, 1).toString();
-        		
+
+        		String target = String.format("%.2f", speed);
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("value", target);
