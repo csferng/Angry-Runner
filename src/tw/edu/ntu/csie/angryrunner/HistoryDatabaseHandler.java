@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class HistoryDB extends SQLiteOpenHelper {
+public class HistoryDatabaseHandler extends SQLiteOpenHelper {
 
-	public HistoryDB(Context context) {
+	public HistoryDatabaseHandler(Context context) {
 		super(context, "AngryRunnerHistoryDB", null, 1);
 	}
 
