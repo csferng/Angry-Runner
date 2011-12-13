@@ -24,16 +24,16 @@
         <activity android:name="WorkoutActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="SettingActivity" android:screenOrientation="portrait"></activity>
         <uses-library android:name="com.google.android.maps"/>
-        <activity android:name="MusicActivity"></activity>
+        <activity android:name="MusicActivity" android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait" android:name="ModeActivity"></activity>
         <activity android:name="UnitActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="CountdownActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="TimeActivity"></activity>
-        <activity android:name="WeightActivity"></activity>
+        <activity android:name="TimeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="WeightActivity" android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait" android:name="WorkoutSettingActivity"></activity>
         <activity android:name="HistoryActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="DistanceActivity"></activity>
-        <activity android:name="PaceActivity"></activity>
+        <activity android:name="DistanceActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="PaceActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

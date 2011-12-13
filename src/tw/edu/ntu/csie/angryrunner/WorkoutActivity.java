@@ -74,7 +74,6 @@ public class WorkoutActivity extends MapActivity {
         btStart.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// speedChart.setCurrentValue(value);
 				if(statusHandler.isStateBeforeStart()){
 					statusHandler.start();
 					btStart.setText("Pause");
@@ -137,11 +136,11 @@ public class WorkoutActivity extends MapActivity {
 		statCalorie.setType("Calories");
 		statCalorie.setUnit("kcal");
 		statDistance.setType("Distance");
-		statDistance.setUnit(getNowUnit());
+		statDistance.setUnit(getUnit());
 		zeroStatus();
 	}
 	
-	private String getNowUnit(){
+	private String getUnit(){
 		String nowUnit = settingpref.getString("Unit", "Kilometer");
 		if(nowUnit.equals("Kilometer"))
 			return "Km";
@@ -153,7 +152,7 @@ public class WorkoutActivity extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		tvMode.setText(settingpref.getString("Mode", "walking"));
-		statDistance.setUnit(getNowUnit());
+		statDistance.setUnit(getUnit());
 	}
 	
     @Override
@@ -177,12 +176,23 @@ public class WorkoutActivity extends MapActivity {
     void updateSpeedDisplay(double speed){
     	speedChart.setCurrentValue(speed);
     }
+    
+    void updateDistanceDisplay(final double distance){
+    	WorkoutActivity.this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if(settingpref.getString("Unit", "Kilometer").equals("Kilometer")){
+		    		statDistance.setNumber(String.format("%.2f", distance));
+		    	}else{
+		    		// TODO
+		    	}
+			}
+		});
+    }
 
     void gps2gmap(GeoPoint newgp){
-    	if(statusHandler.isStateBeforeStart())	statusHandler.clearPositions();
 		statusHandler.addPosition(newgp);
 		gMapH.updatePosition(statusHandler.getPositions());
-		if(statusHandler.isStateWorking())	statusHandler.updateDistance();
 	}
 	
 	GeoPoint getLastPosition(){

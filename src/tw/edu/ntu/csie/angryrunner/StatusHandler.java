@@ -17,64 +17,79 @@ public class StatusHandler {
 	private State state;
 	private Activity fromActivity;
 	private List<GeoPoint> positions;
-	private double distance;	// km
-	private long startTime;		// millisecond
+	private double distance; // km
+	private long startTime; // millisecond
+	private long pauseTime; // millisecond
 	private Timer timer;
-	//private TimerTask timerTask;
+
+	// private TimerTask timerTask;
 
 	public StatusHandler(final Activity activity) {
 		positions = new ArrayList<GeoPoint>();
-		
+
 		state = State.BEFORE_START;
 		distance = 0.0;
-		
+
 		fromActivity = activity;
 
 	}
-	
-	void start(){
+
+	void start() {
 		// TODO
 		state = State.WORKING;
-		
+
 		startTime = System.currentTimeMillis();
 		timer = new Timer();
-		timer.schedule(new TimerTask(){
+		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				long duration = (System.currentTimeMillis() - startTime) / 1000;
-				((WorkoutActivity) fromActivity).updateDurationDisplay(duration);
+				if (state == State.WORKING) {
+					((WorkoutActivity) fromActivity)
+							.updateDurationDisplay(duration);
+				}
 			}
 		}, 1000, 1000);
 	}
-	
-	void stop(){
+
+	void stop() {
 		// TODO
 		state = State.BEFORE_START;
 		timer.cancel();
 	}
-	
-	void pause(){
-		//TODO
+
+	void pause() {
+		// TODO
 		state = State.PAUSE;
+		pauseTime = System.currentTimeMillis();
 	}
-	
-	void resume(){
-		//TODO
+
+	void resume() {
+		// TODO
 		state = State.WORKING;
+		startTime += (System.currentTimeMillis() - pauseTime);
 	}
 
 	void updateDistance() {
 		GeoPoint gp1, gp2;
+		double tmplat1, tmplat2, tmplong1, tmplong2;
 
+		if(positions.size() < 2)
+			return;
+		
 		gp1 = positions.get(positions.size() - 2);
+		tmplat1 = (Math.PI / 180) * (gp1.getLatitudeE6() / 1E6);
+		tmplong1 = (Math.PI / 180) * (gp1.getLongitudeE6() / 1E6);
 		gp2 = positions.get(positions.size() - 1);
-		distance += (Math.acos(Math.sin(gp1.getLatitudeE6() / 1E6)
-				* Math.sin(gp2.getLatitudeE6() / 1E6)
-				+ Math.cos(gp1.getLatitudeE6() / 1E6)
-				* Math.cos(gp2.getLatitudeE6() / 1E6)
-				* Math.cos((gp2.getLongitudeE6() / 1E6)
-						- (gp1.getLongitudeE6() / 1E6))) * 6371.0);
+		tmplat2 = (Math.PI / 180) * (gp2.getLatitudeE6() / 1E6);
+		tmplong2 = (Math.PI / 180) * (gp2.getLongitudeE6() / 1E6);
+		
+		distance += (Math.acos(Math.sin(tmplat1) * Math.sin(tmplat2)
+				+ Math.cos(tmplat1) * Math.cos(tmplat2)
+				* Math.cos(tmplong2 - tmplong1)) * 6371.0);
+
+		((WorkoutActivity) fromActivity).updateDistanceDisplay(distance);
 	}
 
 	GeoPoint getLastPosition() {
@@ -85,7 +100,11 @@ public class StatusHandler {
 	}
 
 	void addPosition(GeoPoint newgp) {
+		if (state == State.BEFORE_START)
+			positions.clear();
 		positions.add(newgp);
+		if (state == State.WORKING)
+			updateDistance();
 	}
 
 	void clearPositions() {
@@ -97,13 +116,13 @@ public class StatusHandler {
 			return true;
 		return false;
 	}
-	
+
 	boolean isStateWorking() {
 		if (state == State.WORKING)
 			return true;
 		return false;
 	}
-	
+
 	boolean isStatePause() {
 		if (state == State.PAUSE)
 			return true;
