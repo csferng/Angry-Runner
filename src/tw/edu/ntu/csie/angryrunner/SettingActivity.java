@@ -17,8 +17,8 @@ public class SettingActivity extends Activity {
 	ListView settinglist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter settingAdapter;
-	String[] settings = {"Weight", "Units", "Mode", "Countdown"};
-	String[] inits = {"60 kg", "Kilometers", "Walking", "Off"};
+	String[] settings = {"Weight", "Unit", "Mode", "Countdown"};
+	String[] inits = {"60 kg", "Kilometer", "Walking", "Off"};
 	SharedPreferences settingPref;
 	SharedPreferences.Editor settingPrefEdt;
 	
@@ -45,7 +45,6 @@ public class SettingActivity extends Activity {
         	HashMap<String,String> tmphm = new HashMap<String,String>();
         	tmphm.put("name", settings[i]);
         	tmphm.put("value", settingPref.getString(settings[i], inits[i]));
-        	//tmphm.put("value", inits[i]);
         	alhm.add(tmphm);
         }
         settingAdapter = new SimpleAdapter(SettingActivity.this, 

@@ -38,15 +38,14 @@ public class DistanceActivity extends Activity {
 	}
 	
 	String getUnit(){
-        String str = settingPref.getString("Units", "");
-        if (str.equals("Kilometers")) {
+        String str = settingPref.getString("Unit", "");
+        if (str.equals("Kilometer")) {
         	return "Km";
-        }else if (str.equals("Miles")) {
+        }else if (str.equals("Mile")) {
         	return "Mile";
         }
         return "";
 	}
-	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {

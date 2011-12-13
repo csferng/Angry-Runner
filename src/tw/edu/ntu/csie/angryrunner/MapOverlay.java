@@ -43,7 +43,8 @@ public class MapOverlay extends Overlay {
 			
 			if(pts.size() == 1){
 				proj.toPixels(pts.get(0), po);
-				canvas.drawPoint(po.x, po.y, paint);
+				canvas.drawCircle(po.x, po.y, 5, paint);
+				//canvas.drawPoint(po.x, po.y, paint);
 			}else{
 				proj.toPixels(pts.get(0), po);
 				savx = po.x;
@@ -62,6 +63,7 @@ public class MapOverlay extends Overlay {
 					savx = po.x;
 					savy = po.y;
 				}
+				canvas.drawCircle(po.x, po.y, 5, paint);
 			}
 			
 		}

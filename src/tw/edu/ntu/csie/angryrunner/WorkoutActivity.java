@@ -1,7 +1,6 @@
 package tw.edu.ntu.csie.angryrunner;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -26,10 +25,10 @@ public class WorkoutActivity extends MapActivity {
 	ArrayList<View> pageViews;
 	ViewPager vpWorkout;
 	WorkoutPagerAdapter vpAdapter;
-	List<GeoPoint> positions;
 	GmapHandler gMapH;
 	GpsHandler gpsH;
 	SharedPreferences settingpref;
+	StatusHandler statusHandler;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -54,13 +53,14 @@ public class WorkoutActivity extends MapActivity {
         initButtons(pageViews.get(0));
         initMode(pageViews.get(0));
         
-        positions = new ArrayList<GeoPoint>();
         gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
         gpsH = new GpsHandler(this);
+        
+        statusHandler = new StatusHandler(WorkoutActivity.this);
+        
     }
 
 	private void initMode(View v) {
-		// TODO Auto-generated method stub
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
 		tvMode.setText(settingpref.getString("Mode", "walking"));
 	}
@@ -74,7 +74,18 @@ public class WorkoutActivity extends MapActivity {
         btStart.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				speedChart.setCurrentValue((new Random()).nextDouble()*10);
+				// speedChart.setCurrentValue(value);
+				if(statusHandler.isStateBeforeStart()){
+					statusHandler.start();
+					btStart.setText("Pause");
+					btWorkout.setEnabled(false);
+				}else if(statusHandler.isStateWorking()){
+					statusHandler.pause();
+					btStart.setText("Resume");
+				}else if(statusHandler.isStatePause()){
+					statusHandler.resume();
+					btStart.setText("Pause");
+				}
 			}
 		});
         btWorkout.setOnClickListener(new View.OnClickListener() {
@@ -88,10 +99,19 @@ public class WorkoutActivity extends MapActivity {
         btStop.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				/*
 				Random rand = new Random();
 				statCalorie.setNumber(Integer.toString(rand.nextInt(1000)));
 				statDuration.setNumber(Integer.toString(rand.nextInt(60)));
 				progressBar.setProgress(rand.nextFloat()*100.0f);
+				*/
+				if(!statusHandler.isStateBeforeStart()){
+					statusHandler.stop();
+					btStart.setText("Start");
+					zeroStatus();
+					btWorkout.setEnabled(true);
+				}
+				// show result
 			}
 		});
         btMap.setOnClickListener(new Button.OnClickListener(){
@@ -101,24 +121,39 @@ public class WorkoutActivity extends MapActivity {
 			}
         });
 	}
+	
+	private void zeroStatus(){
+		statDuration.setNumber("0:00:00");
+		statCalorie.setNumber("0");
+		statDistance.setNumber("0.00");
+	}
 
 	private void initStatus(View v) {
 		statDuration = (StatusItemLayout) v.findViewById(R.id.statDuration);
         statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
         statDistance = (StatusItemLayout) v.findViewById(R.id.statDistance);
 		statDuration.setType("Duration");
-		statDuration.setUnit("sec");
+		statDuration.setUnit("h:mm:ss");
 		statCalorie.setType("Calories");
 		statCalorie.setUnit("kcal");
 		statDistance.setType("Distance");
-		statDistance.setUnit("km");
-		statDistance.setNumber("0.00");
+		statDistance.setUnit(getNowUnit());
+		zeroStatus();
+	}
+	
+	private String getNowUnit(){
+		String nowUnit = settingpref.getString("Unit", "Kilometer");
+		if(nowUnit.equals("Kilometer"))
+			return "Km";
+		else
+			return "Mile";
 	}
     
 	@Override
 	protected void onResume() {
 		super.onResume();
 		tvMode.setText(settingpref.getString("Mode", "walking"));
+		statDistance.setUnit(getNowUnit());
 	}
 	
     @Override
@@ -126,17 +161,32 @@ public class WorkoutActivity extends MapActivity {
     	speedChart.cleanUp();
     	super.onDestroy();
     }
+    
+    void updateDurationDisplay(long duration){	// seconds
+    	final long seconds = duration % 60;
+    	final long minutes = (duration / 60) % 60;
+    	final long hours = (duration / 60) / 60;
+    	WorkoutActivity.this.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+		    	statDuration.setNumber(String.format("%d:%02d:%02d", hours, minutes, seconds));
+			}
+    	});
+    }
+    
+    void updateSpeedDisplay(double speed){
+    	speedChart.setCurrentValue(speed);
+    }
 
     void gps2gmap(GeoPoint newgp){
-		positions.add(newgp);
-		gMapH.updatePosition(positions);
+    	if(statusHandler.isStateBeforeStart())	statusHandler.clearPositions();
+		statusHandler.addPosition(newgp);
+		gMapH.updatePosition(statusHandler.getPositions());
+		if(statusHandler.isStateWorking())	statusHandler.updateDistance();
 	}
 	
 	GeoPoint getLastPosition(){
-		if(positions.size() > 0)
-			return positions.get(positions.size()-1);
-		
-		return null;
+		return statusHandler.getLastPosition();
 	}
     
 	@Override

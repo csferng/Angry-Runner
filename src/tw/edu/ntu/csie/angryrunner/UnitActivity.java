@@ -12,7 +12,7 @@ import android.widget.ListView;
 public class UnitActivity extends Activity {
 	ListView unitlist;
 	ArrayAdapter<String> unitAdapter;
-	String[] units = {"Kilometers", "Miles"};
+	String[] units = {"Kilometer", "Mile"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
