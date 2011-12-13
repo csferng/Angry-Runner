@@ -22,8 +22,6 @@ public class StatusHandler {
 	private long pauseTime; // millisecond
 	private Timer timer;
 
-	// private TimerTask timerTask;
-
 	public StatusHandler(final Activity activity) {
 		positions = new ArrayList<GeoPoint>();
 
