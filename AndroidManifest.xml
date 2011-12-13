@@ -34,6 +34,7 @@
         <activity android:name="HistoryActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="DistanceActivity" android:screenOrientation="portrait"></activity>
         <activity android:name="PaceActivity" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name="ResultActivity"></activity>
     </application>
 
 </manifest>

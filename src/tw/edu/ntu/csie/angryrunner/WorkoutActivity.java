@@ -1,10 +1,13 @@
 package tw.edu.ntu.csie.angryrunner;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Date;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -28,6 +31,7 @@ public class WorkoutActivity extends MapActivity {
 	GmapHandler gMapH;
 	GpsHandler gpsH;
 	SharedPreferences settingpref;
+	SQLiteDatabase historydb;
 	StatusHandler statusHandler;
 	
 	/** Called when the activity is first created. */
@@ -37,6 +41,7 @@ public class WorkoutActivity extends MapActivity {
         setContentView(R.layout.page_view);
         
         settingpref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        historydb = (new HistoryDatabaseHandler(WorkoutActivity.this)).getWritableDatabase();
         
         LayoutInflater infla = getLayoutInflater();
         pageViews = new ArrayList<View>();
@@ -66,12 +71,22 @@ public class WorkoutActivity extends MapActivity {
     	super.onActivityResult(requestCode, resultCode, data);
     	if(requestCode == 0 && resultCode == RESULT_OK){
     		speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
+    	}else if(requestCode == 1 && resultCode == RESULT_OK){
+    		String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
+
+    		ContentValues record = new ContentValues();
+    		record.put("mode", data.getExtras().getString("Mode"));
+    		record.put("date", date);
+    		record.put("distance", data.getExtras().getString("Distance"));
+    		record.put("duration", data.getExtras().getString("Duration"));
+    		record.put("speed", data.getExtras().getString("Speed"));
+    		historydb.insert("ARhistory", null, record);
     	}
     }
 
 	private void initMode(View v) {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
-		tvMode.setText(settingpref.getString("Mode", "walking"));
+		tvMode.setText(settingpref.getString("Mode", "Walking"));
 	}
 
 	private void initButtons(View v) {
@@ -102,25 +117,23 @@ public class WorkoutActivity extends MapActivity {
 				Intent it = new Intent();
 				it.setClass(WorkoutActivity.this, WorkoutSettingActivity.class);
 				startActivityForResult(it, 0);
-				//startActivity(it);
 			}
 		});
         btStop.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				/*
-				Random rand = new Random();
-				statCalorie.setNumber(Integer.toString(rand.nextInt(1000)));
-				statDuration.setNumber(Integer.toString(rand.nextInt(60)));
-				progressBar.setProgress(rand.nextFloat()*100.0f);
-				*/
 				if(!statusHandler.isStateBeforeStart()){
-					statusHandler.stop();
+					Bundle bun = statusHandler.stop();
+					bun.putString("Mode", settingpref.getString("Mode", "Walking"));
 					btStart.setText("Start");
 					zeroStatus();
 					btWorkout.setEnabled(true);
+					
+					Intent it = new Intent();
+					it.setClass(WorkoutActivity.this, ResultActivity.class);
+					it.putExtras(bun);
+					startActivityForResult(it, 1);
 				}
-				// show result
 			}
 		});
         btMap.setOnClickListener(new Button.OnClickListener(){

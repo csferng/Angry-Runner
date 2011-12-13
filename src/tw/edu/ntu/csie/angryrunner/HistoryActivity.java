@@ -15,7 +15,6 @@ public class HistoryActivity extends Activity {
 	SimpleAdapter historyAdapter;
 	ArrayList<HashMap<String, Object>> historyItems;
 	SQLiteDatabase historydb;
-	Cursor historyCursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +25,21 @@ public class HistoryActivity extends Activity {
 		historydb = (new HistoryDatabaseHandler(HistoryActivity.this)).getWritableDatabase();
 
 		historyItems = new ArrayList<HashMap<String, Object>>();
+		historyAdapter = new SimpleAdapter(HistoryActivity.this, historyItems,
+				R.layout.history_item, new String[] { "pic", "date",
+						"distance", "duration", "speed" }, new int[] {
+						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
+						R.id.tvDuration, R.id.tvSpeed });
+		historylist.setAdapter(historyAdapter);
+		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Cursor historyCursor;
+		
+		historyItems.clear();
 		historyCursor = historydb.query("ARhistory", null, null, null, null,
 				null, null);
 		if(historyCursor.isBeforeFirst())	historyCursor.moveToNext();
@@ -41,14 +55,8 @@ public class HistoryActivity extends Activity {
 			historyCursor.moveToNext();
 		}
 		historyCursor.close();
-
-		historyAdapter = new SimpleAdapter(HistoryActivity.this, historyItems,
-				R.layout.history_item, new String[] { "pic", "date",
-						"distance", "duration", "speed" }, new int[] {
-						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
-						R.id.tvDuration, R.id.tvSpeed });
-		historylist.setAdapter(historyAdapter);
-
+		historyAdapter.notifyDataSetChanged();
+		
 	}
 	
 }

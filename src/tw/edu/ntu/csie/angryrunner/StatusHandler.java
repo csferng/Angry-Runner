@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import com.google.android.maps.GeoPoint;
 
@@ -51,10 +52,27 @@ public class StatusHandler {
 		}, 1000, 1000);
 	}
 
-	void stop() {
-		// TODO
+	Bundle stop() {
 		state = State.BEFORE_START;
 		timer.cancel();
+		long finalDuration = (System.currentTimeMillis() - startTime) / 1000;
+		double finalSpeed = (distance*1000) / finalDuration;
+		Bundle bun = new Bundle();
+		//bun.putString("Mode", "");
+		bun.putString("Speed", String.format("%.2f m/s", finalSpeed));
+		bun.putString("Duration", 
+				String.format("%d:%02d:%02d", 
+						(finalDuration / 60) / 60, 
+						(finalDuration / 60) % 60, 
+						finalDuration % 60));
+		bun.putString("Distance", String.format("%.2f km", distance));
+		bun.putString("Calorie", "0 kcal");
+		
+		// TODO clear variable
+		positions.clear();
+		distance = 0.0;
+		
+		return bun;
 	}
 
 	void pause() {
