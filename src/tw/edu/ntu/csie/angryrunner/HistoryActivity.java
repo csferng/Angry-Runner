@@ -23,7 +23,7 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.history);
 
 		historylist = (ListView) findViewById(R.id.listView1);
-		historydb = (new HistoryDB(HistoryActivity.this)).getWritableDatabase();
+		historydb = (new HistoryDatabaseHandler(HistoryActivity.this)).getWritableDatabase();
 
 		historyItems = new ArrayList<HashMap<String, Object>>();
 		historyCursor = historydb.query("ARhistory", null, null, null, null,
