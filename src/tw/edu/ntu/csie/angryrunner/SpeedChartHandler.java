@@ -46,7 +46,7 @@ public class SpeedChartHandler {
 	    dialView = ChartFactory.getDialChartView(activity, dialData, dialRenderer);
 	    dialView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	    frame.addView(dialView);
-	    animateThread = new AnimateThread();
+	    animateThread = new AnimateThread(dialRenderer.getMaxValue());
 	    animateThread.start();
 	}
 
@@ -61,6 +61,7 @@ public class SpeedChartHandler {
     
     public void setMaxValue(double value) {
     	dialRenderer.setMaxValue(value);
+    	animateThread.setMaxValue(value);
     	invalidate();
     }
 
@@ -84,12 +85,22 @@ public class SpeedChartHandler {
 	}
 	
 	private class AnimateThread extends Thread {
-		private static final int ANIMATION_STEP = 50;
+		private static final int ANIMATION_PERIOD = 50;
+		private static final int MILLISECONDS_PER_ROUND = 5000;
 
 		private double goal;
+		private double step;
 		private boolean end = false;
+		
+		public AnimateThread(double maxval) {
+			super();
+			step = maxval / MILLISECONDS_PER_ROUND * ANIMATION_PERIOD;
+		}
 		public void setGoal(double goal) {
 			this.goal = goal;
+		}
+		public void setMaxValue(double maxval) {
+			this.step = maxval / MILLISECONDS_PER_ROUND * ANIMATION_PERIOD;
 		}
 		public void finish() {
 			end = true;
@@ -98,13 +109,13 @@ public class SpeedChartHandler {
 		public void run() {
 			while(!end) {
 				try {
-					Thread.sleep(ANIMATION_STEP);
+					Thread.sleep(ANIMATION_PERIOD);
 				} catch (InterruptedException e) {
 				}
 				if(dialData.getValue(0) != goal) {
 					double d = goal - dialData.getValue(0);
-					if(Math.abs(d) > dialRenderer.getMaxValue()/20.0)
-						d = dialRenderer.getMaxValue()/20.0 * d / Math.abs(d);
+					if(Math.abs(d) > step)
+						d = step * Math.signum(d);
 					dialData.set(0, "current", dialData.getValue(0)+d);
 					invalidate();
 				}
