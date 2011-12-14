@@ -62,7 +62,8 @@ public class WeightActivity extends Activity {
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
-				bun.putString("value", target);
+				bun.putString("display", target);
+				bun.putString("value", sum+"");
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
