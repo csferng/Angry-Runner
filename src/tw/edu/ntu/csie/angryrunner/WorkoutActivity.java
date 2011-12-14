@@ -61,7 +61,7 @@ public class WorkoutActivity extends MapActivity {
         gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
         gpsH = new GpsHandler(this);
         
-        statusHandler = new StatusHandler(WorkoutActivity.this);
+        statusHandler = new StatusHandler(WorkoutActivity.this, settingpref);
         
     }
     
@@ -234,6 +234,16 @@ public class WorkoutActivity extends MapActivity {
     	}
     	if(prog > 1.0f) prog = 1.0f;
     	progressBar.setProgress(prog*100.0f);
+    }
+    
+    void updateCaloriesDisplay(double calorie) {
+    	final String s = String.format("%.0f", calorie);
+    	WorkoutActivity.this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				statCalorie.setNumber(s);
+			}
+		});
     }
 
     void gps2gmap(GeoPoint newgp){
