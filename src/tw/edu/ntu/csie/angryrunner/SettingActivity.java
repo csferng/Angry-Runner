@@ -91,9 +91,12 @@ public class SettingActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     	if(resultCode == RESULT_OK){
-    		alhm.get(requestCode).put("value", data.getExtras().getString("value"));
+    		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		settingAdapter.notifyDataSetChanged();
-    		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
+    		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
+    		if(requestCode == 0 || requestCode == 3){
+    			settingPrefEdt.putString(settings[requestCode]+"Value", data.getExtras().getString("value"));
+    		}
     		settingPrefEdt.commit();
     	}
     }

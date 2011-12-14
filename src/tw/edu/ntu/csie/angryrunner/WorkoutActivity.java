@@ -3,6 +3,9 @@ package tw.edu.ntu.csie.angryrunner;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,7 +91,7 @@ public class WorkoutActivity extends MapActivity {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
 		tvMode.setText(settingpref.getString("Mode", "Walking"));
 	}
-
+	
 	private void initButtons(View v) {
 		btStart = (Button) v.findViewById(R.id.btStart);
         btStop = (Button) v.findViewById(R.id.btStop);
@@ -99,9 +102,14 @@ public class WorkoutActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				if(statusHandler.isStateBeforeStart()){
-					statusHandler.start();
-					btStart.setText("Pause");
 					btWorkout.setEnabled(false);
+					int countdown = Integer.parseInt(settingpref.getString("CountdownValue", "0"));
+					setCountdown(countdown);
+					if(countdown > 0){						
+						btStart.setClickable(false);
+						ARTimer timer = new ARTimer(countdown);
+						timer.start();
+					}
 				}else if(statusHandler.isStateWorking()){
 					statusHandler.pause();
 					btStart.setText("Resume");
@@ -232,5 +240,45 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	void setCountdown(int nowcd){
+		if(nowcd > 0){
+			btStart.setText(nowcd+"");
+		}else{
+			statusHandler.start();
+			btStart.setText("Pause");
+			btStart.setClickable(true);
+		}
+	}
+	
+	class ARTimer extends Timer{
+		int countdown;
+		
+		public ARTimer(int cd) {
+			countdown = cd;
+		}
+
+		private TimerTask newTimerTask() {
+			return new TimerTask(){
+				@Override
+				public void run() {
+					--countdown;
+					WorkoutActivity.this.runOnUiThread(new Runnable(){
+						@Override
+						public void run() {
+							setCountdown(countdown);
+						}
+					});
+					if(countdown > 0){
+						ARTimer.this.schedule(newTimerTask(), 1000);
+					}
+				}
+			};
+		}
+		
+		void start(){		
+			this.schedule(newTimerTask(), 1000);
+		}
 	}
 }

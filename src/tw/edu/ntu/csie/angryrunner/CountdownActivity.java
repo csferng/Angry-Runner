@@ -13,6 +13,7 @@ public class CountdownActivity extends Activity {
 	ListView countdownlist;
 	ArrayAdapter<String> countdownAdapter;
 	String[] countdowns = {"Off", "10 secs", "20 secs", "30 secs", "60 secs"};
+	String[] cdValues = {"0", "10", "20", "30", "60"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class CountdownActivity extends Activity {
 				// arg0: parent, arg1: clicked view, arg2: position, arg3: id
 				Intent it = new Intent();
 				Bundle bun = new Bundle();
-				bun.putString("value", (String) countdownlist.getItemAtPosition(arg2));
+				bun.putString("display", (String) countdownlist.getItemAtPosition(arg2));
+				bun.putString("value", cdValues[arg2]);
 				it.putExtras(bun);
 				setResult(RESULT_OK, it);
 				finish();
