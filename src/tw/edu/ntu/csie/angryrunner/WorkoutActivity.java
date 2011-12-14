@@ -181,7 +181,7 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		tvMode.setText(settingpref.getString("Mode", "walking"));
+		tvMode.setText(settingpref.getString("Mode", "Walking"));
 		statDistance.setUnit(getUnit());
 	}
 	
