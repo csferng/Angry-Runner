@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -84,6 +86,30 @@ public class WorkoutActivity extends MapActivity {
     		record.put("duration", data.getExtras().getString("Duration"));
     		record.put("speed", data.getExtras().getString("Speed"));
     		historydb.insert("ARhistory", null, record);
+    	}
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	if(statusHandler.isStateBeforeStart()) super.onBackPressed();
+    	else {
+    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    		builder.setMessage("Current session would lost. Are you sure you want to exit?")
+    			.setCancelable(false)
+    			.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						WorkoutActivity.this.finish();
+					}
+				})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+    		AlertDialog alert = builder.create();
+    		alert.show();
     	}
     }
 

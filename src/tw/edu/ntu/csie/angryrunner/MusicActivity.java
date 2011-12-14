@@ -3,6 +3,7 @@ package tw.edu.ntu.csie.angryrunner;
 import java.util.*;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,7 +44,10 @@ public class MusicActivity extends Activity {
         										new String[]{"playlistName"}, 
         										new int[]{R.id.playlistName});
         playlist_list.setAdapter(playListItemAdapter);
-        
     }
 	
+    @Override
+    public void onBackPressed() {
+    	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);
+    }
 }
