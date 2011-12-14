@@ -55,6 +55,9 @@ public class SpeedChartHandler {
     }
     
     public void setExpectedValue(double value) {
+    	double max = dialRenderer.getMaxValue();
+    	if(value > max) value = max * 1.05;
+    	if(value < 0) value = -max * 0.05;
     	dialData.set(1, "expected", value);
     	invalidate();
     }

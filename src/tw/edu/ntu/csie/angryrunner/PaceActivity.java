@@ -37,7 +37,7 @@ public class PaceActivity extends Activity {
 	}
 	
 	String getUnit(){
-        String str = settingPref.getString("Unit", "");
+        String str = settingPref.getString("Unit", "Kilometer");
         if (str.equals("Kilometer")) {
         	return "Km";
         }else if (str.equals("Mile")) {

@@ -36,7 +36,7 @@ public class ProgressBarView extends View {
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		Rect rect = new Rect();
-		float x = (width*progress) / 100.0f;
+		float x = ((width-1)*progress) / 100.0f;
 		String sProgress = String.format("%.0f%%", Math.floor(progress));
 		
 		Paint paint = new Paint();
@@ -48,11 +48,16 @@ public class ProgressBarView extends View {
 		float h2 = (h1*2+height-2)/3f;
 		float d = (progress>=50) ? (h1-h2) : (h2-h1);
 		float pts[] = new float[]{x, h2, x+d, h2, x+d, h2, x, h1};
+		paint.getTextBounds(sProgress, 0, sProgress.length(), rect);
+		float halfw = Math.abs(rect.right-rect.left)*scale / 2.0f;
+		float x2 = Math.min(Math.max(x, halfw), width-halfw);
 
 		paint.setTextSize(paint.getTextSize()*scale);
-		paint.setTextAlign(Paint.Align.RIGHT);
+		//paint.setTextAlign(Paint.Align.RIGHT);
+		paint.setTextAlign(Paint.Align.CENTER);
 		paint.setColor(Color.WHITE);
-		canvas.drawText(sProgress, width-1, th*scale, paint);
+		//canvas.drawText(sProgress, width-1, th*scale, paint);
+		canvas.drawText(sProgress, x2, th*scale, paint);
 		paint.setColor(Color.GREEN);
 		canvas.drawLine(0, height-1, width-1, height-1, paint);
 		paint.setColor(Color.RED);

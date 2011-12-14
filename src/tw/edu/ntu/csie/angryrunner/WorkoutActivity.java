@@ -156,6 +156,7 @@ public class WorkoutActivity extends MapActivity {
 		statDuration.setNumber("0:00:00");
 		statCalorie.setNumber("0");
 		statDistance.setNumber("0.00");
+		progressBar.setProgress(0);
 	}
 
 	private void initStatus(View v) {
@@ -209,6 +210,7 @@ public class WorkoutActivity extends MapActivity {
 		    	statDuration.setNumber(String.format("%d:%02d:%02d", hours, minutes, seconds));
 			}
     	});
+    	updateProgressDisplay(01, duration);
     }
     
     void updateSpeedDisplay(double speed){
@@ -226,6 +228,20 @@ public class WorkoutActivity extends MapActivity {
 		    	}
 			}
 		});
+    	updateProgressDisplay(distance, -1);
+    }
+    
+    void updateProgressDisplay(double distance, double duration) {
+    	float prog = 0.0f;
+    	if(settingpref.getString("TimeGoal", "0").equals("0") && distance > 0) {
+    		float goal = Float.parseFloat(settingpref.getString("DistanceGoal", "0"));
+    		if(goal > 0) prog = (float )distance / goal; 
+    	} else if(duration > 0) {
+    		float goal = Float.parseFloat(settingpref.getString("TimeGoal", "0"));
+    		if(goal > 0) prog = (float) duration / goal;
+    	}
+    	if(prog > 1.0f) prog = 1.0f;
+    	progressBar.setProgress(prog*100.0f);
     }
 
     void gps2gmap(GeoPoint newgp){
