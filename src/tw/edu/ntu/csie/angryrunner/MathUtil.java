@@ -50,4 +50,11 @@ public class MathUtil {
 		}
 		return met*weight*seconds/60;
 	}
+	
+	public static float getMaxSpeedForMode(String mode) {
+		if(mode.equals("Walking")) return 5f;
+		else if(mode.equals("Running")) return 10f;
+		else if(mode.equals("Cycling")) return 25f;
+		else return 10f;
+	}
 }

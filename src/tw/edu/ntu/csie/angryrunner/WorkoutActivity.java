@@ -216,8 +216,10 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		tvMode.setText(settingpref.getString("Mode", "Walking"));
+		String mode = settingpref.getString("Mode", "Walking");
+		tvMode.setText(mode);
 		statDistance.setUnit(getUnit());
+		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));
 	}
 	
     @Override
