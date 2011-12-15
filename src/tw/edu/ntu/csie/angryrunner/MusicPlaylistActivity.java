@@ -4,6 +4,7 @@ import java.util.*;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -83,6 +85,10 @@ public class MusicPlaylistActivity extends Activity {
 				song.toggleChecked();
 				SongItemViewHolder viewHolder = (SongItemViewHolder) item.getTag();
 				viewHolder.getCheckBox().setChecked(song.isChecked());
+				checkBoxState[position] = song.isChecked();
+				if (song.isChecked() == true) {
+    				setTitle( position+": "+getFileName( allSongs[position] ) );
+    			}
 			}
 		});
 		
@@ -92,19 +98,30 @@ public class MusicPlaylistActivity extends Activity {
 		confirm_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
         	public void onClick(View v) {
+        		
         		String target = "";
-        		int counter = 0;
+        		//int counter = 0;
         		for (int i = 0; i < checkBoxState.length; ++i) {
         			if (checkBoxState[i] == true) {
-        				++counter;
+        				//++counter;
         				target += new Integer(i).toString();
-        				if (i != checkBoxState.length-1) {
+        				if (i != checkBoxState.length-1 && !target.equals("")) {
         					target += ", ";
         				}
         			}
         		}
         		//setTitle(counter+" songs are checked.");
-        		setTitle(counter+": song "+target+" are checked.");
+        		//setTitle(counter+": song "+target+" checked.");
+
+				MediaUtil.writePlaylist(getApplicationContext(), playlistName.getText().toString(), getPaths());
+        		
+        		//Intent it = new Intent();
+				//Bundle bun = new Bundle();
+				//bun.putString("value", playlistName.getText().toString());
+				//it.putExtras(bun);
+				//setResult(RESULT_OK, it);
+				
+				finish();
         	}
         });
 		
@@ -118,6 +135,11 @@ public class MusicPlaylistActivity extends Activity {
         });
 		
 		//init_phone_music_grid();
+	}
+	
+	private ArrayList<String> getPaths() {
+		ArrayList<String> paths = new ArrayList<String>( Arrays.asList(allSongs) );
+		return paths;
 	}
 	
 	private void initCheckBoxState() {
@@ -155,7 +177,8 @@ public class MusicPlaylistActivity extends Activity {
 					// (AlbumColumns.ALBUM)
 					//String kstr = musiccursor.getString(0);
 					music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-					String kstr = getFileName( musiccursor.getString(music_column_index) );
+					//String kstr = getFileName( musiccursor.getString(music_column_index) );
+					String kstr = musiccursor.getString(music_column_index);
 
 					allSongs[i++] = kstr;
 					musiccursor.moveToNext();
@@ -166,7 +189,11 @@ public class MusicPlaylistActivity extends Activity {
 			}
 			
 			for (int i = 0; i < allSongs.length; ++i) {
-				allSongList.add(new Song(allSongs[i]));
+				Song s = new Song(allSongs[i]);
+				s.index = i;
+				s.name = getFileName( allSongs[i] );
+				s.filePath = allSongs[i];
+				allSongList.add(s);
 			}
 
 		} finally {
@@ -181,11 +208,6 @@ public class MusicPlaylistActivity extends Activity {
 	private class SongArrayAdapter extends ArrayAdapter<Song> {
 
 		private LayoutInflater inflater;
-		private int pos = -1;
-		
-		public void setPosition(int position) {
-			this.pos = position;
-		}
 
 		public SongArrayAdapter(Context context, List<Song> songlist) {
 			super(context, R.layout.musiclist_item, R.id.songName, songlist);
@@ -194,9 +216,9 @@ public class MusicPlaylistActivity extends Activity {
 		}
 
 		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
+		public View getView(int position, View convertView, ViewGroup parent) {
 			// Song to display
-			Song planet = (Song) this.getItem(position);
+			final Song theSong = (Song) this.getItem(position);
 			//setPosition(position);
 
 			// The child views in each row.
@@ -205,6 +227,9 @@ public class MusicPlaylistActivity extends Activity {
 
 			// Create a new row view
 			if (convertView == null) {
+				//LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            //convertView = vi.inflate(R.layout.musiclist_item, parent, false);
+	            //holder = new ViewHolder();
 				convertView = inflater.inflate(R.layout.musiclist_item, null);
 
 				// Find the child views.
@@ -217,14 +242,16 @@ public class MusicPlaylistActivity extends Activity {
 				convertView.setTag(new SongItemViewHolder(textView, checkBox));
 
 				// If CheckBox is toggled, update the planet it is tagged with.
+				/*
 				checkBox.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						CheckBox cb = (CheckBox) v;
 						Song song = (Song) cb.getTag();
 						song.setChecked(cb.isChecked());
-						checkBoxState[position] = cb.isChecked();
+						//checkBoxState[theSong.index] = cb.isChecked();
 					}
 				});
+				*/
 			}
 			// Reuse existing row view
 			else {
@@ -237,11 +264,24 @@ public class MusicPlaylistActivity extends Activity {
 
 			// Tag the CheckBox with the Song it is displaying, so that we can
 			// access the planet in onClick() when the CheckBox is toggled.
-			checkBox.setTag(planet);
+			checkBox.setTag(theSong);
+			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+	            @Override
+	            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	                theSong.setChecked(isChecked);
+	                songAdapter.notifyDataSetChanged();
+	    			checkBoxState[theSong.index] = isChecked;
+	    			if (isChecked == true) {
+	    				setTitle( allSongs[theSong.index] );
+	    			}
+	            }
+	        });
+
+	        checkBox.setChecked(theSong.isChecked());
 
 			// Display planet data
-			checkBox.setChecked(planet.isChecked());
-			textView.setText(planet.getName());
+			checkBox.setChecked(theSong.isChecked());
+			textView.setText(theSong.getName());
 
 			return convertView;
 		}
@@ -281,4 +321,3 @@ public class MusicPlaylistActivity extends Activity {
 	}
 	
 }
-

@@ -36,6 +36,7 @@
         <activity android:name="PaceActivity" android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait" android:name="ResultActivity"></activity>
         <activity android:name="MusicPlaylistActivity"></activity>
+        <activity android:name="PlaylistActivity"></activity>
     </application>
 
 </manifest>
