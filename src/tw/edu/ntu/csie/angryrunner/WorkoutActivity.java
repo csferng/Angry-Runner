@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -35,6 +36,8 @@ public class WorkoutActivity extends MapActivity {
 	SharedPreferences settingpref;
 	SQLiteDatabase historydb;
 	StatusHandler statusHandler;
+	AudioManager audioManager;
+	AudioVariable audioVariable;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -44,6 +47,7 @@ public class WorkoutActivity extends MapActivity {
         
         settingpref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
         historydb = (new HistoryDatabaseHandler(WorkoutActivity.this)).getWritableDatabase();
+        audioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         
         LayoutInflater infla = getLayoutInflater();
         pageViews = new ArrayList<View>();
@@ -102,6 +106,7 @@ public class WorkoutActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				if(statusHandler.isStateBeforeStart()){
+					audioVariable = new AudioVariable(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 					btWorkout.setEnabled(false);
 					int countdown = Integer.parseInt(settingpref.getString("CountdownValue", "0"));
 					setCountdown(countdown);
@@ -215,6 +220,23 @@ public class WorkoutActivity extends MapActivity {
     
     void updateSpeedDisplay(double speed){
     	speedChart.setCurrentValue(speed);
+    	
+    	double goalvalue = Double.parseDouble(settingpref.getString("SpeedGoal", "0.0"));
+    	double fastT = audioVariable.getTooFastThreshold();
+    	double slowT = audioVariable.getTooSlowThreshold();
+    	if(speed <= fastT * goalvalue && speed >= slowT *goalvalue){
+    		audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioVariable.getInitVolume(), AudioManager.FLAG_PLAY_SOUND);
+    	}else if(speed > fastT * goalvalue){
+    		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
+    		audioVariable.setTooFastThreshold(fastT + 0.1);
+    		audioVariable.setTooSlowThreshold(fastT);
+    	}else if(speed < slowT *goalvalue){
+    		audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+    		audioVariable.setTooSlowThreshold(slowT - 0.1);
+    		audioVariable.setTooFastThreshold(slowT);
+    	}
+    	//audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+    	//audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
     }
     
     void updateDistanceDisplay(final double distance){
@@ -295,6 +317,38 @@ public class WorkoutActivity extends MapActivity {
 		
 		void start(){		
 			this.schedule(newTimerTask(), 1000);
+		}
+	}
+	
+	class AudioVariable{
+		int initVolume;
+		double tooFastThreshold;
+		double tooSlowThreshold;
+		
+		public AudioVariable(int volume) {
+			initVolume = volume;
+			tooFastThreshold = 1.1;
+			tooSlowThreshold = 0.9;
+		}
+
+		double getTooFastThreshold() {
+			return tooFastThreshold;
+		}
+
+		void setTooFastThreshold(double tooFastThreshold) {
+			this.tooFastThreshold = tooFastThreshold;
+		}
+
+		double getTooSlowThreshold() {
+			return tooSlowThreshold;
+		}
+
+		void setTooSlowThreshold(double tooSlowThreshold) {
+			this.tooSlowThreshold = tooSlowThreshold;
+		}
+
+		int getInitVolume() {
+			return initVolume;
 		}
 	}
 }
