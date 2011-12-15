@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -68,7 +70,7 @@ public class WorkoutActivity extends MapActivity {
         gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
         gpsH = new GpsHandler(this);
         
-        statusHandler = new StatusHandler(WorkoutActivity.this);
+        statusHandler = new StatusHandler(WorkoutActivity.this, settingpref);
         
     }
     
@@ -88,6 +90,30 @@ public class WorkoutActivity extends MapActivity {
     		record.put("duration", data.getExtras().getString("Duration"));
     		record.put("speed", data.getExtras().getString("Speed"));
     		historydb.insert("ARhistory", null, record);
+    	}
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	if(statusHandler.isStateBeforeStart()) super.onBackPressed();
+    	else {
+    		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    		builder.setMessage("Current session would lost. Are you sure you want to exit?")
+    			.setCancelable(false)
+    			.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						WorkoutActivity.this.finish();
+					}
+				})
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+    		AlertDialog alert = builder.create();
+    		alert.show();
     	}
     }
 
@@ -195,8 +221,10 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		tvMode.setText(settingpref.getString("Mode", "Walking"));
+		String mode = settingpref.getString("Mode", "Walking");
+		tvMode.setText(mode);
 		statDistance.setUnit(getUnit());
+		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));
 	}
 	
     @Override
@@ -264,6 +292,16 @@ public class WorkoutActivity extends MapActivity {
     	}
     	if(prog > 1.0f) prog = 1.0f;
     	progressBar.setProgress(prog*100.0f);
+    }
+    
+    void updateCaloriesDisplay(double calorie) {
+    	final String s = String.format("%.0f", calorie);
+    	WorkoutActivity.this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				statCalorie.setNumber(s);
+			}
+		});
     }
 
     void gps2gmap(GeoPoint newgp){

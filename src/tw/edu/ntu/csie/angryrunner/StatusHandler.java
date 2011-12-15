@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.google.android.maps.GeoPoint;
 
@@ -15,25 +17,30 @@ public class StatusHandler {
 	private State state;
 	private WorkoutActivity fromActivity;
 	private List<GeoPoint> positions;
-	private double distance; // km
-	private long startTime; // millisecond
-	private long pauseTime; // millisecond
+	private double distance;	// km
+	private long startTime;		// millisecond
+	private long pauseTime;		// millisecond
+	private double calories;	// kcal
 	private Timer timer;
 	private SpeedCalculator speedCalculator;
+	private SharedPreferences settingpref;
 
-	public StatusHandler(final WorkoutActivity activity) {
+	public StatusHandler(final WorkoutActivity activity, SharedPreferences pref) {
 		fromActivity = activity;
 
 		state = State.BEFORE_START;
 		distance = 0.0;
+		calories = 0.0;
 		positions = new ArrayList<GeoPoint>();
 		speedCalculator = new SpeedCalculator();
+		settingpref = pref;
 	}
 
 	void start() {
 		// TODO
 		state = State.WORKING;
 		distance = 0.0;
+		calories = 0.0;
 		startTime = System.currentTimeMillis();
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -42,6 +49,12 @@ public class StatusHandler {
 				long duration = (System.currentTimeMillis() - startTime) / 1000;
 				if (state == State.WORKING) {
 					fromActivity.updateDurationDisplay(duration);
+					double speed = speedCalculator.getSpeed();
+					fromActivity.updateSpeedDisplay(speed);
+					String mode = settingpref.getString("Mode", "Walking");
+					double weight = Double.parseDouble(settingpref.getString("WeightValue", "60"));
+					calories += MathUtil.calculateCalories(mode, speed, 1, weight);
+					fromActivity.updateCaloriesDisplay(calories);
 				}
 			}
 		}, 1000, 1000);
@@ -62,11 +75,12 @@ public class StatusHandler {
 						(finalDuration / 60) % 60, 
 						finalDuration % 60));
 		bun.putString("Distance", String.format("%.2f km", distance));
-		bun.putString("Calorie", "0 kcal");
+		bun.putString("Calorie", String.format("%.0f kcal", calories));
 		
 		// TODO clear variable
 		positions.clear();
 		distance = 0.0;
+		calories = 0.0;
 		speedCalculator.clearRecord();
 		
 		return bun;
@@ -91,7 +105,7 @@ public class StatusHandler {
 		
 		GeoPoint gp1 = positions.get(positions.size() - 2);
 		GeoPoint gp2 = positions.get(positions.size() - 1);
-		distance += SpeedCalculator.distanceBetween(gp1, gp2);
+		distance += MathUtil.distanceBetween(gp1, gp2);
 		fromActivity.updateDistanceDisplay(distance);
 	}
 
@@ -109,7 +123,7 @@ public class StatusHandler {
 		if (state == State.WORKING) {
 			updateDistance();
 			speedCalculator.addRecord(newgp);
-			fromActivity.updateSpeedDisplay(speedCalculator.getSpeed());
+			//fromActivity.updateSpeedDisplay(speedCalculator.getSpeed());
 		}
 	}
 

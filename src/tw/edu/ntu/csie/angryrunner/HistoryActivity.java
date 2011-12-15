@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -56,7 +57,10 @@ public class HistoryActivity extends Activity {
 		}
 		historyCursor.close();
 		historyAdapter.notifyDataSetChanged();
-		
 	}
 	
+    @Override
+    public void onBackPressed() {
+    	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);
+    }
 }
