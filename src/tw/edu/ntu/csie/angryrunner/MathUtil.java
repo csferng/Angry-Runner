@@ -6,7 +6,7 @@ public class MathUtil {
 	
 	// format: MET1, speed1, MET2, speed2, ...
 	// METi for speed in [speed(i-1), speed(i)], speed0 = 0 
-	// MET unit: kcal/kg/min; speed unit: m/s
+	// MET unit: kcal/kg/hr; speed unit: m/s
 	private static final float MET_JOG[] =		// for walking and running 
 			new float[]{2.3f, 0.75f, 2.9f, 1.111f, 3.3f, 1.333f, 3.6f, 1.528f, 5f, 1.778f,
 				6f, 2.0513f, 8f, 2.222f, 10f, 2.6667f, 13.5f, 3.5508f, 16f, 4.4444f};
@@ -29,12 +29,12 @@ public class MathUtil {
 		return d;
 	}
 
-	public static double calculateCalories(String mode, double speed, long seconds, double weight) {
+	public static double calculateCalories(String mode, double speed, double seconds, double weight) {
 		if(mode.equals("Cycling")) return calculateCalories(MET_CYCLE, speed, seconds, weight);
 		else return calculateCalories(MET_JOG, speed, seconds, weight);
 	}
 
-	private static double calculateCalories(float[] mets, double speed, long seconds, double weight) {
+	private static double calculateCalories(float[] mets, double speed, double seconds, double weight) {
 		double sp0 = 0f, sp1 = 0f, met0 = 0f, met1 = 0f, met;
 		for(int i = 1; i < mets.length; i += 2) {
 			sp0 = sp1;
@@ -48,7 +48,7 @@ public class MathUtil {
 		} else {
 			met = met1 + (met1-met0)*(speed-sp1)/(sp1-sp0);
 		}
-		return met*weight*seconds/60;
+		return met*weight*seconds/60/60;
 	}
 	
 	public static float getMaxSpeedForMode(String mode) {

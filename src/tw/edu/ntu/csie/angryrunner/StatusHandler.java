@@ -51,10 +51,6 @@ public class StatusHandler {
 					fromActivity.updateDurationDisplay(duration);
 					double speed = speedCalculator.getSpeed();
 					fromActivity.updateSpeedDisplay(speed);
-					String mode = settingpref.getString("Mode", "Walking");
-					double weight = Double.parseDouble(settingpref.getString("WeightValue", "60"));
-					calories += MathUtil.calculateCalories(mode, speed, 1, weight);
-					fromActivity.updateCaloriesDisplay(calories);
 				}
 			}
 		}, 1000, 1000);
@@ -123,7 +119,12 @@ public class StatusHandler {
 		if (state == State.WORKING) {
 			updateDistance();
 			speedCalculator.addRecord(newgp);
-			//fromActivity.updateSpeedDisplay(speedCalculator.getSpeed());
+			String mode = settingpref.getString("Mode", "Walking");
+			double speed = speedCalculator.getLastPeriodSpeed();
+			double duration = speedCalculator.getLastPeriodTime();
+			double weight = Double.parseDouble(settingpref.getString("WeightValue", "60"));
+			calories += MathUtil.calculateCalories(mode, speed, duration, weight);
+			fromActivity.updateCaloriesDisplay(calories);
 		}
 	}
 
