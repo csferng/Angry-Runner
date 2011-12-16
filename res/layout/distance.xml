@@ -3,76 +3,81 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical"
     android:background="@drawable/layout_bg"
+    android:orientation="vertical"
     android:screenOrientation="portrait" >
-    
-    <TextView
-        android:id="@+id/minuteText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-		android:layout_centerHorizontal="true"
-        android:layout_above="@+id/linearLayout1"
-        android:text="KM" />
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal"
-        android:layout_gravity="center" >
+        android:id="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+        <TextView
+            android:id="@+id/minuteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-    		android:layout_marginRight="1dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-            
-            <kankan.wheel.widget.WheelView android:id="@+id/centesimal"
-                android:layout_gravity="center_horizontal"
-            	android:layout_height="170dp"
-            	android:layout_width="75dp"
-            	android:layout_toLeftOf="@+id/decimal"/>
-
-        </LinearLayout>
+			android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="3dp"
+            android:text="Km" />
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-    		android:layout_marginRight="1dp"
-    		android:layout_marginLeft="1dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-            
-            <kankan.wheel.widget.WheelView android:id="@+id/decimal"
+			android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-            	android:layout_height="170dp"
-            	android:layout_width="75dp"
-            	android:layout_toLeftOf="@+id/unit"/>
+                android:layout_marginRight="1dp"
+                android:orientation="vertical" >
 
-        </LinearLayout>
+                <kankan.wheel.widget.WheelView
+                    android:id="@+id/centesimal"
+                    android:layout_width="75dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/decimal" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    		android:layout_marginLeft="1dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-            
-            <kankan.wheel.widget.WheelView android:id="@+id/unit"
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-            	android:layout_height="170dp"
-            	android:layout_width="75dp" />
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:orientation="vertical" >
 
+                <kankan.wheel.widget.WheelView
+                    android:id="@+id/decimal"
+                    android:layout_width="75dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_toLeftOf="@+id/unit" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="1dp"
+                android:orientation="vertical" >
+
+                <kankan.wheel.widget.WheelView
+                    android:id="@+id/unit"
+                    android:layout_width="75dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
         </LinearLayout>
-        
     </LinearLayout>
 
     <LinearLayout
@@ -88,9 +93,9 @@
             android:layout_width="157dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="1dp"
-            android:layout_marginBottom="5dp"
             android:text="Confirm" />
 
         <Button
@@ -98,9 +103,9 @@
             android:layout_width="157dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="2dp"
-            android:layout_marginBottom="5dp"
             android:text="Cancel" />
     </LinearLayout>
 
