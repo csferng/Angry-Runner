@@ -47,7 +47,9 @@ public class WorkoutActivity extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_view);
         
-        settingpref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingpref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
         historydb = (new HistoryDatabaseHandler(WorkoutActivity.this)).getWritableDatabase();
         audioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         
@@ -61,7 +63,9 @@ public class WorkoutActivity extends MapActivity {
         vpWorkout.setAdapter(vpAdapter);
         
         speedChart = new SpeedChartHandler(this, (ViewGroup) pageViews.get(0).findViewById(R.id.frDialChart));
-        speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
+        speedChart.setExpectedValue(Double.parseDouble(settingpref.getString(
+        		this.getResources().getString(R.string.KEY_SPEEDGOAL), 
+        		this.getResources().getString(R.string.INIT_GOALVALUES))));
         progressBar = (ProgressBarView) pageViews.get(0).findViewById(R.id.progressBar);
         initStatus(pageViews.get(0));
         initButtons(pageViews.get(0));
@@ -78,18 +82,27 @@ public class WorkoutActivity extends MapActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     	if(requestCode == 0 && resultCode == RESULT_OK){
-    		speedChart.setExpectedValue(Double.parseDouble(settingpref.getString("SpeedGoal", "0.0")));
+    		speedChart.setExpectedValue(Double.parseDouble(settingpref.getString(
+            		this.getResources().getString(R.string.KEY_SPEEDGOAL), 
+            		this.getResources().getString(R.string.INIT_GOALVALUES))));
+            
     		initStatus(pageViews.get(0));
     	}else if(requestCode == 1 && resultCode == RESULT_OK){
+    		String[] dbTableColumn = new String[5];
+    		dbTableColumn[0] = this.getResources().getString(R.string.KEY_MODE);
+    		dbTableColumn[1] = this.getResources().getString(R.string.KEY_DATE);
+    		dbTableColumn[2] = this.getResources().getString(R.string.KEY_DISTANCE);
+    		dbTableColumn[3] = this.getResources().getString(R.string.KEY_DURATION);
+    		dbTableColumn[4] = this.getResources().getString(R.string.KEY_SPEED);
     		String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
 
     		ContentValues record = new ContentValues();
-    		record.put("mode", data.getExtras().getString("Mode"));
-    		record.put("date", date);
-    		record.put("distance", data.getExtras().getString("Distance"));
-    		record.put("duration", data.getExtras().getString("Duration"));
-    		record.put("speed", data.getExtras().getString("Speed"));
-    		historydb.insert("ARhistory", null, record);
+    		record.put(dbTableColumn[0], data.getExtras().getString(dbTableColumn[0]));
+    		record.put(dbTableColumn[1], date);
+    		record.put(dbTableColumn[2], data.getExtras().getString(dbTableColumn[2]));
+    		record.put(dbTableColumn[3], data.getExtras().getString(dbTableColumn[3]));
+    		record.put(dbTableColumn[4], data.getExtras().getString(dbTableColumn[4]));
+    		historydb.insert(this.getResources().getString(R.string.NAME_DATABASETABLE), null, record);
     	}
     }
     
@@ -119,7 +132,9 @@ public class WorkoutActivity extends MapActivity {
 
 	private void initMode(View v) {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
-		tvMode.setText(settingpref.getString("Mode", "Walking"));
+		tvMode.setText(settingpref.getString(
+				this.getResources().getString(R.string.KEY_MODE), 
+				this.getResources().getString(R.string.INIT_MODE)));
 	}
 	
 	private void initButtons(View v) {
@@ -134,7 +149,9 @@ public class WorkoutActivity extends MapActivity {
 				if(statusHandler.isStateBeforeStart()){
 					audioVariable = new AudioVariable(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 					btWorkout.setEnabled(false);
-					int countdown = Integer.parseInt(settingpref.getString("CountdownValue", "0"));
+					int countdown = Integer.parseInt(settingpref.getString(
+							WorkoutActivity.this.getResources().getString(R.string.KEY_COUNTDOWNVALUE), 
+							WorkoutActivity.this.getResources().getString(R.string.INIT_COUNTDOWNVALUE)));
 					setCountdown(countdown);
 					if(countdown > 0){						
 						btStart.setClickable(false);
@@ -193,25 +210,27 @@ public class WorkoutActivity extends MapActivity {
 	private void initStatus(View v) {
 		StatusItemLayout statMajor = (StatusItemLayout) v.findViewById(R.id.statMajor);
 		StatusItemLayout statMinor = (StatusItemLayout) v.findViewById(R.id.statMinor);
-		if(settingpref.getString("TimeGoal", "0").equals("0")) {
+		if(settingpref.getString(this.getResources().getString(R.string.KEY_TIMEGOAL), this.getResources().getString(R.string.INIT_GOALVALUES)).equals("0")) {
 			statDistance = statMajor;
 			statDuration = statMinor;
 		} else {
 			statDuration = statMajor;
 			statDistance = statMinor;
 		}
-		statDuration.setType("Duration");
+		statDuration.setType(this.getResources().getString(R.string.KEY_DURATION));
 		statDuration.setUnit("h:mm:ss");
-		statDistance.setType("Distance");
+		statDistance.setType(this.getResources().getString(R.string.KEY_DISTANCE));
 		statDistance.setUnit(getUnit());
 		statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
-		statCalorie.setType("Calories");
+		statCalorie.setType(this.getResources().getString(R.string.KEY_CALORIE));
 		statCalorie.setUnit("kcal");
 		zeroStatus();
 	}
 
 	private String getUnit(){
-		String nowUnit = settingpref.getString("Unit", "Kilometer");
+		String nowUnit = settingpref.getString(
+				this.getResources().getString(R.string.KEY_UNIT), 
+				this.getResources().getString(R.string.INIT_UNIT));
 		if(nowUnit.equals("Kilometer"))
 			return "Km";
 		else
@@ -221,7 +240,9 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		String mode = settingpref.getString("Mode", "Walking");
+		String mode = settingpref.getString(
+				this.getResources().getString(R.string.KEY_MODE), 
+				this.getResources().getString(R.string.INIT_MODE));
 		tvMode.setText(mode);
 		statDistance.setUnit(getUnit());
 		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));
@@ -249,7 +270,9 @@ public class WorkoutActivity extends MapActivity {
     void updateSpeedDisplay(double speed){
     	speedChart.setCurrentValue(speed);
     	
-    	double goalvalue = Double.parseDouble(settingpref.getString("SpeedGoal", "0.0"));
+    	double goalvalue = Double.parseDouble(settingpref.getString(
+    			this.getResources().getString(R.string.KEY_SPEEDGOAL), 
+    			this.getResources().getString(R.string.INIT_GOALVALUES)));
     	double fastT = audioVariable.getTooFastThreshold();
     	double slowT = audioVariable.getTooSlowThreshold();
     	if(speed <= fastT * goalvalue && speed >= slowT *goalvalue){
@@ -271,7 +294,7 @@ public class WorkoutActivity extends MapActivity {
     	WorkoutActivity.this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if(settingpref.getString("Unit", "Kilometer").equals("Kilometer")){
+				if(getUnit().equals("Km")){
 		    		statDistance.setNumber(String.format("%.2f", distance));
 		    	}else{
 		    		// TODO
@@ -283,11 +306,11 @@ public class WorkoutActivity extends MapActivity {
     
     void updateProgressDisplay(double distance, double duration) {
     	float prog = 0.0f;
-    	if(settingpref.getString("TimeGoal", "0").equals("0") && distance > 0) {
-    		float goal = Float.parseFloat(settingpref.getString("DistanceGoal", "0"));
+    	if(settingpref.getString(this.getResources().getString(R.string.KEY_TIMEGOAL), this.getResources().getString(R.string.INIT_GOALVALUES)).equals("0") && distance > 0) {
+    		float goal = Float.parseFloat(settingpref.getString(this.getResources().getString(R.string.KEY_DISTANCEGOAL), this.getResources().getString(R.string.INIT_GOALVALUES)));
     		if(goal > 0) prog = (float )distance / goal; 
     	} else if(duration > 0) {
-    		float goal = Float.parseFloat(settingpref.getString("TimeGoal", "0"));
+    		float goal = Float.parseFloat(settingpref.getString(this.getResources().getString(R.string.KEY_TIMEGOAL), this.getResources().getString(R.string.INIT_GOALVALUES)));
     		if(goal > 0) prog = (float) duration / goal;
     	}
     	if(prog > 1.0f) prog = 1.0f;
