@@ -196,8 +196,9 @@ public class DistanceActivity extends Activity {
         	return "Km";
         }else if (str.equals("Mile")) {
         	return "Mile";
+        }else {
+        	return "Km";
         }
-        return "";
 	}
 	
 	String getDistance(Bundle bun){
@@ -208,7 +209,11 @@ public class DistanceActivity extends Activity {
         */
 		String str = bun.getString(
 				this.getResources().getString(R.string.KEY_DISTANCEGOAL));
+		if (str.equals("")) {
+			return this.getResources().getString(R.string.INIT_UNIT);
+		}
         Log.i("getDistance()", str);
+        
         int pos = str.indexOf(" ");
         if (pos != -1) {
         	return str.substring(0, pos);

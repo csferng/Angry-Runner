@@ -37,16 +37,19 @@ public class WeightActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight);
 
-        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         Weight = getWeight();
-        setTitle("Weight");
+        //setTitle(this.getResources().getString(R.string.KEY_WEIGHT));
         
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         dec_tv.setTextColor(Color.YELLOW);
         dec_tv.setTextSize(24);
+        dec_tv.setText("Kg");
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
@@ -57,7 +60,11 @@ public class WeightActivity extends Activity {
         	public void onClick(View v) {
         		
         		//int sum = curCen*100 + curDec*10 + curUnit;
-        		Weight = getWeight();
+        		Weight = calculateWeight();
+        		//settingPrefEdt.putString(
+        		//		WeightActivity.this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
+        		//		Weight).commit();
+        		
         		String target = Weight+" Kg";
         		
         		Intent it = new Intent();
@@ -102,7 +109,7 @@ public class WeightActivity extends Activity {
             }
         };
         
-        curCenItemIndex = 0;
+        //curCenItemIndex = 0;
         curCen = Integer.parseInt( digits[curCenItemIndex] );
         cen.setViewAdapter(new DateArrayAdapter(this, digits, curCenItemIndex));
         cen.setCurrentItem(curCenItemIndex);
@@ -120,7 +127,7 @@ public class WeightActivity extends Activity {
             }
         };
         
-        curDecItemIndex = 0;
+        //curDecItemIndex = 0;
         curDec = Integer.parseInt( digits[curDecItemIndex] );
         dec.setViewAdapter(new DateArrayAdapter(this, digits, curDecItemIndex));
         dec.setCurrentItem(curDecItemIndex);
@@ -138,7 +145,7 @@ public class WeightActivity extends Activity {
             }
         };
         
-        curUnitItemIndex = 0;
+        //curUnitItemIndex = 0;
         curUnit = Integer.parseInt( digits[curUnitItemIndex] );
         unit.setViewAdapter(new DateArrayAdapter(this, digits, curUnitItemIndex));
         unit.setCurrentItem(curUnitItemIndex);
@@ -156,11 +163,18 @@ public class WeightActivity extends Activity {
 	}
 	
 	String getWeight() {
-		String str = settingPref.getString("Weight", "0");
+		String str = settingPref.getString(
+				this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
+				this.getResources().getString(R.string.INIT_WEIGHTVALUE));
         if (str.equals("")) {
-			return "0";
+			return this.getResources().getString(R.string.INIT_WEIGHTVALUE);
 		}
         Log.i("getWeight()", str);
+        
+        int pos = str.indexOf(" ");
+        if (pos != -1) {
+        	return str.substring(0, pos);
+        }
         return str;
 	}
 	

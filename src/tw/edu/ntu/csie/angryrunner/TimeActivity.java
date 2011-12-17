@@ -35,11 +35,13 @@ public class TimeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time);
         
-        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
-        setTitle("Time");
-        Time = getTime();
+        setTitle(this.getResources().getString(R.string.KEY_TIME));
+        Time = getTime(this.getIntent().getExtras());
         
         hour_tv = (TextView)findViewById(R.id.hourText);
         hour_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -154,8 +156,9 @@ public class TimeActivity extends Activity {
 		return as;
 	}
 	
-	String getTime() {
-		String str = settingPref.getString("Time", "0");
+	String getTime(Bundle bun) {
+		String str = bun.getString(
+			this.getResources().getString(R.string.KEY_TIMEGOAL));
 		if (str.equals("")) {
 			return "0";
 		}
