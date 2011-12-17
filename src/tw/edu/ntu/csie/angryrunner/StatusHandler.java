@@ -64,14 +64,21 @@ public class StatusHandler {
 		double finalSpeed = (distance*1000) / finalDuration;
 		Bundle bun = new Bundle();
 		//bun.putString("Mode", "");
-		bun.putString("Speed", String.format("%.2f m/s", finalSpeed));
-		bun.putString("Duration", 
+		bun.putString(
+				fromActivity.getResources().getString(R.string.KEY_SPEED), 
+				String.format("%.2f m/s", finalSpeed));
+		bun.putString(
+				fromActivity.getResources().getString(R.string.KEY_DURATION), 
 				String.format("%d:%02d:%02d", 
 						(finalDuration / 60) / 60, 
 						(finalDuration / 60) % 60, 
 						finalDuration % 60));
-		bun.putString("Distance", String.format("%.2f km", distance));
-		bun.putString("Calorie", String.format("%.0f kcal", calories));
+		bun.putString(
+				fromActivity.getResources().getString(R.string.KEY_DISTANCE), 
+				String.format("%.2f km", distance));
+		bun.putString(
+				fromActivity.getResources().getString(R.string.KEY_CALORIE), 
+				String.format("%.0f kcal", calories));
 		
 		// TODO clear variable
 		positions.clear();
@@ -119,10 +126,14 @@ public class StatusHandler {
 		if (state == State.WORKING) {
 			updateDistance();
 			speedCalculator.addRecord(newgp);
-			String mode = settingpref.getString("Mode", "Walking");
 			double speed = speedCalculator.getLastPeriodSpeed();
 			double duration = speedCalculator.getLastPeriodTime();
-			double weight = Double.parseDouble(settingpref.getString("WeightValue", "60"));
+			String mode = settingpref.getString(
+					fromActivity.getResources().getString(R.string.KEY_MODE), 
+					fromActivity.getResources().getString(R.string.INIT_MODE));
+			double weight = Double.parseDouble(settingpref.getString(
+					fromActivity.getResources().getString(R.string.KEY_WEIGHTVALUE), 
+					fromActivity.getResources().getString(R.string.INIT_WEIGHTVALUE)));
 			calories += MathUtil.calculateCalories(mode, speed, duration, weight);
 			fromActivity.updateCaloriesDisplay(calories);
 		}

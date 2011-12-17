@@ -13,8 +13,8 @@ public class HistoryDatabaseHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE ARhistory (mode TEXT, date TEXT, " +
-				"distance TEXT, duration TEXT, speed TEXT)");
+		db.execSQL("CREATE TABLE ARhistory (Mode TEXT, Date TEXT, " +
+				"Distance TEXT, Duration TEXT, Speed TEXT)");
 	}
 
 	@Override

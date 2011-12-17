@@ -18,8 +18,10 @@ public class WorkoutSettingActivity extends Activity {
 	ListView wslist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter wsAdapter;
-	String[] workoutsettings = {"Mode", "Speed", "Time", "Distance"};
-	String[] inits = {"Walking", "", "", ""};
+	String[] workoutsettings = new String[4];
+	String[] inits = new String[4];
+	String[] goalsettings = new String[4];
+	String goalinit;
 	String[] values = new String[4];
 	Button bt_confirm, bt_cancel;
 	SharedPreferences settingPref;
@@ -30,20 +32,38 @@ public class WorkoutSettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.workout_setting);
 		
+		workoutsettings[0] = this.getResources().getString(R.string.KEY_MODE);
+		workoutsettings[1] = this.getResources().getString(R.string.KEY_SPEED);
+		workoutsettings[2] = this.getResources().getString(R.string.KEY_TIME);
+		workoutsettings[3] = this.getResources().getString(R.string.KEY_DISTANCE);
+		inits[0] = this.getResources().getString(R.string.INIT_MODE);
+		inits[1] = ""; inits[2] = ""; inits[3] = "";
+		goalsettings[0] = this.getResources().getString(R.string.KEY_PACEGOAL);
+		goalsettings[1] = this.getResources().getString(R.string.KEY_SPEEDGOAL);
+		goalsettings[2] = this.getResources().getString(R.string.KEY_TIMEGOAL);
+		goalsettings[3] = this.getResources().getString(R.string.KEY_DISTANCEGOAL);
+		goalinit = this.getResources().getString(R.string.INIT_GOALVALUES);
+		
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
 		bt_cancel = (Button) findViewById(R.id.btCancel);
-		settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+		settingPref = getSharedPreferences(
+				this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+				MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
 		
 		for(int i=0; i<workoutsettings.length; ++i){
 			HashMap<String,String> tmphm = new HashMap<String,String>();
-			tmphm.put("name", workoutsettings[i]);
+			if(i == 1){
+				tmphm.put("name", workoutsettings[1] + " & " + 
+						this.getResources().getString(R.string.KEY_PACE));
+			}else{
+				tmphm.put("name", workoutsettings[i]);
+			}
 			tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
 			alhm.add(tmphm);
 			
-			if(i > 0)
-				values[i] = settingPref.getString(workoutsettings[i]+"Goal", "0.0");
+			values[i] = settingPref.getString(goalsettings[i], goalinit);
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
         		alhm, 
@@ -60,6 +80,7 @@ public class WorkoutSettingActivity extends Activity {
 					long arg3) {
 				// arg0: parent, arg1: clicked view, arg2: position, arg3: id
 				Intent it = new Intent();
+				Bundle bun = new Bundle();
 				switch(arg2){
 					case 0:
 						it.setClass(WorkoutSettingActivity.this, ModeActivity.class);
@@ -67,14 +88,21 @@ public class WorkoutSettingActivity extends Activity {
 						break;
 					case 1:
 						it.setClass(WorkoutSettingActivity.this, PaceActivity.class);
+						bun.putString(goalsettings[0], values[0]);
+						bun.putString(goalsettings[1], values[1]);
+						it.putExtras(bun);
 						startActivityForResult(it, 1);
 						break;
 					case 2:
 						it.setClass(WorkoutSettingActivity.this, TimeActivity.class);
+						bun.putString(goalsettings[2], values[2]);
+						it.putExtras(bun);
 						startActivityForResult(it, 2);
 						break;
 					case 3:
 						it.setClass(WorkoutSettingActivity.this, DistanceActivity.class);
+						bun.putString(goalsettings[3], values[3]);
+						it.putExtras(bun);
 						startActivityForResult(it, 3);
 						break;
 					default:
@@ -91,9 +119,10 @@ public class WorkoutSettingActivity extends Activity {
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
 				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
 				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
-				settingPrefEdt.putString(workoutsettings[1]+"Goal", values[1]);
-				settingPrefEdt.putString(workoutsettings[2]+"Goal", values[2]);
-				settingPrefEdt.putString(workoutsettings[3]+"Goal", values[3]);
+				settingPrefEdt.putString(goalsettings[0], values[0]);
+				settingPrefEdt.putString(goalsettings[1], values[1]);
+				settingPrefEdt.putString(goalsettings[2], values[2]);
+				settingPrefEdt.putString(goalsettings[3], values[3]);
 	    		settingPrefEdt.commit();
 	    		
 	    		setResult(RESULT_OK);
@@ -116,7 +145,20 @@ public class WorkoutSettingActivity extends Activity {
 		if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		wsAdapter.notifyDataSetChanged();
-    		values[requestCode] = data.getExtras().getString("value");
+    		switch(requestCode){
+    			case 0:
+    				break;
+    			case 1:
+    				values[0] = data.getExtras().getString(goalsettings[0]);
+    				values[1] = data.getExtras().getString(goalsettings[1]);
+    				break;
+    			case 2:
+    			case 3:
+    				values[requestCode] = data.getExtras().getString(goalsettings[requestCode]);
+    				break;
+    			default:
+    		}
+    		//values[requestCode] = data.getExtras().getString("value");
     	}
 	}
 	

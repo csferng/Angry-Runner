@@ -15,12 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TimeActivity extends Activity {
-	
-	TextView hour_tv, min_tv, sec_tv;
+
+	WheelView hour, min;
+	TextView hour_tv, min_tv;
 	Button confirm_bt, cancel_bt;
-	WheelView hour, min, sec;
 	
-	int curHour, curMin, curSec;
+	int curHour, curMin;
 	String [] hours, ms;
 	
 	
@@ -48,10 +48,6 @@ public class TimeActivity extends Activity {
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
         min_tv.setTextColor(Color.YELLOW);
         min_tv.setTextSize(18);
-        sec_tv = (TextView)findViewById(R.id.secondText);
-        sec_tv.setTypeface(Typeface.DEFAULT_BOLD);
-        sec_tv.setTextColor(Color.YELLOW);
-        sec_tv.setTextSize(18);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
@@ -62,31 +58,24 @@ public class TimeActivity extends Activity {
         	public void onClick(View v) {
 
         		String target = "";
-        		int seconds = 0;
+        		int mins = 0;
         		
         		if (curHour != 0) {
         			target += new Integer(curHour).toString()+" hr ";
-        			seconds += (curHour * 60 * 60);
+        			mins += (curHour * 60);
         		}
         		
         		if (curMin != 0) {
         			target += new Integer(curMin).toString()+" min ";
-        			seconds += (curMin * 60);
-        		}else {
-        			if (curHour != 0 && curSec != 0) {
-        				target += new Integer(curMin).toString()+" min ";
-        			}
-        		}
-        		
-        		if (curSec != 0) {
-        			target += new Integer(curSec).toString()+" sec ";
-        			seconds += curSec;
+        			mins += curMin;
         		}
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("display", target);
-				bun.putString("value", seconds + "");
+				bun.putString(
+						TimeActivity.this.getResources().getString(R.string.KEY_TIMEGOAL), 
+						mins + "");
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
@@ -110,7 +99,6 @@ public class TimeActivity extends Activity {
         
         hour = (WheelView)findViewById(R.id.hour);
         min = (WheelView)findViewById(R.id.minute);
-        sec = (WheelView)findViewById(R.id.second);
         
         OnWheelChangedListener listener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
@@ -119,8 +107,6 @@ public class TimeActivity extends Activity {
             	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHour));
             	curMin = min.getCurrentItem();
             	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMin));
-            	curSec = sec.getCurrentItem();
-            	sec.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curSec));
             	//tv.setText(day.getCurrentItem()+"_"+month.getCurrentItem()+"_"+year.getCurrentItem());
             }
         };
@@ -134,11 +120,6 @@ public class TimeActivity extends Activity {
         min.setViewAdapter(new DateArrayAdapter(this, ms, curMin));
         min.setCurrentItem(curMin);
         min.addChangingListener(listener);
-        
-        curSec = 0;
-        sec.setViewAdapter(new DateArrayAdapter(this, ms, curSec));
-        sec.setCurrentItem(curSec);
-        sec.addChangingListener(listener);
         
 	}
 	

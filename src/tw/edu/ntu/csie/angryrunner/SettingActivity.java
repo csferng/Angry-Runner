@@ -18,8 +18,8 @@ public class SettingActivity extends Activity {
 	ListView settinglist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter settingAdapter;
-	String[] settings = {"Weight", "Unit", "Mode", "Countdown"};
-	String[] inits = {"60 kg", "Kilometer", "Walking", "Off"};
+	String[] settings = new String[4];
+	String[] inits = new String[4];
 	SharedPreferences settingPref;
 	SharedPreferences.Editor settingPrefEdt;
 	
@@ -38,8 +38,19 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         
+        settings[0] = this.getResources().getString(R.string.KEY_WEIGHT);
+        settings[1] = this.getResources().getString(R.string.KEY_UNIT);
+        settings[2] = this.getResources().getString(R.string.KEY_MODE);
+        settings[3] = this.getResources().getString(R.string.KEY_COUNTDOWN);
+        inits[0] = this.getResources().getString(R.string.INIT_WEIGHT);
+        inits[1] = this.getResources().getString(R.string.INIT_UNIT);
+        inits[2] = this.getResources().getString(R.string.INIT_MODE);
+        inits[3] = this.getResources().getString(R.string.INIT_COUNTDOWN);
+        
         settinglist = (ListView) findViewById(R.id.listView1);
-        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         for(int i=0; i<settings.length; ++i){
@@ -95,8 +106,14 @@ public class SettingActivity extends Activity {
     		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		settingAdapter.notifyDataSetChanged();
     		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
-    		if(requestCode == 0 || requestCode == 3){
-    			settingPrefEdt.putString(settings[requestCode]+"Value", data.getExtras().getString("value"));
+    		if(requestCode == 0){
+    			settingPrefEdt.putString(
+    					this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
+    					data.getExtras().getString("value"));
+    		}else if(requestCode == 3){
+    			settingPrefEdt.putString(
+    					this.getResources().getString(R.string.KEY_COUNTDOWNVALUE), 
+    					data.getExtras().getString("value"));
     		}
     		settingPrefEdt.commit();
     	}

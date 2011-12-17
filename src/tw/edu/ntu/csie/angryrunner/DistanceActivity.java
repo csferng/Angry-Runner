@@ -1,6 +1,8 @@
 package tw.edu.ntu.csie.angryrunner;
 
 //import kankan.wheel.R;
+import java.text.DecimalFormat;
+
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -11,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,44 +21,36 @@ import android.widget.TextView;
 
 public class DistanceActivity extends Activity {
 
-	TextView dec_tv;
+	TextView dec_tv, speed_tv;
 	WheelView cen, dec, unit;
 	Button confirm_bt, cancel_bt;
 	
-	int curCen, curDec, curUnit;
-	String [] digits;
+	int curCenItemIndex, curDecItemIndex, curUnitItemIndex;
+	int curCen, curDec;
+	double curUnit;
+	String [] digits, dpoints;
 
-	String Unit;
+	String Unit, Distance;
 	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
 	
-	
-	String [] initArray(int size, int start) {
-		String [] as = new String[size];
-		for (int i=0; i < size; ++i) {
-			as[i] = new Integer(start+i).toString();
-		}
-		return as;
-	}
-	
-	String getUnit(){
-        String str = settingPref.getString("Unit", "");
-        if (str.equals("Kilometer")) {
-        	return "Km";
-        }else if (str.equals("Mile")) {
-        	return "Mile";
-        }
-        return "";
-	}
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distance);
 
-        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
-        Unit = getUnit();
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
         
-        setTitle("Distance");
+        Unit = getUnit();
+        Distance = getDistance(this.getIntent().getExtras());
+        Log.i("Distance", Distance);
+        
+        setTitle(this.getResources().getString(R.string.KEY_DISTANCE));
+        
         
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -65,20 +60,26 @@ public class DistanceActivity extends Activity {
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
         		
-        		int sum = curCen*100 + curDec*10 + curUnit;
-        		
-        		String target = new Integer(sum).toString();
+        		//double sum = new Double(curCen*10) + new Double(curDec) + curUnit;
+        		Distance= calculateDistance();
+//        		settingPrefEdt.putString("Distance", Distance).commit();
+//        		Log.i("Distance", settingPref.getString(Distance, "NULL"));
+        		Log.i("Distance", Distance);
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
-				bun.putString("value", target);
-				bun.putString("display", target + " " + Unit);
+				Log.i("d-value", Distance);
+				bun.putString(
+						DistanceActivity.this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
+						Distance);
+				Log.i("d-display", Distance+" "+Unit);
+				bun.putString("display", Distance+" "+Unit);
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
@@ -86,8 +87,9 @@ public class DistanceActivity extends Activity {
         	}
         });
         
+        
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
+        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -98,40 +100,168 @@ public class DistanceActivity extends Activity {
         
         
         digits = initArray(10, 0);
+        dpoints = initArray(20, 0, 0.05);
         
         cen = (WheelView)findViewById(R.id.centesimal);
         dec = (WheelView)findViewById(R.id.decimal);
         unit = (WheelView)findViewById(R.id.unit);
         
-        OnWheelChangedListener listener = new OnWheelChangedListener() {
+        
+        initWheelValueIndex();
+        
+        
+        OnWheelChangedListener cenListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 //updateDays(year, month, day);
-            	curCen = cen.getCurrentItem();
-            	cen.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curCen));
-            	curDec = dec.getCurrentItem();
-            	dec.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curDec));
-            	curUnit = unit.getCurrentItem();
-            	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curUnit));
-            	//tv.setText(day.getCurrentItem()+"_"+month.getCurrentItem()+"_"+year.getCurrentItem());
+            	curCenItemIndex = cen.getCurrentItem();
+            	curCen = Integer.parseInt( digits[curCenItemIndex] );
+            	cen.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curCenItemIndex));
+            	cen.setCurrentItem( curCenItemIndex );
+            	Distance = calculateDistance();
             }
         };
         
-        curCen = 0;
-        cen.setViewAdapter(new DateArrayAdapter(this, digits, curCen));
-        cen.setCurrentItem(curCen);
-        cen.addChangingListener(listener);
+    	//curCenItemIndex = 0;
+    	curCen = Integer.parseInt( digits[curCenItemIndex] );
+    	cen.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curCenItemIndex));
+        cen.setCurrentItem( curCenItemIndex );
+        cen.addChangingListener(cenListener);
+
         
-        curDec = 0;
-        dec.setViewAdapter(new DateArrayAdapter(this, digits, curDec));
-        dec.setCurrentItem(curDec);
-        dec.addChangingListener(listener);
+        OnWheelChangedListener decListener = new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                //updateDays(year, month, day);
+            	curDecItemIndex = dec.getCurrentItem();
+            	curDec = Integer.parseInt( digits[curDecItemIndex] );
+            	dec.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curDecItemIndex));
+            	dec.setCurrentItem( curDecItemIndex );
+            	Distance = calculateDistance();
+            }
+        };
         
-        curUnit = 0;
-        unit.setViewAdapter(new DateArrayAdapter(this, digits, curUnit));
-        unit.setCurrentItem(curUnit);
-        unit.addChangingListener(listener);
+        //curDecItemIndex = 0;
+    	curDec = Integer.parseInt( digits[curDecItemIndex] );
+    	dec.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curDecItemIndex));
+    	dec.setCurrentItem( curDecItemIndex );
+        dec.addChangingListener(decListener);
         
+        
+        OnWheelChangedListener unitListener = new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                //updateDays(year, month, day);
+            	curUnitItemIndex = unit.getCurrentItem();
+            	curUnit = Double.parseDouble( dpoints[curUnitItemIndex] );
+            	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, dpoints, curUnitItemIndex));
+            	unit.setCurrentItem( curUnitItemIndex );
+            	Distance = calculateDistance();
+            }
+        };
+        
+        //curUnitItemIndex = 0;
+    	curUnit = Double.parseDouble( dpoints[curUnitItemIndex] );
+    	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, dpoints, curUnitItemIndex));
+    	unit.setCurrentItem( curUnitItemIndex );
+        unit.addChangingListener(unitListener);
+        
+	}	
+
+	
+	String [] initArray(int size, int start) {
+		String [] as = new String[size];
+		for (int i=0; i < size; ++i) {
+			as[i] = new Integer(start+i).toString();
+		}
+		return as;
 	}
+
+	String [] initArray(int size, double start, double gap) {
+		String [] as = new String[size];
+		String s = "";
+		int pos = -1;
+		for (int i=0; i < size; ++i) {
+			s = String.format("%.2f", start);
+			Log.i("s", s);
+			Log.i("pos", new Integer(pos).toString());
+			pos = s.indexOf(".");
+			as[i] = s.substring(pos);
+			start += gap;
+		}
+		return as;
+	}
+	String getUnit(){
+        String str = settingPref.getString(
+        		this.getResources().getString(R.string.KEY_UNIT), 
+        		this.getResources().getString(R.string.INIT_UNIT));
+        if (str.equals("Kilometer")) {
+        	return "Km";
+        }else if (str.equals("Mile")) {
+        	return "Mile";
+        }
+        return "";
+	}
+
+	String getDistance(Bundle bun){
+		/*
+        String str = settingPref.getString(
+        		this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
+        		this.getResources().getString(R.string.INIT_GOALVALUES));
+        */
+		String str = bun.getString(
+				this.getResources().getString(R.string.KEY_DISTANCEGOAL));
+        Log.i("getDistance()", str);
+        int pos = str.indexOf(" ");
+        if (pos != -1) {
+        	return str.substring(0, pos);
+        }
+        return str;
+	}
+	
+	String calculateDistance() {
+		double sum = new Double(curCen*10) + new Double(curDec) + curUnit;
+	    return doubleStringFormation( String.format("%.2f", sum) );
+		//return doubleStringFormation( String.format("%2f", sum) );
+	}
+
+	String doubleStringFormation(String target) {
+		int pos = target.indexOf(".");
+		Double d0 = Double.parseDouble(target);
+		Double d1 = Double.parseDouble(target.substring(0, pos+2));
+		Double d2 = Double.parseDouble(target.substring(0, pos+3));
+		if ( d0.equals(d1) && d0.equals(d2)) {
+			return target.substring(0, pos);
+		}else if ( d1.equals(d2) ) {
+			return target.substring(0, pos+2);
+		}else {
+			return target;
+		}
+	}
+	
+	int findIndex(String s) {
+		for (int i = 0; i < dpoints.length; ++i) {
+			if (dpoints[i].equals(s)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	void initWheelValueIndex() {
+		Log.i("wheel-d", Distance);
+		int pos = Distance.indexOf(".");
+		int distance = 0;
+		
+		if (pos == -1) {
+			curUnitItemIndex = 0;
+			distance = Integer.parseInt(Distance);
+		}else {
+			curUnitItemIndex = findIndex(Distance.substring(pos));
+			distance = Integer.parseInt(Distance.substring(0, pos));
+		}
+		
+		curDecItemIndex = distance%10;
+		curCenItemIndex = distance/10;
+	}
+	
 	
 	public class DateArrayAdapter extends ArrayWheelAdapter<String> {
         // Index of current item

@@ -60,31 +60,7 @@
             <kankan.wheel.widget.WheelView android:id="@+id/minute"
                 android:layout_gravity="center_horizontal"
             	android:layout_height="170dp"
-            	android:layout_width="75dp"
-            	android:layout_toLeftOf="@+id/second"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    		android:layout_marginLeft="1dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/secondText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Secs" />
-            
-            <kankan.wheel.widget.WheelView android:id="@+id/second"
-                android:layout_gravity="center_horizontal"
-            	android:layout_height="170dp"
-            	android:layout_width="75dp" />
+            	android:layout_width="75dp"/>
 
         </LinearLayout>
         

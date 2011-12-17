@@ -15,13 +15,19 @@ public class ResultActivity extends Activity {
 	ListView resultlist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter resultAdapter;
-	String[] resultItems = {"Mode", "Speed", "Duration", "Distance", "Calorie"};
+	String[] resultItems = new String[5];
 	Button btConfirm, btCancel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.result);
+		
+		resultItems[0] = this.getResources().getString(R.string.KEY_MODE);
+		resultItems[1] = this.getResources().getString(R.string.KEY_SPEED);
+		resultItems[2] = this.getResources().getString(R.string.KEY_DURATION);
+		resultItems[3] = this.getResources().getString(R.string.KEY_DISTANCE);
+		resultItems[4] = this.getResources().getString(R.string.KEY_CALORIE);
 		
 		resultlist = (ListView) findViewById(R.id.listView1);
 		btConfirm = (Button) findViewById(R.id.btConfirm);
