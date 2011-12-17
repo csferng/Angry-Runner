@@ -72,12 +72,14 @@ public class TimeActivity extends Activity {
         		}
         		
         		Time = calculateTime();
-				settingPrefEdt.putString("Time", Time).commit();
+				//settingPrefEdt.putString("Time", Time).commit();
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("display", target);
-				bun.putString("value", Time + "");
+				bun.putString(
+						TimeActivity.this.getResources().getString(R.string.KEY_TIMEGOAL), 
+						Time);
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
