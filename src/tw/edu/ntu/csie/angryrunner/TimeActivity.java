@@ -6,6 +6,7 @@ import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,21 +17,17 @@ import android.widget.TextView;
 
 public class TimeActivity extends Activity {
 
+	String Time;
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
+
 	WheelView hour, min;
 	TextView hour_tv, min_tv;
 	Button confirm_bt, cancel_bt;
 	
+	int curHourItemIndex, curMinItemIndex;
 	int curHour, curMin;
 	String [] hours, ms;
-	
-	
-	String [] initArray(int size, int start) {
-		String [] as = new String[size];
-		for (int i=0; i < size; ++i) {
-			as[i] = new Integer(start+i).toString();
-		}
-		return as;
-	}
 	
 	
 	@Override
@@ -38,7 +35,13 @@ public class TimeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time);
         
-        setTitle("Time");
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
+        
+        setTitle(this.getResources().getString(R.string.KEY_TIME));
+        Time = getTime(this.getIntent().getExtras());
         
         hour_tv = (TextView)findViewById(R.id.hourText);
         hour_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -70,12 +73,15 @@ public class TimeActivity extends Activity {
         			mins += curMin;
         		}
         		
+        		Time = calculateTime();
+				//settingPrefEdt.putString("Time", Time).commit();
+        		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("display", target);
 				bun.putString(
 						TimeActivity.this.getResources().getString(R.string.KEY_TIMEGOAL), 
-						mins + "");
+						Time);
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
@@ -100,28 +106,76 @@ public class TimeActivity extends Activity {
         hour = (WheelView)findViewById(R.id.hour);
         min = (WheelView)findViewById(R.id.minute);
         
-        OnWheelChangedListener listener = new OnWheelChangedListener() {
+        initWheelValueIndex();
+        
+        
+        OnWheelChangedListener hourListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 //updateDays(year, month, day);
-            	curHour = hour.getCurrentItem();
-            	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHour));
-            	curMin = min.getCurrentItem();
-            	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMin));
-            	//tv.setText(day.getCurrentItem()+"_"+month.getCurrentItem()+"_"+year.getCurrentItem());
+            	curHourItemIndex = hour.getCurrentItem();
+            	curHour = Integer.parseInt( hours[curHourItemIndex] );
+            	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHourItemIndex));
+            	hour.setCurrentItem(curHourItemIndex);
+            	Time = calculateTime();
+            	
             }
         };
         
-        curHour = 0;
-        hour.setViewAdapter(new DateArrayAdapter(this, hours, curHour));
-        hour.setCurrentItem(curHour);
-        hour.addChangingListener(listener);
+        //curHourItemIndex = 0;
+    	curHour = Integer.parseInt( hours[curHourItemIndex] );
+    	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHourItemIndex));
+    	hour.setCurrentItem(curHourItemIndex);
+        hour.addChangingListener(hourListener);
+
         
-        curMin = 0;
-        min.setViewAdapter(new DateArrayAdapter(this, ms, curMin));
-        min.setCurrentItem(curMin);
-        min.addChangingListener(listener);
+        OnWheelChangedListener minListener = new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                //updateDays(year, month, day);
+            	curMinItemIndex = min.getCurrentItem();
+            	curMin = Integer.parseInt( hours[curMinItemIndex] );
+            	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMinItemIndex));
+            	min.setCurrentItem(curMinItemIndex);
+            	Time = calculateTime();
+            }
+        };
+        
+        //curMinItemIndex = 0;
+    	curMin = Integer.parseInt( hours[curMinItemIndex] );
+    	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMinItemIndex));
+    	min.setCurrentItem(curMinItemIndex);
+        min.addChangingListener(minListener);
         
 	}
+
+	
+	String [] initArray(int size, int start) {
+		String [] as = new String[size];
+		for (int i=0; i < size; ++i) {
+			as[i] = new Integer(start+i).toString();
+		}
+		return as;
+	}
+	
+	String getTime(Bundle bun) {
+		String str = bun.getString(
+			this.getResources().getString(R.string.KEY_TIMEGOAL));
+		if (str.equals("")) {
+			return "0";
+		}
+		return str;
+	}
+	
+	String calculateTime() {
+		Integer sum = curHour*3600+curMin*60;
+		return sum.toString();
+	}
+	
+	void initWheelValueIndex() {
+		int time = Integer.parseInt(Time);
+		curMinItemIndex = (time/60)%60;
+		curHourItemIndex = (time/60)/60;
+	}
+	
 	
 	public class DateArrayAdapter extends ArrayWheelAdapter<String> {
         // Index of current item
