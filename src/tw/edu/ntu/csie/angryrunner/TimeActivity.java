@@ -73,7 +73,9 @@ public class TimeActivity extends Activity {
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("display", target);
-				bun.putString("value", mins + "");
+				bun.putString(
+						TimeActivity.this.getResources().getString(R.string.KEY_TIMEGOAL), 
+						mins + "");
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);

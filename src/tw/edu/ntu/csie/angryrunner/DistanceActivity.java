@@ -40,14 +40,16 @@ public class DistanceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distance);
 
-        settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+        settingPref = getSharedPreferences(
+        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         Unit = getUnit();
-        Distance = getDistance();
+        Distance = getDistance(this.getIntent().getExtras());
         Log.i("Distance", Distance);
         
-        setTitle("Distance");
+        setTitle(this.getResources().getString(R.string.KEY_DISTANCE));
         
         
         dec_tv = (TextView)findViewById(R.id.minuteText);
@@ -66,13 +68,16 @@ public class DistanceActivity extends Activity {
         		
         		//double sum = new Double(curCen*10) + new Double(curDec) + curUnit;
         		Distance= calculateDistance();
-        		settingPrefEdt.putString("Distance", Distance).commit();
-        		Log.i("Distance", settingPref.getString(Distance, "NULL"));
+//        		settingPrefEdt.putString("Distance", Distance).commit();
+//        		Log.i("Distance", settingPref.getString(Distance, "NULL"));
+        		Log.i("Distance", Distance);
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
 				Log.i("d-value", Distance);
-				bun.putString("value", Distance);
+				bun.putString(
+						DistanceActivity.this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
+						Distance);
 				Log.i("d-display", Distance+" "+Unit);
 				bun.putString("display", Distance+" "+Unit);
 				it.putExtras(bun);
@@ -184,7 +189,9 @@ public class DistanceActivity extends Activity {
 		return as;
 	}
 	String getUnit(){
-        String str = settingPref.getString("Unit", "Kilometer");
+        String str = settingPref.getString(
+        		this.getResources().getString(R.string.KEY_UNIT), 
+        		this.getResources().getString(R.string.INIT_UNIT));
         if (str.equals("Kilometer")) {
         	return "Km";
         }else if (str.equals("Mile")) {
@@ -193,8 +200,14 @@ public class DistanceActivity extends Activity {
         return "";
 	}
 
-	String getDistance(){
-        String str = settingPref.getString("Distance", "0");
+	String getDistance(Bundle bun){
+		/*
+        String str = settingPref.getString(
+        		this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
+        		this.getResources().getString(R.string.INIT_GOALVALUES));
+        */
+		String str = bun.getString(
+				this.getResources().getString(R.string.KEY_DISTANCEGOAL));
         Log.i("getDistance()", str);
         int pos = str.indexOf(" ");
         if (pos != -1) {
