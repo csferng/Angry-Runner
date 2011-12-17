@@ -16,19 +16,25 @@ public class HistoryActivity extends Activity {
 	SimpleAdapter historyAdapter;
 	ArrayList<HashMap<String, Object>> historyItems;
 	SQLiteDatabase historydb;
+	String[] DatabaseTableColumn = new String[5];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
 
+		DatabaseTableColumn[0] = this.getResources().getString(R.string.KEY_MODE);
+		DatabaseTableColumn[1] = this.getResources().getString(R.string.KEY_DATE);
+		DatabaseTableColumn[2] = this.getResources().getString(R.string.KEY_DISTANCE);
+		DatabaseTableColumn[3] = this.getResources().getString(R.string.KEY_DURATION);
+		DatabaseTableColumn[4] = this.getResources().getString(R.string.KEY_SPEED);
+		
 		historylist = (ListView) findViewById(R.id.listView1);
 		historydb = (new HistoryDatabaseHandler(HistoryActivity.this)).getWritableDatabase();
 
 		historyItems = new ArrayList<HashMap<String, Object>>();
 		historyAdapter = new SimpleAdapter(HistoryActivity.this, historyItems,
-				R.layout.history_item, new String[] { "pic", "date",
-						"distance", "duration", "speed" }, new int[] {
+				R.layout.history_item, DatabaseTableColumn, new int[] {
 						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
 						R.id.tvDuration, R.id.tvSpeed });
 		historylist.setAdapter(historyAdapter);
@@ -41,16 +47,17 @@ public class HistoryActivity extends Activity {
 		Cursor historyCursor;
 		
 		historyItems.clear();
-		historyCursor = historydb.query("ARhistory", null, null, null, null,
-				null, null);
+		historyCursor = historydb.query(
+				this.getResources().getString(R.string.NAME_DATABASETABLE), 
+				null, null, null, null, null, null);
 		if(historyCursor.isBeforeFirst())	historyCursor.moveToNext();
 		while (!historyCursor.isAfterLast()) {
 			HashMap<String, Object> tmpitem = new HashMap<String, Object>();
-			tmpitem.put("pic", R.drawable.ic_launcher);
-			tmpitem.put("date", historyCursor.getString(1));
-			tmpitem.put("distance", historyCursor.getString(2));
-			tmpitem.put("duration", historyCursor.getString(3));
-			tmpitem.put("speed", historyCursor.getString(4));
+			tmpitem.put(DatabaseTableColumn[0], R.drawable.ic_launcher);
+			tmpitem.put(DatabaseTableColumn[1], historyCursor.getString(1));
+			tmpitem.put(DatabaseTableColumn[2], historyCursor.getString(2));
+			tmpitem.put(DatabaseTableColumn[3], historyCursor.getString(3));
+			tmpitem.put(DatabaseTableColumn[4], historyCursor.getString(4));
 			historyItems.add(tmpitem);
 			
 			historyCursor.moveToNext();

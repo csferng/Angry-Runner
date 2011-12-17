@@ -18,8 +18,9 @@ public class WorkoutSettingActivity extends Activity {
 	ListView wslist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter wsAdapter;
-	String[] workoutsettings = {"Mode", "Speed", "Time", "Distance"};
-	String[] inits = {"Walking", "", "", ""};
+	String[] workoutsettings = new String[4];
+	String[] inits = new String[4];
+	String[] goalsettings = new String[4];
 	String[] values = new String[4];
 	Button bt_confirm, bt_cancel;
 	SharedPreferences settingPref;
@@ -30,10 +31,23 @@ public class WorkoutSettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.workout_setting);
 		
+		workoutsettings[0] = this.getResources().getString(R.string.KEY_MODE);
+		workoutsettings[1] = this.getResources().getString(R.string.KEY_SPEED);
+		workoutsettings[2] = this.getResources().getString(R.string.KEY_TIME);
+		workoutsettings[3] = this.getResources().getString(R.string.KEY_DISTANCE);
+		inits[0] = this.getResources().getString(R.string.INIT_MODE);
+		inits[1] = ""; inits[2] = ""; inits[3] = "";
+		goalsettings[0] = "";
+		goalsettings[1] = this.getResources().getString(R.string.KEY_SPEEDGOAL);
+		goalsettings[2] = this.getResources().getString(R.string.KEY_TIMEGOAL);
+		goalsettings[3] = this.getResources().getString(R.string.KEY_DISTANCEGOAL);
+		
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
 		bt_cancel = (Button) findViewById(R.id.btCancel);
-		settingPref = getSharedPreferences("PREF_ANGRYRUNNER_SETTING", MODE_PRIVATE);
+		settingPref = getSharedPreferences(
+				this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+				MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
 		
 		for(int i=0; i<workoutsettings.length; ++i){
@@ -43,7 +57,8 @@ public class WorkoutSettingActivity extends Activity {
 			alhm.add(tmphm);
 			
 			if(i > 0)
-				values[i] = settingPref.getString(workoutsettings[i]+"Goal", "0.0");
+				values[i] = settingPref.getString(goalsettings[i], 
+						this.getResources().getString(R.string.INIT_GOALVALUES));
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
         		alhm, 
@@ -91,9 +106,9 @@ public class WorkoutSettingActivity extends Activity {
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
 				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
 				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
-				settingPrefEdt.putString(workoutsettings[1]+"Goal", values[1]);
-				settingPrefEdt.putString(workoutsettings[2]+"Goal", values[2]);
-				settingPrefEdt.putString(workoutsettings[3]+"Goal", values[3]);
+				settingPrefEdt.putString(goalsettings[1], values[1]);
+				settingPrefEdt.putString(goalsettings[2], values[2]);
+				settingPrefEdt.putString(goalsettings[3], values[3]);
 	    		settingPrefEdt.commit();
 	    		
 	    		setResult(RESULT_OK);
