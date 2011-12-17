@@ -175,7 +175,7 @@ public class PaceActivity extends Activity {
 
 	String getPace(){
         String str = settingPref.getString("Pace", "0");
-        Log.i("getPace()", Pace);
+        Log.i("getPace()", str);
         return str;
 	}
 	
@@ -186,7 +186,7 @@ public class PaceActivity extends Activity {
 
 	String getSpeed(){
         String str = settingPref.getString("Speed", "0");
-        Log.i("getSpeed()", Speed);
+        Log.i("getSpeed()", str);
         return str;
 	}
 	

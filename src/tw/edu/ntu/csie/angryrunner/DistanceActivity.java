@@ -195,7 +195,7 @@ public class DistanceActivity extends Activity {
 
 	String getDistance(){
         String str = settingPref.getString("Distance", "0");
-        Log.i("getDistance()", Distance);
+        Log.i("getDistance()", str);
         int pos = str.indexOf(" ");
         if (pos != -1) {
         	return str.substring(0, pos);
