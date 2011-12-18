@@ -83,7 +83,7 @@ public class WorkoutActivity extends MapActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode != RESULT_OK) return;
-		Bundle extras = data.getExtras();
+		Bundle extras = (data==null) ? null : data.getExtras();
 		if(requestCode == 1) {
 			saveHistory(extras);
 		} else if(requestCode == 0) {
@@ -262,7 +262,18 @@ public class WorkoutActivity extends MapActivity {
 		statDuration.setNumber("0:00:00");
 		statCalorie.setNumber("0");
 		statDistance.setNumber("0.00");
-		progressBar.setProgress(0);
+		String goalRemain = null;
+		String initGoalValues = getString(R.string.INIT_GOALVALUES);
+		String goal = settingpref.getString(getString(R.string.KEY_TIMEGOAL), initGoalValues);
+		if(goal.equals(initGoalValues)) {
+			goal = settingpref.getString(getString(R.string.KEY_DISTANCEGOAL), initGoalValues);
+			float distance = Float.parseFloat(goal);
+			goalRemain = distanceToString(distance) + getUnit();
+		} else {
+			long duration = Long.parseLong(goal);
+			goalRemain = durationToString(duration);
+		}
+		progressBar.setProgress(0, "remain: "+goalRemain);
 	}
 
 	private void resetStatus(View v) {
@@ -337,17 +348,14 @@ public class WorkoutActivity extends MapActivity {
 	}
 
 	void updateDurationDisplay(long duration) { // seconds
-		final long seconds = duration % 60;
-		final long minutes = (duration / 60) % 60;
-		final long hours = (duration / 60) / 60;
-		WorkoutActivity.this.runOnUiThread(new Runnable() {
+		final String str = durationToString(duration);
+		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				statDuration.setNumber(String.format("%d:%02d:%02d", hours,
-						minutes, seconds));
+				statDuration.setNumber(str);
 			}
 		});
-		updateProgressDisplay(01, duration);
+		updateProgressDisplay(-1, duration);
 	}
 
 	void updateSpeedDisplay(double speed) {
@@ -380,15 +388,15 @@ public class WorkoutActivity extends MapActivity {
 		// AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
 	}
 
-	void updateDistanceDisplay(final double distance) {
+	void updateDistanceDisplay(double distance) {
+		if(getUnit().equals("Mile")) {
+			// TODO
+		}
+		final String str = distanceToString(distance);
 		WorkoutActivity.this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (getUnit().equals("Km")) {
-					statDistance.setNumber(String.format("%.2f", distance));
-				} else {
-					// TODO
-				}
+					statDistance.setNumber(str);
 			}
 		});
 		updateProgressDisplay(distance, -1);
@@ -396,19 +404,27 @@ public class WorkoutActivity extends MapActivity {
 
 	void updateProgressDisplay(double distance, double duration) {
 		float prog = 0.0f;
-		String keyTimeGoal = this.getResources().getString(R.string.KEY_TIMEGOAL);
-		String keyDistanceGoal = this.getResources().getString(R.string.KEY_DISTANCEGOAL);
-		String initGoalValues = this.getResources().getString(R.string.INIT_GOALVALUES);
+		String remain = null;
+		String keyTimeGoal = getString(R.string.KEY_TIMEGOAL);
+		String keyDistanceGoal = getString(R.string.KEY_DISTANCEGOAL);
+		String initGoalValues = getString(R.string.INIT_GOALVALUES);
 		if (settingpref.getString(keyTimeGoal, initGoalValues).equals("0")
 				&& distance > 0) {
 			float goal = Float.parseFloat(settingpref.getString(keyDistanceGoal, initGoalValues));
-			if (goal > 0) prog = (float) distance / goal;
+			if (goal > 0) {
+				prog = (float) distance / goal;
+			}
+			remain = String.format("%.2f %s", Math.max(0,goal-distance), getUnit());
 		} else if (duration > 0) {
 			float goal = Float.parseFloat(settingpref.getString(keyTimeGoal, initGoalValues));
-			if (goal > 0) prog = (float) duration / goal;
+			if (goal > 0) {
+				prog = (float) duration / goal;
+			}
+			int dt = Math.max(0, (int)(goal-duration+0.5));
+			remain = String.format("%d:%02d:%02d", dt/3600, (dt/60)%60, dt%60);
 		}
 		if (prog > 1.0f) prog = 1.0f;
-		progressBar.setProgress(prog * 100.0f);
+		progressBar.setProgress(prog*100.0f, "remain: "+remain);
 	}
 
 	void updateCaloriesDisplay(double calorie) {
@@ -419,6 +435,18 @@ public class WorkoutActivity extends MapActivity {
 				statCalorie.setNumber(s);
 			}
 		});
+	}
+
+	private String durationToString(long duration) {
+		long seconds = duration % 60;
+		long minutes = (duration / 60) % 60;
+		long hours = (duration / 60) / 60;
+		final String str = String.format("%d:%02d:%02d", hours,	minutes, seconds);
+		return str;
+	}
+
+	private String distanceToString(double distance) {
+		return String.format("%.2f", distance);
 	}
 
 	void gps2gmap(GeoPoint newgp) {
