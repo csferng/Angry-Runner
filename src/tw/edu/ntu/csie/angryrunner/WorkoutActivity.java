@@ -251,6 +251,7 @@ public class WorkoutActivity extends MapActivity {
 		speedChart.getDialView().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(statusHandler.isStateBeforeStart() == false) return;
 				String[] keys = new String[]{getString(R.string.KEY_PACEGOAL), getString(R.string.KEY_SPEEDGOAL)};
 				callGoalSetting(PaceActivity.class, 4, keys);
 			}
@@ -293,6 +294,7 @@ public class WorkoutActivity extends MapActivity {
 		statDuration.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(statusHandler.isStateBeforeStart() == false) return;
 				String[] keys = new String[]{getString(R.string.KEY_TIMEGOAL)};
 				callGoalSetting(TimeActivity.class, 2, keys);
 			}
@@ -300,6 +302,7 @@ public class WorkoutActivity extends MapActivity {
 		statDistance.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(statusHandler.isStateBeforeStart() == false) return;
 				String[] keys = new String[]{getString(R.string.KEY_DISTANCEGOAL)};
 				callGoalSetting(DistanceActivity.class, 3, keys);
 			}
