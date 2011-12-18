@@ -54,6 +54,7 @@ public class WorkoutActivity extends MapActivity {
 				.getWritableDatabase();
 		audioManager = (AudioManager) getApplicationContext().getSystemService(
 				AUDIO_SERVICE);
+		audioVariable = new AudioVariable();
 
 		LayoutInflater infla = getLayoutInflater();
 		pageViews = new ArrayList<View>();
@@ -170,8 +171,15 @@ public class WorkoutActivity extends MapActivity {
 			@Override
 			public void onClick(View v) {
 				if (statusHandler.isStateBeforeStart()) {
-					audioVariable = new AudioVariable(audioManager
+					audioVariable.setInitVolume(audioManager
 							.getStreamVolume(AudioManager.STREAM_MUSIC));
+					audioVariable.setGoalSpeed(Double.parseDouble(settingpref
+							.getString(
+									WorkoutActivity.this.getResources()
+											.getString(R.string.KEY_SPEEDGOAL),
+									WorkoutActivity.this
+											.getResources()
+											.getString(R.string.INIT_GOALVALUES))));
 					btWorkout.setEnabled(false);
 					int countdown = Integer.parseInt(settingpref.getString(
 							WorkoutActivity.this.getResources().getString(
@@ -310,27 +318,16 @@ public class WorkoutActivity extends MapActivity {
 	void updateSpeedDisplay(double speed) {
 		speedChart.setCurrentValue(speed);
 
-		double goalvalue = Double.parseDouble(settingpref.getString(this
-				.getResources().getString(R.string.KEY_SPEEDGOAL), this
-				.getResources().getString(R.string.INIT_GOALVALUES)));
-		double fastT = audioVariable.getTooFastThreshold();
-		double slowT = audioVariable.getTooSlowThreshold();
-		if (speed <= fastT * goalvalue && speed >= slowT * goalvalue) {
-			audioManager
-					.setStreamVolume(AudioManager.STREAM_MUSIC,
-							audioVariable.getInitVolume(),
-							AudioManager.FLAG_PLAY_SOUND);
-		} else if (speed > fastT * goalvalue) {
-			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
-			audioVariable.setTooFastThreshold(fastT + 0.1);
-			audioVariable.setTooSlowThreshold(fastT);
-		} else if (speed < slowT * goalvalue) {
-			audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
-			audioVariable.setTooSlowThreshold(slowT - 0.1);
-			audioVariable.setTooFastThreshold(slowT);
+		int newVolume = audioVariable.newVolume(speed);
+		if (newVolume != -1) {
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume,
+					AudioManager.FLAG_PLAY_SOUND);
 		}
+		// audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		// audioManager
+		// .setStreamVolume(AudioManager.STREAM_MUSIC,
+		// audioVariable.getInitVolume(),
+		// AudioManager.FLAG_PLAY_SOUND);
 		// audioManager.adjustVolume(AudioManager.ADJUST_RAISE,
 		// AudioManager.FLAG_PLAY_SOUND);
 		// audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
@@ -441,33 +438,49 @@ public class WorkoutActivity extends MapActivity {
 
 	class AudioVariable {
 		int initVolume;
-		double tooFastThreshold;
-		double tooSlowThreshold;
+		double goalSpeed;
 
-		public AudioVariable(int volume) {
-			initVolume = volume;
-			tooFastThreshold = 1.1;
-			tooSlowThreshold = 0.9;
+		public AudioVariable() {
 		}
 
-		double getTooFastThreshold() {
-			return tooFastThreshold;
+		int newVolume(double nowspeed) {
+			double speedratio = nowspeed / goalSpeed;
+			int nowVolume = audioManager
+					.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+			if (speedratio > 1) {
+				int quantize = (int) Math.floor((speedratio - 1) / 0.1);
+				int newv = initVolume - quantize;
+				if (newv < 0)
+					newv = 0;
+
+				if (newv != nowVolume)
+					return newv;
+			} else if (speedratio < 1) {
+				int quantize = (int) Math.floor((1 - speedratio) / 0.1);
+				int newv = initVolume + quantize;
+				int max = audioManager
+						.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+				if (newv > max)
+					newv = max;
+
+				if (newv != nowVolume)
+					return newv;
+			} else {
+				if (initVolume != nowVolume)
+					return initVolume;
+			}
+
+			return -1;
 		}
 
-		void setTooFastThreshold(double tooFastThreshold) {
-			this.tooFastThreshold = tooFastThreshold;
+		void setGoalSpeed(double goalSpeed) {
+			this.goalSpeed = goalSpeed;
 		}
 
-		double getTooSlowThreshold() {
-			return tooSlowThreshold;
+		void setInitVolume(int initVolume) {
+			this.initVolume = initVolume;
 		}
 
-		void setTooSlowThreshold(double tooSlowThreshold) {
-			this.tooSlowThreshold = tooSlowThreshold;
-		}
-
-		int getInitVolume() {
-			return initVolume;
-		}
 	}
 }

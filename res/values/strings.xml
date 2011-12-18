@@ -6,7 +6,7 @@
     <string name="NAME_SHAREDPREFERENCE">PREF_ANGRYRUNNER_SETTING</string><string name="NAME_DATABASETABLE">ARhistory</string><string name="KEY_WEIGHT">Weight</string>
     <string name="KEY_UNIT">Unit</string>
     <string name="KEY_MODE">Mode</string>
-    <string name="KEY_COUNTDOWN">Countdown</string>
+    <string name="KEY_COUNTDOWN">Countdown Before Start</string>
     <string name="KEY_SPEED">Speed</string><string name="KEY_PACE">Pace</string><string name="KEY_TIME">Time</string><string name="KEY_DISTANCE">Distance</string><string name="KEY_DURATION">Duration</string><string name="KEY_DATE">Date</string><string name="KEY_CALORIE">Calorie</string><string name="KEY_WEIGHTVALUE">WeightValue</string><string name="KEY_COUNTDOWNVALUE">CountdownValue</string><string name="KEY_SPEEDGOAL">SpeedGoal</string><string name="KEY_PACEGOAL">PaceGoal</string><string name="KEY_TIMEGOAL">TimeGoal</string><string name="KEY_DISTANCEGOAL">DistanceGoal</string><string name="INIT_WEIGHT">60 kg</string>
     <string name="INIT_UNIT">Kilometer</string>
     <string name="INIT_MODE">Walking</string>
