@@ -50,7 +50,7 @@ public class PaceActivity extends Activity {
         Speed = getSpeed(this.getIntent().getExtras());
         
         setTitle(this.getResources().getString(R.string.KEY_SPEED) 
-        		+ "/" + this.getResources().getString(R.string.KEY_PACE));
+        		+ " & " + this.getResources().getString(R.string.KEY_PACE));
         
         min_tv = (TextView)findViewById(R.id.minuteText);
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -81,7 +81,7 @@ public class PaceActivity extends Activity {
         	@Override
         	public void onClick(View v) {
         		
-        		Pace = setPace();
+        		Pace = calculatePace();
 //				settingPrefEdt.putString("Pace", Pace).commit();
         		Speed = calculateSpeed();
 //				settingPrefEdt.putString("Speed", Speed).commit();
@@ -129,7 +129,7 @@ public class PaceActivity extends Activity {
             	min.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curMinItemIndex));
             	min.setCurrentItem( curMinItemIndex );
                 
-                Pace = setPace();
+                Pace = calculatePace();
         		Speed = calculateSpeed();
         		speed_tv.setText("Speed:    "+f.format( Double.parseDouble(Speed) )+" m/s");
             }
@@ -149,7 +149,7 @@ public class PaceActivity extends Activity {
             	sec.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curSecItemIndex));
             	sec.setCurrentItem( curSecItemIndex );
                 
-                Pace = setPace();
+                Pace = calculatePace();
         		Speed = calculateSpeed();
         		speed_tv.setText("Speed:    "+f.format( Double.parseDouble(Speed) )+" m/s");
             }
@@ -180,8 +180,9 @@ public class PaceActivity extends Activity {
         	return "Km";
         }else if (str.equals("Mile")) {
         	return "Mile";
+        }else {
+        	return "Km";
         }
-        return "";
 	}
 
 	String getPace(Bundle bun){
@@ -192,11 +193,14 @@ public class PaceActivity extends Activity {
         */
 		String str = bun.getString(
 				this.getResources().getString(R.string.KEY_PACEGOAL));
+		if (str.equals("")) {
+			return this.getResources().getString(R.string.INIT_UNIT);
+		}
         Log.i("getPace()", str);
         return str;
 	}
 	
-	String setPace() {
+	String calculatePace() {
 		Integer sum = curMin*60 + curSec;
 		return sum.toString();
 	}
@@ -209,6 +213,9 @@ public class PaceActivity extends Activity {
         */
 		String str = bun.getString(
 				this.getResources().getString(R.string.KEY_SPEEDGOAL));
+		if (str.equals("")) {
+			return this.getResources().getString(R.string.INIT_UNIT);
+		}
         Log.i("getSpeed()", str);
         return str;
 	}

@@ -32,6 +32,21 @@ public class SpeedCalculator {
 			dx += MathUtil.distanceBetween(record.get(i-1).getLocation(), record.get(i).getLocation());
 		return dx * 1000 * 1000 / dt;
 	}
+	
+	public double getLastPeriodTime() {
+		int n = record.size();
+		if(n < 2) return 0;
+		else return (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000f;
+	}
+	
+	public double getLastPeriodSpeed() {
+		int n = record.size();
+		if(n < 2) return 0.0;
+		else {
+			double dt = (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000f;
+			return MathUtil.distanceBetween(record.get(n-1).getLocation(), record.get(n-2).getLocation()) / dt;
+		}
+	}
 
 	public static class TimeLocationPair {
 		private GeoPoint location;

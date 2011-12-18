@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -86,7 +87,12 @@ public class MusicActivity extends Activity {
         playlist_list.setAdapter(playListItemAdapter);
         getPlaylists();
     }
-    
+	
+    @Override
+    public void onBackPressed() {
+    	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);
+    }
+   
     //@Override
     //protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //	super.onActivityResult(requestCode, resultCode, data);

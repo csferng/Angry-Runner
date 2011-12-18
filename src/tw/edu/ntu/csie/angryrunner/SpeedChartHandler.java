@@ -50,7 +50,11 @@ public class SpeedChartHandler {
 	    animateThread.start();
 	}
 
-    public void setCurrentValue(double value) {
+    public GraphicalView getDialView() {
+		return dialView;
+	}
+
+	public void setCurrentValue(double value) {
     	animateThread.setGoal(value);
     }
     
