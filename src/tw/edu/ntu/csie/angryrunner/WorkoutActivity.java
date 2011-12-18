@@ -40,6 +40,7 @@ public class WorkoutActivity extends MapActivity {
 	StatusHandler statusHandler;
 	AudioManager audioManager;
 	AudioVariable audioVariable;
+	ARTimer timer;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,6 +56,7 @@ public class WorkoutActivity extends MapActivity {
 		audioManager = (AudioManager) getApplicationContext().getSystemService(
 				AUDIO_SERVICE);
 		audioVariable = new AudioVariable();
+		timer = new ARTimer();
 
 		LayoutInflater infla = getLayoutInflater();
 		pageViews = new ArrayList<View>();
@@ -193,8 +195,7 @@ public class WorkoutActivity extends MapActivity {
 					setCountdown(countdown);
 					if (countdown > 0) {
 						btStart.setClickable(false);
-						ARTimer timer = new ARTimer(countdown);
-						timer.start();
+						timer.start(countdown);
 					}
 				} else if (statusHandler.isStateWorking()) {
 					statusHandler.pause();
@@ -232,6 +233,13 @@ public class WorkoutActivity extends MapActivity {
 					it.setClass(WorkoutActivity.this, ResultActivity.class);
 					it.putExtras(bun);
 					startActivityForResult(it, 1);
+				}else{
+					if(timer.getCountdown() > 0){
+						timer.setStopped(true);
+						btStart.setText("Start");
+						btStart.setClickable(true);
+						btWorkout.setEnabled(true);
+					}
 				}
 			}
 		});
@@ -428,7 +436,7 @@ public class WorkoutActivity extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-
+	
 	void setCountdown(int nowcd) {
 		if (nowcd > 0) {
 			btStart.setText(nowcd + "");
@@ -441,15 +449,18 @@ public class WorkoutActivity extends MapActivity {
 
 	class ARTimer extends Timer {
 		int countdown;
+		boolean isStopped;
 
-		public ARTimer(int cd) {
-			countdown = cd;
+		public ARTimer() {
+			isStopped = false;
 		}
 
 		private TimerTask newTimerTask() {
 			return new TimerTask() {
 				@Override
 				public void run() {
+					if(isStopped)	return;
+					
 					--countdown;
 					WorkoutActivity.this.runOnUiThread(new Runnable() {
 						@Override
@@ -457,6 +468,7 @@ public class WorkoutActivity extends MapActivity {
 							setCountdown(countdown);
 						}
 					});
+					
 					if (countdown > 0) {
 						ARTimer.this.schedule(newTimerTask(), 1000);
 					}
@@ -464,9 +476,20 @@ public class WorkoutActivity extends MapActivity {
 			};
 		}
 
-		void start() {
+		void start(int cd) {
+			isStopped = false;
+			countdown = cd;
 			this.schedule(newTimerTask(), 1000);
 		}
+
+		void setStopped(boolean isStopped) {
+			this.isStopped = isStopped;
+		}
+
+		int getCountdown() {
+			return countdown;
+		}
+
 	}
 
 	class AudioVariable {
