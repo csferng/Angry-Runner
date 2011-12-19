@@ -24,7 +24,7 @@ public class MainActivity extends TabActivity {
         addTab("Main", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_test));
         addTab("Playlist", MusicActivity.class, res.getDrawable(R.drawable.icon_tab_test));
         addTab("History", HistoryActivity.class, res.getDrawable(R.drawable.icon_tab_test));
-        addTab("Setting", SettingActivity.class, res.getDrawable(R.drawable.icon_tab_test));
+        addTab("Setting", SettingActivity.class, res.getDrawable(R.drawable.icon_tab_setting));
         
     }
 
