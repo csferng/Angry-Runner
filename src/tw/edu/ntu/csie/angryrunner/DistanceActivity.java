@@ -1,8 +1,5 @@
 package tw.edu.ntu.csie.angryrunner;
 
-//import kankan.wheel.R;
-import java.text.DecimalFormat;
-
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -229,10 +226,10 @@ public class DistanceActivity extends Activity {
 	}
 
 	String doubleStringFormation(String target) {
-/*		while(target.charAt(target.length()-1)=='0')
+		while(target.charAt(target.length()-1)=='0')
 			target = target.substring(0, target.length()-1);
-		return target.charAt(target.length()-1)=='.' ? target.substring(0, target.length()-1) : target;*/
-		int pos = target.indexOf(".");
+		return target.charAt(target.length()-1)=='.' ? target.substring(0, target.length()-1) : target;
+/*		int pos = target.indexOf(".");
 		Double d0 = Double.parseDouble(target.substring(0, pos));
 		Double d1 = Double.parseDouble(target.substring(0, pos+2));
 		Double d2 = Double.parseDouble(target.substring(0, pos+3));
@@ -242,31 +239,15 @@ public class DistanceActivity extends Activity {
 			return target.substring(0, pos+2);
 		}else {
 			return target;
-		}
+		}*/
 	}
 	
-	int findIndex(String s) {
-		for (int i = 0; i < dpoints.length; ++i) {
-			if (dpoints[i].equals(s)) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	void initWheelValueIndex() {
 		Log.i("wheel-d", Distance);
-		int pos = Distance.indexOf(".");
-		int distance = 0;
-		
-		if (pos == -1) {
-			curUnitItemIndex = 0;
-			distance = Integer.parseInt(Distance);
-		}else {
-			curUnitItemIndex = findIndex(Distance.substring(pos));
-			distance = Integer.parseInt(Distance.substring(0, pos));
-		}
-		
+		Double value = Double.parseDouble(Distance);
+		int distance = value.intValue();
+		double dec = value.doubleValue() - distance;
+		curUnitItemIndex = (int)(dec*20+0.5);
 		curDecItemIndex = distance%10;
 		curCenItemIndex = distance/10;
 	}

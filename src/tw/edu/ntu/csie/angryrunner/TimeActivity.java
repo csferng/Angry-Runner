@@ -61,16 +61,12 @@ public class TimeActivity extends Activity {
         	public void onClick(View v) {
 
         		String target = "";
-        		int mins = 0;
-        		
         		if (curHour != 0) {
         			target += new Integer(curHour).toString()+" hr ";
-        			mins += (curHour * 60);
         		}
         		
         		if (curMin != 0) {
         			target += new Integer(curMin).toString()+" min ";
-        			mins += curMin;
         		}
         		
         		Time = calculateTime();
@@ -132,7 +128,7 @@ public class TimeActivity extends Activity {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 //updateDays(year, month, day);
             	curMinItemIndex = min.getCurrentItem();
-            	curMin = Integer.parseInt( hours[curMinItemIndex] );
+            	curMin = Integer.parseInt( ms[curMinItemIndex] );
             	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMinItemIndex));
             	min.setCurrentItem(curMinItemIndex);
             	Time = calculateTime();
@@ -140,7 +136,7 @@ public class TimeActivity extends Activity {
         };
         
         //curMinItemIndex = 0;
-    	curMin = Integer.parseInt( hours[curMinItemIndex] );
+    	curMin = Integer.parseInt( ms[curMinItemIndex] );
     	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMinItemIndex));
     	min.setCurrentItem(curMinItemIndex);
         min.addChangingListener(minListener);
