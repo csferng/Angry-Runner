@@ -39,27 +39,20 @@ public class ProgressBarView extends View {
 		super.onDraw(canvas);
 		Rect rect = new Rect();
 		float x = ((width-1)*progress) / 100.0f;
-		String sProgress = String.format("%.0f%%", Math.floor(progress));
-		
 		Paint paint = new Paint();
-		paint.getTextBounds(remain, 0, remain.length(), rect);
-		float tw = Math.abs(rect.right-rect.left);
+		paint.getTextBounds("M", 0, "M".length(), rect);
+		float tw = Math.abs(rect.right-rect.left) * 11;
 		float th = Math.abs(rect.bottom-rect.top);
-		//float scale = Math.min(((height-1)/2f)/th, (width-2)/tw);
-		float scale = Math.max(1, Math.min((width-2)/tw, (height-1)/2f/th));
+		float scale = Math.min(((height-1)/2f)/th, (width-2)/tw);
 		float h1 = th*scale + 1;
 		float h2 = (h1*2+height-2)/3f;
 		float d = (progress>=50) ? (h1-h2) : (h2-h1);
 		float pts[] = new float[]{x, h2, x+d, h2, x+d, h2, x, h1};
-		paint.getTextBounds(sProgress, 0, sProgress.length(), rect);
-		//float halfw = Math.abs(rect.right-rect.left)*scale / 2.0f;
-		//float x2 = Math.min(Math.max(x, halfw), width-halfw);
 
 		paint.setTextSize(paint.getTextSize()*scale);
 		paint.setTextAlign(Paint.Align.LEFT);
 		paint.setColor(Color.WHITE);
 		canvas.drawText(remain, 0, th*scale, paint);
-		//canvas.drawText(sProgress, x2, th*scale, paint);
 		paint.setColor(Color.GREEN);
 		canvas.drawLine(0, height-1, width-1, height-1, paint);
 		paint.setColor(Color.RED);
