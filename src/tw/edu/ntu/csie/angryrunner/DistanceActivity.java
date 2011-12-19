@@ -154,6 +154,7 @@ public class DistanceActivity extends Activity {
             	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, dpoints, curUnitItemIndex));
             	unit.setCurrentItem( curUnitItemIndex );
             	Distance = calculateDistance();
+            	Log.i("on change", String.format("idx %d val %.2f str %s", curUnitItemIndex, curUnit, Distance));
             }
         };
         
@@ -228,8 +229,11 @@ public class DistanceActivity extends Activity {
 	}
 
 	String doubleStringFormation(String target) {
+/*		while(target.charAt(target.length()-1)=='0')
+			target = target.substring(0, target.length()-1);
+		return target.charAt(target.length()-1)=='.' ? target.substring(0, target.length()-1) : target;*/
 		int pos = target.indexOf(".");
-		Double d0 = Double.parseDouble(target);
+		Double d0 = Double.parseDouble(target.substring(0, pos));
 		Double d1 = Double.parseDouble(target.substring(0, pos+2));
 		Double d2 = Double.parseDouble(target.substring(0, pos+3));
 		if ( d0.equals(d1) && d0.equals(d2)) {

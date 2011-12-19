@@ -45,7 +45,8 @@ public class ProgressBarView extends View {
 		paint.getTextBounds(remain, 0, remain.length(), rect);
 		float tw = Math.abs(rect.right-rect.left);
 		float th = Math.abs(rect.bottom-rect.top);
-		float scale = Math.min(((height-1)/2f)/th, (width-2)/tw);
+		//float scale = Math.min(((height-1)/2f)/th, (width-2)/tw);
+		float scale = Math.max(1, Math.min((width-2)/tw, (height-1)/2f/th));
 		float h1 = th*scale + 1;
 		float h2 = (h1*2+height-2)/3f;
 		float d = (progress>=50) ? (h1-h2) : (h2-h1);

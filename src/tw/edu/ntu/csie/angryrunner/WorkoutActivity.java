@@ -413,20 +413,21 @@ public class WorkoutActivity extends MapActivity {
 		String keyTimeGoal = getString(R.string.KEY_TIMEGOAL);
 		String keyDistanceGoal = getString(R.string.KEY_DISTANCEGOAL);
 		String initGoalValues = getString(R.string.INIT_GOALVALUES);
-		if (settingpref.getString(keyTimeGoal, initGoalValues).equals("0")
-				&& distance > 0) {
+		if (settingpref.getString(keyTimeGoal, initGoalValues).equals(initGoalValues)) {
+			if (distance < 0) return;
 			float goal = Float.parseFloat(settingpref.getString(keyDistanceGoal, initGoalValues));
 			if (goal > 0) {
 				prog = (float) distance / goal;
 			}
-			remain = String.format("%.2f %s", Math.max(0,goal-distance), getUnit());
-		} else if (duration > 0) {
+			remain = distanceToString(Math.max(0, goal-distance)) + getUnit();
+		} else {
+			if (duration < 0) return;
 			float goal = Float.parseFloat(settingpref.getString(keyTimeGoal, initGoalValues));
 			if (goal > 0) {
 				prog = (float) duration / goal;
 			}
 			int dt = Math.max(0, (int)(goal-duration+0.5));
-			remain = String.format("%d:%02d:%02d", dt/3600, (dt/60)%60, dt%60);
+			remain = durationToString(dt);
 		}
 		if (prog > 1.0f) prog = 1.0f;
 		progressBar.setProgress(prog*100.0f, "remain: "+remain);
