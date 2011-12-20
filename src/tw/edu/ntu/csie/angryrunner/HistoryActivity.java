@@ -53,7 +53,19 @@ public class HistoryActivity extends Activity {
 		if(historyCursor.isBeforeFirst())	historyCursor.moveToNext();
 		while (!historyCursor.isAfterLast()) {
 			HashMap<String, Object> tmpitem = new HashMap<String, Object>();
-			tmpitem.put(DatabaseTableColumn[0], R.drawable.ic_launcher);
+			
+			String mode = historyCursor.getString(0);
+			if(mode.equals("Walking")){
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.walking_v5);
+			}else if(mode.equals("Running")){
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.running_v5);
+			}else if(mode.equals("Cycling")){
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.cycling_v5);
+			}else{
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.ic_launcher);
+			}
+			
+			//tmpitem.put(DatabaseTableColumn[0], R.drawable.walking_v5);
 			tmpitem.put(DatabaseTableColumn[1], historyCursor.getString(1));
 			tmpitem.put(DatabaseTableColumn[2], historyCursor.getString(2));
 			tmpitem.put(DatabaseTableColumn[3], historyCursor.getString(3));
