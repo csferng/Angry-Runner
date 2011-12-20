@@ -30,6 +30,7 @@
     <string name="INIT_WEIGHTVALUE">60</string>
     <string name="INIT_COUNTDOWNVALUE">0</string>
     <string name="INIT_GOALVALUES">0</string>
+    <string name="KEY_PLAYLISTID">PlaylistID</string>
     
     
 </resources>
