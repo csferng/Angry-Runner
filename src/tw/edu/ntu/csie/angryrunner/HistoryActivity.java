@@ -70,7 +70,7 @@ public class HistoryActivity extends Activity {
 			tmpitem.put(DatabaseTableColumn[2], historyCursor.getString(2));
 			tmpitem.put(DatabaseTableColumn[3], historyCursor.getString(3));
 			tmpitem.put(DatabaseTableColumn[4], historyCursor.getString(4));
-			historyItems.add(tmpitem);
+			historyItems.add(0, tmpitem);
 			
 			historyCursor.moveToNext();
 		}
