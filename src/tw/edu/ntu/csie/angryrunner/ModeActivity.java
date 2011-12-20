@@ -12,7 +12,8 @@ import android.widget.ListView;
 public class ModeActivity extends Activity {
 	ListView modelist;
 	ArrayAdapter<String> modeAdapter;
-	String[] modes = {"Walking", "Running", "Cycling", "Other"};
+	//String[] modes = {"Walking", "Running", "Cycling", "Other"};
+	String[] modes = {"Walking", "Running", "Cycling"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
