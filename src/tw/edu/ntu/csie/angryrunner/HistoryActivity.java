@@ -22,12 +22,13 @@ public class HistoryActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
+		//setTitle("History " + getString(R.string.TITLE));
 
-		DatabaseTableColumn[0] = this.getResources().getString(R.string.KEY_MODE);
-		DatabaseTableColumn[1] = this.getResources().getString(R.string.KEY_DATE);
-		DatabaseTableColumn[2] = this.getResources().getString(R.string.KEY_DISTANCE);
-		DatabaseTableColumn[3] = this.getResources().getString(R.string.KEY_DURATION);
-		DatabaseTableColumn[4] = this.getResources().getString(R.string.KEY_SPEED);
+		DatabaseTableColumn[0] = getString(R.string.KEY_MODE);
+		DatabaseTableColumn[1] = getString(R.string.KEY_DATE);
+		DatabaseTableColumn[2] = getString(R.string.KEY_DISTANCE);
+		DatabaseTableColumn[3] = getString(R.string.KEY_DURATION);
+		DatabaseTableColumn[4] = getString(R.string.KEY_SPEED);
 		
 		historylist = (ListView) findViewById(R.id.listView1);
 		historydb = (new HistoryDatabaseHandler(HistoryActivity.this)).getWritableDatabase();
@@ -48,7 +49,7 @@ public class HistoryActivity extends Activity {
 		
 		historyItems.clear();
 		historyCursor = historydb.query(
-				this.getResources().getString(R.string.NAME_DATABASETABLE), 
+				getString(R.string.NAME_DATABASETABLE), 
 				null, null, null, null, null, null);
 		if(historyCursor.isBeforeFirst())	historyCursor.moveToNext();
 		while (!historyCursor.isAfterLast()) {

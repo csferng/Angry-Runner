@@ -18,6 +18,7 @@ public class ModeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mode);
+		setTitle(getString(R.string.KEY_MODE) + " " + getString(R.string.TITLE));
 		
 		modelist = (ListView) findViewById(R.id.listView1);
 		

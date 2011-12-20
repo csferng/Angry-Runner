@@ -34,13 +34,13 @@ public class TimeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time);
+        setTitle(getString(R.string.KEY_TIME) + " " + getString(R.string.TITLE));
         
         settingPref = getSharedPreferences(
-        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
-        
-        setTitle(this.getResources().getString(R.string.KEY_TIME));
+                
         Time = getTime(this.getIntent().getExtras());
         
         hour_tv = (TextView)findViewById(R.id.hourText);
@@ -76,7 +76,7 @@ public class TimeActivity extends Activity {
 				Bundle bun = new Bundle();
 				bun.putString("display", target);
 				bun.putString(
-						TimeActivity.this.getResources().getString(R.string.KEY_TIMEGOAL), 
+						getString(R.string.KEY_TIMEGOAL), 
 						Time);
 				it.putExtras(bun);
 				
@@ -154,7 +154,7 @@ public class TimeActivity extends Activity {
 	
 	String getTime(Bundle bun) {
 		String str = bun.getString(
-			this.getResources().getString(R.string.KEY_TIMEGOAL));
+			getString(R.string.KEY_TIMEGOAL));
 		if (str.equals("")) {
 			return "0";
 		}

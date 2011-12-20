@@ -31,24 +31,25 @@ public class WorkoutSettingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.workout_setting);
+		setTitle("Goal Setting " + getString(R.string.TITLE));
 		
-		workoutsettings[0] = this.getResources().getString(R.string.KEY_MODE);
-		workoutsettings[1] = this.getResources().getString(R.string.KEY_SPEED);
-		workoutsettings[2] = this.getResources().getString(R.string.KEY_TIME);
-		workoutsettings[3] = this.getResources().getString(R.string.KEY_DISTANCE);
-		inits[0] = this.getResources().getString(R.string.INIT_MODE);
+		workoutsettings[0] = getString(R.string.KEY_MODE);
+		workoutsettings[1] = getString(R.string.KEY_SPEED);
+		workoutsettings[2] = getString(R.string.KEY_TIME);
+		workoutsettings[3] = getString(R.string.KEY_DISTANCE);
+		inits[0] = getString(R.string.INIT_MODE);
 		inits[1] = ""; inits[2] = ""; inits[3] = "";
-		goalsettings[0] = this.getResources().getString(R.string.KEY_PACEGOAL);
-		goalsettings[1] = this.getResources().getString(R.string.KEY_SPEEDGOAL);
-		goalsettings[2] = this.getResources().getString(R.string.KEY_TIMEGOAL);
-		goalsettings[3] = this.getResources().getString(R.string.KEY_DISTANCEGOAL);
-		goalinit = this.getResources().getString(R.string.INIT_GOALVALUES);
+		goalsettings[0] = getString(R.string.KEY_PACEGOAL);
+		goalsettings[1] = getString(R.string.KEY_SPEEDGOAL);
+		goalsettings[2] = getString(R.string.KEY_TIMEGOAL);
+		goalsettings[3] = getString(R.string.KEY_DISTANCEGOAL);
+		goalinit = getString(R.string.INIT_GOALVALUES);
 		
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
 		bt_cancel = (Button) findViewById(R.id.btCancel);
 		settingPref = getSharedPreferences(
-				this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+				getString(R.string.NAME_SHAREDPREFERENCE), 
 				MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
 		
@@ -56,7 +57,7 @@ public class WorkoutSettingActivity extends Activity {
 			HashMap<String,String> tmphm = new HashMap<String,String>();
 			if(i == 1){
 				tmphm.put("name", workoutsettings[1] + " & " + 
-						this.getResources().getString(R.string.KEY_PACE));
+						getString(R.string.KEY_PACE));
 			}else{
 				tmphm.put("name", workoutsettings[i]);
 			}

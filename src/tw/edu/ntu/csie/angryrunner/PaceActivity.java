@@ -37,20 +37,19 @@ public class PaceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pace);
+        setTitle(getString(R.string.KEY_SPEED) + " & " + getString(R.string.KEY_PACE)
+        		+ " " + getString(R.string.TITLE));
 
         final DecimalFormat f = new DecimalFormat("0000.00");
 
         settingPref = getSharedPreferences(
-        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         Unit = getUnit();
         Pace = getPace(this.getIntent().getExtras());
         Speed = getSpeed(this.getIntent().getExtras());
-        
-        setTitle(this.getResources().getString(R.string.KEY_SPEED) 
-        		+ " & " + this.getResources().getString(R.string.KEY_PACE));
         
         min_tv = (TextView)findViewById(R.id.minuteText);
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -90,10 +89,10 @@ public class PaceActivity extends Activity {
 				Bundle bun = new Bundle();
 				//bun.putString("value", Speed);
 				bun.putString(
-						PaceActivity.this.getResources().getString(R.string.KEY_PACEGOAL), 
+						getString(R.string.KEY_PACEGOAL), 
 						Pace);
 				bun.putString(
-						PaceActivity.this.getResources().getString(R.string.KEY_SPEEDGOAL), 
+						getString(R.string.KEY_SPEEDGOAL), 
 						Speed);
 				bun.putString("display", Speed + " m/s" + " & " + Pace + " s/" + Unit);
 				it.putExtras(bun);
@@ -174,8 +173,8 @@ public class PaceActivity extends Activity {
 	
 	String getUnit(){
         String str = settingPref.getString(
-        		this.getResources().getString(R.string.KEY_UNIT), 
-        		this.getResources().getString(R.string.INIT_UNIT));
+        		getString(R.string.KEY_UNIT), 
+        		getString(R.string.INIT_UNIT));
         if (str.equals("Kilometer")) {
         	return "Km";
         }else if (str.equals("Mile")) {
@@ -186,15 +185,10 @@ public class PaceActivity extends Activity {
 	}
 
 	String getPace(Bundle bun){
-		/*
-        String str = settingPref.getString(
-        		this.getResources().getString(R.string.KEY_PACE), 
-        		this.getResources().getString(R.string.INIT_GOALVALUES));
-        */
 		String str = bun.getString(
-				this.getResources().getString(R.string.KEY_PACEGOAL));
+				getString(R.string.KEY_PACEGOAL));
 		if (str.equals("")) {
-			return this.getResources().getString(R.string.INIT_UNIT);
+			return getString(R.string.INIT_UNIT);
 		}
         Log.i("getPace()", str);
         return str;
@@ -206,15 +200,10 @@ public class PaceActivity extends Activity {
 	}
 
 	String getSpeed(Bundle bun){
-		/*
-        String str = settingPref.getString(
-        		this.getResources().getString(R.string.KEY_SPEEDGOAL), 
-        		this.getResources().getString(R.string.INIT_GOALVALUES));
-        */
 		String str = bun.getString(
-				this.getResources().getString(R.string.KEY_SPEEDGOAL));
+				getString(R.string.KEY_SPEEDGOAL));
 		if (str.equals("")) {
-			return this.getResources().getString(R.string.INIT_UNIT);
+			return getString(R.string.INIT_UNIT);
 		}
         Log.i("getSpeed()", str);
         return str;

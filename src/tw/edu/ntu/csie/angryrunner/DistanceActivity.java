@@ -36,18 +36,16 @@ public class DistanceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distance);
+        setTitle(getString(R.string.KEY_DISTANCE) + " " + getString(R.string.TITLE));
 
         settingPref = getSharedPreferences(
-        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         Unit = getUnit();
         Distance = getDistance(this.getIntent().getExtras());
-        Log.i("Distance", Distance);
-        
-        setTitle(this.getResources().getString(R.string.KEY_DISTANCE));
-        
+        Log.i("Distance", Distance);        
         
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -73,7 +71,7 @@ public class DistanceActivity extends Activity {
 				Bundle bun = new Bundle();
 				Log.i("d-value", Distance);
 				bun.putString(
-						DistanceActivity.this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
+						getString(R.string.KEY_DISTANCEGOAL), 
 						Distance);
 				Log.i("d-display", Distance+" "+Unit);
 				bun.putString("display", Distance+" "+Unit);
@@ -188,8 +186,8 @@ public class DistanceActivity extends Activity {
 	}
 	String getUnit(){
         String str = settingPref.getString(
-        		this.getResources().getString(R.string.KEY_UNIT), 
-        		this.getResources().getString(R.string.INIT_UNIT));
+        		getString(R.string.KEY_UNIT), 
+        		getString(R.string.INIT_UNIT));
         if (str.equals("Kilometer")) {
         	return "Km";
         }else if (str.equals("Mile")) {
@@ -200,15 +198,10 @@ public class DistanceActivity extends Activity {
 	}
 	
 	String getDistance(Bundle bun){
-		/*
-        String str = settingPref.getString(
-        		this.getResources().getString(R.string.KEY_DISTANCEGOAL), 
-        		this.getResources().getString(R.string.INIT_GOALVALUES));
-        */
 		String str = bun.getString(
-				this.getResources().getString(R.string.KEY_DISTANCEGOAL));
+				getString(R.string.KEY_DISTANCEGOAL));
 		if (str.equals("")) {
-			return this.getResources().getString(R.string.INIT_UNIT);
+			return getString(R.string.INIT_UNIT);
 		}
         Log.i("getDistance()", str);
         

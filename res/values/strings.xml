@@ -3,6 +3,7 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">AngryRunner</string>
+    <string name="TITLE">- AngryRunner</string>
     <string name="NAME_SHAREDPREFERENCE">PREF_ANGRYRUNNER_SETTING</string>
     <string name="NAME_DATABASETABLE">ARhistory</string>
     <string name="KEY_WEIGHT">Weight</string>
@@ -29,5 +30,6 @@
     <string name="INIT_WEIGHTVALUE">60</string>
     <string name="INIT_COUNTDOWNVALUE">0</string>
     <string name="INIT_GOALVALUES">0</string>
+    
     
 </resources>
