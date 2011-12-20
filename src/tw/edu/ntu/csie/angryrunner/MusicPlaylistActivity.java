@@ -138,7 +138,13 @@ public class MusicPlaylistActivity extends Activity {
 	}
 	
 	private ArrayList<String> getPaths() {
-		ArrayList<String> paths = new ArrayList<String>( Arrays.asList(allSongs) );
+		//ArrayList<String> paths = new ArrayList<String>( Arrays.asList(allSongs) );
+		ArrayList<String> paths = new ArrayList<String>();
+		for (int i = 0; i < checkBoxState.length; ++i) {
+			if ( checkBoxState[i] == true ) {
+				paths.add(allSongs[i]);
+			}
+		}
 		return paths;
 	}
 	
