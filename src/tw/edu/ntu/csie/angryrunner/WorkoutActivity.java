@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
@@ -77,6 +78,8 @@ public class WorkoutActivity extends MapActivity {
 
 		gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
 		gpsH = new GpsHandler(this);
+		//ImageView iv = (ImageView) findViewById(R.id.imageView1);
+		//iv.setImageResource(R.drawable.icon_tab_history_selected);
 
 		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref);
 
@@ -519,6 +522,8 @@ public class WorkoutActivity extends MapActivity {
 		}
 
 		int newVolume(double nowspeed) {
+			if(goalSpeed == 0.0)	return -1;
+			
 			double speedratio = nowspeed / goalSpeed;
 			int nowVolume = audioManager
 					.getStreamVolume(AudioManager.STREAM_MUSIC);
