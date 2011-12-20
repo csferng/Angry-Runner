@@ -57,11 +57,11 @@ public class HistoryActivity extends Activity {
 			
 			String mode = historyCursor.getString(0);
 			if(mode.equals("Walking")){
-				tmpitem.put(DatabaseTableColumn[0], R.drawable.walking_v5);
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_walking);
 			}else if(mode.equals("Running")){
-				tmpitem.put(DatabaseTableColumn[0], R.drawable.running_v5);
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_running);
 			}else if(mode.equals("Cycling")){
-				tmpitem.put(DatabaseTableColumn[0], R.drawable.cycling_v5);
+				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_cycling);
 			}else{
 				tmpitem.put(DatabaseTableColumn[0], R.drawable.ic_launcher);
 			}
