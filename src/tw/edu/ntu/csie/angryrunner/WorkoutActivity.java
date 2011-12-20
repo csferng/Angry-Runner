@@ -49,7 +49,7 @@ public class WorkoutActivity extends MapActivity {
 		setContentView(R.layout.page_view);
 
 		settingpref = getSharedPreferences(
-				this.getResources().getString(R.string.NAME_SHAREDPREFERENCE),
+				getString(R.string.NAME_SHAREDPREFERENCE),
 				MODE_PRIVATE);
 		historydb = (new HistoryDatabaseHandler(WorkoutActivity.this))
 				.getWritableDatabase();
@@ -110,16 +110,12 @@ public class WorkoutActivity extends MapActivity {
 
 	private void saveHistory(Bundle bundle) {
 		String[] dbTableColumn = new String[5];
-		dbTableColumn[0] = this.getResources().getString(R.string.KEY_MODE);
-		dbTableColumn[1] = this.getResources().getString(R.string.KEY_DATE);
-		dbTableColumn[2] = this.getResources().getString(
-				R.string.KEY_DISTANCE);
-		dbTableColumn[3] = this.getResources().getString(
-				R.string.KEY_DURATION);
-		dbTableColumn[4] = this.getResources()
-				.getString(R.string.KEY_SPEED);
-		String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(
-				new Date());
+		dbTableColumn[0] = getString(R.string.KEY_MODE);
+		dbTableColumn[1] = getString(R.string.KEY_DATE);
+		dbTableColumn[2] = getString(R.string.KEY_DISTANCE);
+		dbTableColumn[3] = getString(R.string.KEY_DURATION);
+		dbTableColumn[4] = getString(R.string.KEY_SPEED);
+		String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date());
 
 		ContentValues record = new ContentValues();
 		record.put(dbTableColumn[0], bundle.getString(dbTableColumn[0]));
@@ -163,8 +159,8 @@ public class WorkoutActivity extends MapActivity {
 	private void initMode(View v) {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
 		tvMode.setText(settingpref.getString(
-				this.getResources().getString(R.string.KEY_MODE), this
-						.getResources().getString(R.string.INIT_MODE)));
+				getString(R.string.KEY_MODE), 
+				getString(R.string.INIT_MODE)));
 	}
 
 	private void initButtons(View v) {
@@ -181,17 +177,12 @@ public class WorkoutActivity extends MapActivity {
 							.getStreamVolume(AudioManager.STREAM_MUSIC));
 					audioVariable.setGoalSpeed(Double.parseDouble(settingpref
 							.getString(
-									WorkoutActivity.this.getResources()
-											.getString(R.string.KEY_SPEEDGOAL),
-									WorkoutActivity.this
-											.getResources()
-											.getString(R.string.INIT_GOALVALUES))));
+									getString(R.string.KEY_SPEEDGOAL),
+									getString(R.string.INIT_GOALVALUES))));
 					btWorkout.setEnabled(false);
 					int countdown = Integer.parseInt(settingpref.getString(
-							WorkoutActivity.this.getResources().getString(
-									R.string.KEY_COUNTDOWNVALUE),
-							WorkoutActivity.this.getResources().getString(
-									R.string.INIT_COUNTDOWNVALUE)));
+							getString(R.string.KEY_COUNTDOWNVALUE),
+							getString(R.string.INIT_COUNTDOWNVALUE)));
 					setCountdown(countdown);
 					if (countdown > 0) {
 						btStart.setClickable(false);
@@ -219,12 +210,10 @@ public class WorkoutActivity extends MapActivity {
 			public void onClick(View v) {
 				if (!statusHandler.isStateBeforeStart()) {
 					Bundle bun = statusHandler.stop();
-					bun.putString(WorkoutActivity.this.getResources()
-							.getString(R.string.KEY_MODE), settingpref
-							.getString(WorkoutActivity.this.getResources()
-									.getString(R.string.KEY_MODE),
-									WorkoutActivity.this.getResources()
-											.getString(R.string.INIT_MODE)));
+					bun.putString(getString(R.string.KEY_MODE), 
+							settingpref.getString(
+									getString(R.string.KEY_MODE),
+									getString(R.string.INIT_MODE)));
 					btStart.setText("Start");
 					zeroStatus();
 					btWorkout.setEnabled(true);
@@ -301,8 +290,8 @@ public class WorkoutActivity extends MapActivity {
 		StatusItemLayout statMinor = (StatusItemLayout) v
 				.findViewById(R.id.statMinor);
 		if (settingpref.getString(
-				this.getResources().getString(R.string.KEY_TIMEGOAL),
-				this.getResources().getString(R.string.INIT_GOALVALUES))
+				getString(R.string.KEY_TIMEGOAL),
+				getString(R.string.INIT_GOALVALUES))
 				.equals("0")) {
 			statDistance = statMajor;
 			statDuration = statMinor;
@@ -338,8 +327,7 @@ public class WorkoutActivity extends MapActivity {
 
 	private String getUnit() {
 		String nowUnit = settingpref.getString(
-				this.getResources().getString(R.string.KEY_UNIT), this
-						.getResources().getString(R.string.INIT_UNIT));
+				getString(R.string.KEY_UNIT), getString(R.string.INIT_UNIT));
 		if (nowUnit.equals("Kilometer"))
 			return "Km";
 		else
@@ -350,8 +338,7 @@ public class WorkoutActivity extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		String mode = settingpref.getString(
-				this.getResources().getString(R.string.KEY_MODE), this
-						.getResources().getString(R.string.INIT_MODE));
+				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE));
 		tvMode.setText(mode);
 		statDistance.setUnit(getUnit());
 		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));

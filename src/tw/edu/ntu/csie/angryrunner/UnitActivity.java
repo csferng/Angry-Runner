@@ -18,6 +18,7 @@ public class UnitActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.unit);
+		setTitle(getString(R.string.KEY_UNIT) + " " + getString(R.string.TITLE));
 		
 		unitlist = (ListView) findViewById(R.id.listView1);
 		

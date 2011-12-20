@@ -38,18 +38,18 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         
-        settings[0] = this.getResources().getString(R.string.KEY_WEIGHT);
-        settings[1] = this.getResources().getString(R.string.KEY_UNIT);
-        settings[2] = this.getResources().getString(R.string.KEY_MODE);
-        settings[3] = this.getResources().getString(R.string.KEY_COUNTDOWN);
-        inits[0] = this.getResources().getString(R.string.INIT_WEIGHT);
-        inits[1] = this.getResources().getString(R.string.INIT_UNIT);
-        inits[2] = this.getResources().getString(R.string.INIT_MODE);
-        inits[3] = this.getResources().getString(R.string.INIT_COUNTDOWN);
+        settings[0] = getString(R.string.KEY_WEIGHT);
+        settings[1] = getString(R.string.KEY_UNIT);
+        settings[2] = getString(R.string.KEY_MODE);
+        settings[3] = getString(R.string.KEY_COUNTDOWN);
+        inits[0] = getString(R.string.INIT_WEIGHT);
+        inits[1] = getString(R.string.INIT_UNIT);
+        inits[2] = getString(R.string.INIT_MODE);
+        inits[3] = getString(R.string.INIT_COUNTDOWN);
         
         settinglist = (ListView) findViewById(R.id.listView1);
         settingPref = getSharedPreferences(
-        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
@@ -108,11 +108,11 @@ public class SettingActivity extends Activity {
     		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
     		if(requestCode == 0){
     			settingPrefEdt.putString(
-    					this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
+    					getString(R.string.KEY_WEIGHTVALUE), 
     					data.getExtras().getString("value"));
     		}else if(requestCode == 3){
     			settingPrefEdt.putString(
-    					this.getResources().getString(R.string.KEY_COUNTDOWNVALUE), 
+    					getString(R.string.KEY_COUNTDOWNVALUE), 
     					data.getExtras().getString("value"));
     		}
     		settingPrefEdt.commit();

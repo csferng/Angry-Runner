@@ -36,14 +36,14 @@ public class WeightActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight);
+        setTitle(getString(R.string.KEY_WEIGHT) + " " + getString(R.string.TITLE));
 
         settingPref = getSharedPreferences(
-        		this.getResources().getString(R.string.NAME_SHAREDPREFERENCE), 
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         settingPrefEdt = settingPref.edit();
         
         Weight = getWeight();
-        //setTitle(this.getResources().getString(R.string.KEY_WEIGHT));
         
         dec_tv = (TextView)findViewById(R.id.minuteText);
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -61,9 +61,6 @@ public class WeightActivity extends Activity {
         		
         		//int sum = curCen*100 + curDec*10 + curUnit;
         		Weight = calculateWeight();
-        		//settingPrefEdt.putString(
-        		//		WeightActivity.this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
-        		//		Weight).commit();
         		
         		String target = Weight+" Kg";
         		
@@ -164,10 +161,10 @@ public class WeightActivity extends Activity {
 	
 	String getWeight() {
 		String str = settingPref.getString(
-				this.getResources().getString(R.string.KEY_WEIGHTVALUE), 
-				this.getResources().getString(R.string.INIT_WEIGHTVALUE));
+				getString(R.string.KEY_WEIGHTVALUE), 
+				getString(R.string.INIT_WEIGHTVALUE));
         if (str.equals("")) {
-			return this.getResources().getString(R.string.INIT_WEIGHTVALUE);
+			return getString(R.string.INIT_WEIGHTVALUE);
 		}
         Log.i("getWeight()", str);
         
