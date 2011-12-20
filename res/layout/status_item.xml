@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text=""
+        android:text="Type"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text=""
+        android:text="unit"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tvUnit"
-        android:text=""
+        android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge" android:lines="1"/>
 
     

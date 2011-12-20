@@ -18,6 +18,7 @@ public class ProgressBarView extends View {
 	public ProgressBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		progress = 0;
+		remain = "";
 	}
 	
 	@Override
