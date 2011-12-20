@@ -382,7 +382,7 @@ public class WorkoutActivity extends MapActivity {
 
 	void updateDistanceDisplay(double distance) {
 		if(getUnit().equals("Mile")) {
-			// TODO
+			distance *= 0.62137;
 		}
 		final String str = distanceToString(distance);
 		WorkoutActivity.this.runOnUiThread(new Runnable() {

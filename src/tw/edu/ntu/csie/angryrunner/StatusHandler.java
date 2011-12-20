@@ -73,9 +73,16 @@ public class StatusHandler {
 						(finalDuration / 60) / 60, 
 						(finalDuration / 60) % 60, 
 						finalDuration % 60));
-		bun.putString(
-				fromActivity.getString(R.string.KEY_DISTANCE), 
-				String.format("%.2f km", distance));
+		String nowunit = settingpref.getString(
+				fromActivity.getString(R.string.KEY_UNIT), 
+				fromActivity.getString(R.string.INIT_UNIT));
+		if(nowunit.equals("Kilometer")){
+			bun.putString(fromActivity.getString(R.string.KEY_DISTANCE),
+					String.format("%.2f Km", distance));
+		}else{
+			bun.putString(fromActivity.getString(R.string.KEY_DISTANCE),
+					String.format("%.2f Mile", distance*0.62137));
+		}
 		bun.putString(
 				fromActivity.getString(R.string.KEY_CALORIE), 
 				String.format("%.0f kcal", calories));
