@@ -1,12 +1,11 @@
 package tw.edu.ntu.csie.angryrunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,61 +19,36 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class MusicPlaylistActivity extends Activity {
-	
-	
-	TextView enterName;
-	EditText playlistName;
-	ListView musiclist;
-	Button confirm_bt, cancel_bt;
+	private TextView enterName;
+	private EditText playlistName;
+	private ListView musiclist;
+	private Button confirm_bt, cancel_bt;
 
-	MediaPlayer mMediaPlayer;
-	ArrayAdapter<String> adapter;
-	ArrayAdapter<Song> songAdapter;
-	SimpleAdapter musiclistItemAdapter;
-	ArrayList<HashMap<String, Object>> musiclistItem;
+	private ArrayAdapter<Song> songAdapter;
+	private Cursor musiccursor;
+	private String[] allSongs;
+	private int[] allSongId;
+	private ArrayList<Song> allSongList;
+	private Boolean[] checkBoxState;
 
-	Cursor musiccursor;
-	String[] allSongs;
-	CheckBox cb;
-	
-	ArrayList<Song> allSongList;
-	Boolean [] checkBoxState;
-
-	int music_column_index;
-	int count;
-
-	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.musiclist);
 		
-		
 		enterName = (TextView)findViewById(R.id.enterName);
 		enterName.setText("Playlist Name");
-		
 		playlistName = (EditText)findViewById(R.id.playlistName);
-		
-		
 		musiclist = (ListView)findViewById(R.id.PhoneMusicList);
-		//adapter = new ArrayAdapter<String>(this, R.layout.musiclist_item, R.id.songName);
-		//songAdapter = new ArrayAdapter<Song>(this, R.layout.musiclist_item, R.id.songName);
 		
-		String[] proj = { MediaStore.Audio.Media._ID,
-				MediaStore.Audio.Media.DATA,
-				MediaStore.Audio.Media.DISPLAY_NAME,
-				MediaStore.Video.Media.SIZE };
-
 		allSongList = new ArrayList<Song>();
-		addSongsToList(proj);
+		addSongsToList();
 		initCheckBoxState();
 		
-		//songAdapter = new InteractiveArrayAdapter(this, allSongList);
 		songAdapter = new SongArrayAdapter(this, allSongList);
 		musiclist.setAdapter(songAdapter);
 		
@@ -92,28 +66,11 @@ public class MusicPlaylistActivity extends Activity {
 			}
 		});
 		
-		
 		confirm_bt = (Button)findViewById(R.id.confirmBT);
-		confirm_bt.setTextSize(16);
 		confirm_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
-        		String target = "";
-        		//int counter = 0;
-        		for (int i = 0; i < checkBoxState.length; ++i) {
-        			if (checkBoxState[i] == true) {
-        				//++counter;
-        				target += new Integer(i).toString();
-        				if (i != checkBoxState.length-1 && !target.equals("")) {
-        					target += ", ";
-        				}
-        			}
-        		}
-        		//setTitle(counter+" songs are checked.");
-        		//setTitle(counter+": song "+target+" checked.");
-
-				MediaUtil.writePlaylist(getApplicationContext(), playlistName.getText().toString(), getPaths());
+				MediaUtil.writePlaylist(getApplicationContext(), playlistName.getText().toString(), getSelectedIds());
         		
         		//Intent it = new Intent();
 				//Bundle bun = new Bundle();
@@ -133,19 +90,15 @@ public class MusicPlaylistActivity extends Activity {
         		finish();
         	}
         });
-		
-		//init_phone_music_grid();
 	}
 	
-	private ArrayList<String> getPaths() {
-		//ArrayList<String> paths = new ArrayList<String>( Arrays.asList(allSongs) );
-		ArrayList<String> paths = new ArrayList<String>();
-		for (int i = 0; i < checkBoxState.length; ++i) {
-			if ( checkBoxState[i] == true ) {
-				paths.add(allSongs[i]);
-			}
+	private ArrayList<Integer> getSelectedIds() {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for(int i = 0; i < checkBoxState.length; ++i) {
+			if(checkBoxState[i])
+				ids.add(allSongId[i]);
 		}
-		return paths;
+		return ids;
 	}
 	
 	private void initCheckBoxState() {
@@ -162,7 +115,12 @@ public class MusicPlaylistActivity extends Activity {
 		return tmp.substring(0, index);
 	}
 	
-	private void addSongsToList(String[] proj) {
+	private void addSongsToList() {
+		String[] proj = { MediaStore.Audio.Media._ID,
+				MediaStore.Audio.Media.DATA,
+				MediaStore.Audio.Media.DISPLAY_NAME,
+				MediaStore.Audio.Media.SIZE };
+
 		try {
 			// the uri of the table that we want to query
 			Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -170,35 +128,31 @@ public class MusicPlaylistActivity extends Activity {
 			// should it take a while)
 			musiccursor = getApplicationContext().getContentResolver().query(
 					uri, proj, null, null, null);
-			count = musiccursor.getCount();
 			
 			if (musiccursor != null) {
 				
+				int count = musiccursor.getCount();
 				int i = 0;
 				allSongs = new String[count];
+				allSongId = new int[count];
 
 				musiccursor.moveToFirst();
 				while (!musiccursor.isAfterLast()) {
-					// get the 1st col in our returned data set
-					// (AlbumColumns.ALBUM)
-					//String kstr = musiccursor.getString(0);
-					music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-					//String kstr = getFileName( musiccursor.getString(music_column_index) );
+					int music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 					String kstr = musiccursor.getString(music_column_index);
+					music_column_index = musiccursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 
+					allSongId[i] = musiccursor.getInt(music_column_index);
 					allSongs[i++] = kstr;
 					musiccursor.moveToNext();
 				}
-				//musiclistItemAdapter.notifyDataSetChanged();
-				//musiclist.setAdapter(musiclistItemAdapter);
-				//musiclist.setAdapter(adapter);
 			}
 			
 			for (int i = 0; i < allSongs.length; ++i) {
 				Song s = new Song(allSongs[i]);
-				s.index = i;
-				s.name = getFileName( allSongs[i] );
-				s.filePath = allSongs[i];
+				s.setIndex(i);
+				s.setName(getFileName( allSongs[i] ));
+				s.setFilePath(allSongs[i]);
 				allSongList.add(s);
 			}
 
@@ -233,9 +187,6 @@ public class MusicPlaylistActivity extends Activity {
 
 			// Create a new row view
 			if (convertView == null) {
-				//LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            //convertView = vi.inflate(R.layout.musiclist_item, parent, false);
-	            //holder = new ViewHolder();
 				convertView = inflater.inflate(R.layout.musiclist_item, null);
 
 				// Find the child views.
@@ -276,9 +227,9 @@ public class MusicPlaylistActivity extends Activity {
 	            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	                theSong.setChecked(isChecked);
 	                songAdapter.notifyDataSetChanged();
-	    			checkBoxState[theSong.index] = isChecked;
+	    			checkBoxState[theSong.getIndex()] = isChecked;
 	    			if (isChecked == true) {
-	    				setTitle( allSongs[theSong.index] );
+	    				setTitle( theSong.getName() );
 	    			}
 	            }
 	        });
@@ -300,9 +251,6 @@ public class MusicPlaylistActivity extends Activity {
 		private CheckBox checkBox;
 		private TextView textView;
 
-		public SongItemViewHolder() {
-		}
-
 		public SongItemViewHolder(TextView textView, CheckBox checkBox) {
 			this.checkBox = checkBox;
 			this.textView = textView;
@@ -312,16 +260,8 @@ public class MusicPlaylistActivity extends Activity {
 			return checkBox;
 		}
 
-		public void setCheckBox(CheckBox checkBox) {
-			this.checkBox = checkBox;
-		}
-
 		public TextView getTextView() {
 			return textView;
-		}
-
-		public void setTextView(TextView textView) {
-			this.textView = textView;
 		}
 
 	}

@@ -29,8 +29,6 @@ public class DistanceActivity extends Activity {
 
 	String Unit, Distance;
 	SharedPreferences settingPref;
-	SharedPreferences.Editor settingPrefEdt;
-	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +39,6 @@ public class DistanceActivity extends Activity {
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
-        settingPrefEdt = settingPref.edit();
         
         Unit = getUnit();
         Distance = getDistance(this.getIntent().getExtras());
@@ -55,16 +52,12 @@ public class DistanceActivity extends Activity {
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
         		
-        		//double sum = new Double(curCen*10) + new Double(curDec) + curUnit;
         		Distance= calculateDistance();
-//        		settingPrefEdt.putString("Distance", Distance).commit();
-//        		Log.i("Distance", settingPref.getString(Distance, "NULL"));
         		Log.i("Distance", Distance);
         		
         		Intent it = new Intent();
@@ -84,7 +77,6 @@ public class DistanceActivity extends Activity {
         
         
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -107,7 +99,6 @@ public class DistanceActivity extends Activity {
         
         OnWheelChangedListener cenListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                //updateDays(year, month, day);
             	curCenItemIndex = cen.getCurrentItem();
             	curCen = Integer.parseInt( digits[curCenItemIndex] );
             	cen.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curCenItemIndex));
@@ -125,7 +116,6 @@ public class DistanceActivity extends Activity {
         
         OnWheelChangedListener decListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                //updateDays(year, month, day);
             	curDecItemIndex = dec.getCurrentItem();
             	curDec = Integer.parseInt( digits[curDecItemIndex] );
             	dec.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curDecItemIndex));
@@ -143,7 +133,6 @@ public class DistanceActivity extends Activity {
         
         OnWheelChangedListener unitListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                //updateDays(year, month, day);
             	curUnitItemIndex = unit.getCurrentItem();
             	curUnit = Double.parseDouble( dpoints[curUnitItemIndex] );
             	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, dpoints, curUnitItemIndex));
@@ -176,8 +165,6 @@ public class DistanceActivity extends Activity {
 		int pos = -1;
 		for (int i=0; i < size; ++i) {
 			s = String.format("%.2f", start);
-			Log.i("s", s);
-			Log.i("pos", new Integer(pos).toString());
 			pos = s.indexOf(".");
 			as[i] = s.substring(pos);
 			start += gap;
@@ -215,24 +202,12 @@ public class DistanceActivity extends Activity {
 	String calculateDistance() {
 		double sum = new Double(curCen*10) + new Double(curDec) + curUnit;
 	    return doubleStringFormation( String.format("%.2f", sum) );
-		//return doubleStringFormation( String.format("%2f", sum) );
 	}
 
 	String doubleStringFormation(String target) {
 		while(target.charAt(target.length()-1)=='0')
 			target = target.substring(0, target.length()-1);
 		return target.charAt(target.length()-1)=='.' ? target.substring(0, target.length()-1) : target;
-/*		int pos = target.indexOf(".");
-		Double d0 = Double.parseDouble(target.substring(0, pos));
-		Double d1 = Double.parseDouble(target.substring(0, pos+2));
-		Double d2 = Double.parseDouble(target.substring(0, pos+3));
-		if ( d0.equals(d1) && d0.equals(d2)) {
-			return target.substring(0, pos);
-		}else if ( d1.equals(d2) ) {
-			return target.substring(0, pos+2);
-		}else {
-			return target;
-		}*/
 	}
 	
 	void initWheelValueIndex() {

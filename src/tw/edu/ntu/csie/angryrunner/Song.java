@@ -2,14 +2,30 @@ package tw.edu.ntu.csie.angryrunner;
 
 public class Song {
 
-	public int index;
-	public String name;
-	public String filePath;
-	public boolean checked;
+	private int index;
+	private String name;
+	private String filePath;
+	private boolean checked;
 
 	public Song(String name) {
 		this.name = name;
 		checked = false;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getName() {

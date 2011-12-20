@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 // Large parts of this file are cribbed from MusicUtil.java in the android music player.
 
@@ -66,17 +65,8 @@ public class MediaUtil {
 		return intFromCursor(c);
 	}
 
-	public static int idFortrack(Context context, String path) {
-		Cursor c = query(context,
-				MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
-				new String[] { MediaStore.Audio.Media._ID },
-				MediaStore.Audio.Media.DATA + "=?", new String[] { path },
-				MediaStore.Audio.Media.DATA);
-		return intFromCursor(c);
-	}
-
 	public static void writePlaylist(Context context, String playlistName,
-			ArrayList<String> paths) {
+			ArrayList<Integer> trackIds) {
 		ContentResolver resolver = context.getContentResolver();
 		int playlistId = idForplaylist(context, playlistName);
 		Uri uri;
@@ -90,19 +80,19 @@ public class MediaUtil {
 			uri = MediaStore.Audio.Playlists.Members.getContentUri("external",
 					playlistId);
 		}
-		Log.d(TAG, String.format("Writing playlist %s", uri));
 
 		// Delete everything from the old playlist
-		context.getContentResolver().delete(uri, null, null);
+		// Not use this because it will delete newly-created playlist
+		// with unknown reason.
+		//context.getContentResolver().delete(uri, null, null);
 
 		// Add all the new tracks to the playlist.
-		int size = paths.size();
+		int size = trackIds.size();
 		ContentValues values[] = new ContentValues[size];
 		for (int k = 0; k < size; ++k) {
 			values[k] = new ContentValues();
 			values[k].put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, k);
-			values[k].put(MediaStore.Audio.Playlists.Members.AUDIO_ID,
-					idFortrack(context, paths.get(k)));
+			values[k].put(MediaStore.Audio.Playlists.Members.AUDIO_ID, trackIds.get(k));
 		}
 
 		resolver.bulkInsert(uri, values);
