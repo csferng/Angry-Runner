@@ -13,7 +13,7 @@ import android.widget.SimpleAdapter;
 
 public class ResultActivity extends Activity {
 	ListView resultlist;
-	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
+	ArrayList<HashMap<String,Object>> alhm = new ArrayList<HashMap<String,Object>>();
 	SimpleAdapter resultAdapter;
 	String[] resultItems = new String[5];
 	Button btConfirm, btCancel;
@@ -36,11 +36,42 @@ public class ResultActivity extends Activity {
 		
 		final Bundle bun = this.getIntent().getExtras();
 		for(int i=0; i<resultItems.length; ++i){
-			HashMap<String,String> tmphm = new HashMap<String,String>();
+			HashMap<String,Object> tmphm = new HashMap<String,Object>();
+			String value = (String) bun.get(resultItems[i]);
+			/*
+			if(i == 0){
+				if(value.equals("Walking")){
+					tmphm.put("pic", R.drawable.walking_v5);
+				}else if(value.equals("Running")){
+					tmphm.put("pic", R.drawable.running_v5);
+				}else if(value.equals("Cycling")){
+					tmphm.put("pic", R.drawable.cycling_v5);
+				}else{
+					tmphm.put("pic", R.drawable.ic_launcher);
+				}
+			}else if(i == 1){
+				tmphm.put("pic", R.drawable.ic_launcher);
+			}else if(i == 2){
+				tmphm.put("pic", R.drawable.clock_48);
+			}else if(i == 3){
+				tmphm.put("pic", R.drawable.map_pin_48);
+			}else if(i == 4){
+				tmphm.put("pic", R.drawable.fire);
+			}
+			*/
+			//tmphm.put("pic", R.drawable.ic_launcher);
 			tmphm.put("name", resultItems[i]);
-			tmphm.put("value", (String) bun.get(resultItems[i]));
+			tmphm.put("value", value);
 			alhm.add(tmphm);
 		}
+		/*
+		resultAdapter = new SimpleAdapter(ResultActivity.this, 
+				alhm, 
+				R.layout.result_item, 
+				new String[] {"pic", "name", "value"}, 
+				new int[] {R.id.imageView1, R.id.tvItemName, R.id.tvItemValue}
+		);
+		*/
 		resultAdapter = new SimpleAdapter(ResultActivity.this, 
 				alhm, 
 				R.layout.result_item, 
