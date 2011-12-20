@@ -42,6 +42,7 @@ public class WorkoutActivity extends MapActivity {
 	AudioManager audioManager;
 	AudioVariable audioVariable;
 	ARTimer timer;
+	Mplayer mplayer;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,6 +59,8 @@ public class WorkoutActivity extends MapActivity {
 				AUDIO_SERVICE);
 		audioVariable = new AudioVariable();
 		timer = new ARTimer();
+		
+		mplayer = new Mplayer(this);
 
 		LayoutInflater infla = getLayoutInflater();
 		pageViews = new ArrayList<View>();
@@ -191,9 +194,11 @@ public class WorkoutActivity extends MapActivity {
 					}
 				} else if (statusHandler.isStateWorking()) {
 					statusHandler.pause();
+					mplayer.pause();
 					btStart.setText("Resume");
 				} else if (statusHandler.isStatePause()) {
 					statusHandler.resume();
+					mplayer.resume();
 					btStart.setText("Pause");
 				}
 			}
@@ -215,6 +220,10 @@ public class WorkoutActivity extends MapActivity {
 							settingpref.getString(
 									getString(R.string.KEY_MODE),
 									getString(R.string.INIT_MODE)));
+					
+					mplayer.stop();
+					mplayer.reset();
+					
 					btStart.setText("Start");
 					zeroStatus();
 					btWorkout.setEnabled(true);
@@ -464,7 +473,13 @@ public class WorkoutActivity extends MapActivity {
 			statusHandler.start();
 			btStart.setText("Pause");
 			btStart.setClickable(true);
+			Play();
 		}
+	}
+	
+	void Play() {
+		mplayer.init(this.settingpref);
+		mplayer.playFromTheFirstSong();
 	}
 
 	class ARTimer extends Timer {

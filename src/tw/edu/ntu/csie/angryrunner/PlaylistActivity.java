@@ -3,6 +3,7 @@ package tw.edu.ntu.csie.angryrunner;
 import java.util.*;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,17 +22,28 @@ public class PlaylistActivity extends Activity {
 
 	Button use_bt, back_bt;
 	int count, songlist_column_index;
+	
+	String playlistName, playlistId;
+	
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.aplaylist);
 		
+		settingPref = getSharedPreferences(
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
+		
 		//String playlistName = savedInstanceState.getString("playlistName");
 		//String playlistId = savedInstanceState.getString("playlistId");
 		Bundle b = getIntent().getExtras();
-		String playlistName = b.getString("playlistName");
-		String playlistId = b.getString("playlistId");
+		playlistName = b.getString("playlistName");
+		playlistId = b.getString("playlistId");
 		
 		mlv = (ListView)findViewById(R.id.theSongList);
 		songListItem = new ArrayList<HashMap<String, Object>>();
@@ -56,6 +68,7 @@ public class PlaylistActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 設定此清單為播放清單
+				settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), playlistId).commit();
 				finish();
 			}
 		});
