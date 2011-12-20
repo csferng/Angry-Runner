@@ -9,7 +9,9 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.google.android.maps.GeoPoint;
 
@@ -18,6 +20,7 @@ public class GpsHandler {
 	List<Double> savlong;
 	List<Double> savlat;
 	Activity savact;
+	ImageView status_img;
 	
 	LocationListener ll = new LocationListener(){
 
@@ -41,23 +44,37 @@ public class GpsHandler {
 		}
 
 		@Override
-		public void onProviderDisabled(String provider) {}
+		public void onProviderDisabled(String provider) {
+			status_img.setImageResource(R.drawable.gps_wa);
+		}
 
 		@Override
-		public void onProviderEnabled(String provider) {}
+		public void onProviderEnabled(String provider) {
+			status_img.setImageResource(R.drawable.gps_ok);
+		}
 
 		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {}
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			if (status == LocationProvider.OUT_OF_SERVICE) {
+				status_img.setImageResource(R.drawable.gps_wa);
+			} else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+				status_img.setImageResource(R.drawable.gps_tmp);
+			} else if (status == LocationProvider.AVAILABLE) {
+				status_img.setImageResource(R.drawable.gps_ok);
+			}
+		}
 		
 	};
 	
-	public GpsHandler(Activity activity) {
+	public GpsHandler(Activity activity, ImageView iv) {
 		super();
 		savlong = new ArrayList<Double>();
 		savlat = new ArrayList<Double>();
 		lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, ll);
 		savact = activity;
+		status_img = iv;
+		status_img.setImageResource(R.drawable.gps_wa);
 	}
 
 }

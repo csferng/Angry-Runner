@@ -77,9 +77,7 @@ public class WorkoutActivity extends MapActivity {
 		initMode(pageViews.get(0));
 
 		gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
-		gpsH = new GpsHandler(this);
-		//ImageView iv = (ImageView) findViewById(R.id.imageView1);
-		//iv.setImageResource(R.drawable.icon_tab_history_selected);
+		gpsH = new GpsHandler(this, (ImageView) pageViews.get(0).findViewById(R.id.imageView1));
 
 		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref);
 

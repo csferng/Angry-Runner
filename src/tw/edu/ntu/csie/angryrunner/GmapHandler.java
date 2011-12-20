@@ -27,7 +27,7 @@ public class GmapHandler{
 		vpfrom = vp;
 		
 		mc = mv.getController();
-		mv.setBuiltInZoomControls(true);
+		mv.setBuiltInZoomControls(false);
 		mv.setEnabled(false);
 		
 		center.setOnClickListener(new Button.OnClickListener(){
