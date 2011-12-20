@@ -288,7 +288,7 @@ public class WorkoutActivity extends MapActivity {
 			long duration = Long.parseLong(goal);
 			goalRemain = durationToString(duration);
 		}
-		progressBar.setProgress(0, "remain: "+goalRemain);
+		progressBar.setProgress(0, "Remain: "+goalRemain);
 	}
 
 	private void resetStatus(View v) {
@@ -427,7 +427,7 @@ public class WorkoutActivity extends MapActivity {
 			remain = durationToString(dt);
 		}
 		if (prog > 1.0f) prog = 1.0f;
-		progressBar.setProgress(prog*100.0f, "remain: "+remain);
+		progressBar.setProgress(prog*100.0f, "Remain: "+remain);
 	}
 
 	void updateCaloriesDisplay(double calorie) {
