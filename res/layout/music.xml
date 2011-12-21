@@ -4,26 +4,26 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/addPlaylist"
-            android:layout_width="158dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:drawableLeft="@drawable/add"
-            android:text="Add a playlist" />
+            android:text="Add a playlist" android:layout_weight="1"/>
         
         <Button
             android:id="@+id/unsetPlaylist"
-            android:layout_width="158dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:drawableLeft="@drawable/add"
-            android:text="Unset playlist" />
+            android:text="Unset playlist" android:layout_weight="1"/>
     </LinearLayout>
 
     <ListView
