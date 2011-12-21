@@ -22,17 +22,17 @@
     
     <Button
         android:id="@+id/useBT"
-        android:layout_width="157dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Use this playlist" />
+        android:text="Use this playlist" android:layout_weight="1"/>
 
     <Button
         android:id="@+id/backBT"
-        android:layout_width="157dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Back" />
+        android:text="Back" android:layout_weight="1"/>
     
     </LinearLayout>
 
