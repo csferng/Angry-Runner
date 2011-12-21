@@ -8,7 +8,12 @@
         android:id="@+id/playlistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
         android:textSize="28dp" />
 
+    <TextView
+        android:id="@+id/playlistNameHL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28dp" android:textColor="@color/yellow"/>
+    
 </LinearLayout>
