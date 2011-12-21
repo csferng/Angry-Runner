@@ -530,6 +530,7 @@ public class WorkoutActivity extends MapActivity {
 	class AudioVariable {
 		int initVolume;
 		double goalSpeed;
+		int lastVolume;
 
 		public AudioVariable() {
 		}
@@ -540,28 +541,35 @@ public class WorkoutActivity extends MapActivity {
 			double speedratio = nowspeed / goalSpeed;
 			int nowVolume = audioManager
 					.getStreamVolume(AudioManager.STREAM_MUSIC);
+			initVolume += (nowVolume - lastVolume);
 
 			if (speedratio > 1) {
-				int quantize = (int) Math.floor((speedratio - 1) / 0.1);
+				int quantize = (int) Math.floor((speedratio - 1) / 0.25);
 				int newv = initVolume - quantize;
 				if (newv < 0)
 					newv = 0;
 
-				if (newv != nowVolume)
+				if (newv != nowVolume){
+					lastVolume = newv;
 					return newv;
+				}
 			} else if (speedratio < 1) {
-				int quantize = (int) Math.floor((1 - speedratio) / 0.1);
+				int quantize = (int) Math.floor((1 - speedratio) / 0.25);
 				int newv = initVolume + quantize;
 				int max = audioManager
 						.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 				if (newv > max)
 					newv = max;
 
-				if (newv != nowVolume)
+				if (newv != nowVolume){
+					lastVolume = newv;
 					return newv;
+				}
 			} else {
-				if (initVolume != nowVolume)
+				if (initVolume != nowVolume){
+					lastVolume = initVolume;
 					return initVolume;
+				}
 			}
 
 			return -1;
@@ -573,6 +581,7 @@ public class WorkoutActivity extends MapActivity {
 
 		void setInitVolume(int initVolume) {
 			this.initVolume = initVolume;
+			lastVolume = initVolume;
 		}
 
 	}
