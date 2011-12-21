@@ -357,6 +357,7 @@ public class WorkoutActivity extends MapActivity {
 	@Override
 	public void onDestroy() {
 		speedChart.cleanUp();
+		mplayer.cleanUp();
 		super.onDestroy();
 	}
 
@@ -379,15 +380,6 @@ public class WorkoutActivity extends MapActivity {
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume,
 					AudioManager.FLAG_PLAY_SOUND);
 		}
-		// audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		// audioManager
-		// .setStreamVolume(AudioManager.STREAM_MUSIC,
-		// audioVariable.getInitVolume(),
-		// AudioManager.FLAG_PLAY_SOUND);
-		// audioManager.adjustVolume(AudioManager.ADJUST_RAISE,
-		// AudioManager.FLAG_PLAY_SOUND);
-		// audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-		// AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
 	}
 
 	void updateDistanceDisplay(double distance) {
@@ -473,11 +465,11 @@ public class WorkoutActivity extends MapActivity {
 			statusHandler.start();
 			btStart.setText("Pause");
 			btStart.setClickable(true);
-			Play();
+			playMusic();
 		}
 	}
 	
-	void Play() {
+	private void playMusic() {
 		mplayer.init(this.settingpref);
 		mplayer.playFromTheFirstSong();
 	}
