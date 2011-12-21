@@ -3,11 +3,13 @@ package tw.edu.ntu.csie.angryrunner;
 import java.util.*;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,6 +26,7 @@ public class PlaylistActivity extends Activity {
 	int count, songlist_column_index;
 	
 	String playlistName, playlistId;
+	int listview_pos;
 	
 	SharedPreferences settingPref;
 	SharedPreferences.Editor settingPrefEdt;
@@ -44,6 +47,7 @@ public class PlaylistActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		playlistName = b.getString("playlistName");
 		playlistId = b.getString("playlistId");
+		listview_pos = b.getInt("pos");
 		
 		mlv = (ListView)findViewById(R.id.theSongList);
 		songListItem = new ArrayList<HashMap<String, Object>>();
@@ -69,6 +73,15 @@ public class PlaylistActivity extends Activity {
 			public void onClick(View v) {
 				// 設定此清單為播放清單
 				settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), playlistId).commit();
+				
+				Intent it = new Intent();
+				Bundle bun = new Bundle();
+				bun.putString("state", "true");
+				bun.putInt("pos", listview_pos);
+				it.putExtras(bun);
+				setResult(RESULT_OK, it);
+				Log.i("p-pos", new Integer(listview_pos).toString());
+				
 				finish();
 			}
 		});
@@ -78,6 +91,12 @@ public class PlaylistActivity extends Activity {
 		back_bt.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Intent it = new Intent();
+				Bundle bun = new Bundle();
+				bun.putString("state", "false");
+				bun.putInt("pos", listview_pos);
+				it.putExtras(bun);
+				setResult(RESULT_OK, it);
 				finish();
 			}
 		});

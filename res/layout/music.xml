@@ -11,7 +11,7 @@
 
         <Button
             android:id="@+id/addPlaylist"
-            android:layout_width="158dp"
+            android:layout_width="151dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:drawableLeft="@drawable/add"
@@ -19,7 +19,7 @@
         
         <Button
             android:id="@+id/unsetPlaylist"
-            android:layout_width="158dp"
+            android:layout_width="151dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:drawableLeft="@drawable/add"

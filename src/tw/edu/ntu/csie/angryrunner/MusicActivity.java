@@ -2,16 +2,20 @@ package tw.edu.ntu.csie.angryrunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,13 +25,36 @@ import android.widget.SimpleAdapter;
 public class MusicActivity extends Activity {
     /** Called when the activity is first created. */
 	
+	private int selectedPos = -1;
+	
 	private Button add_bt, unset_bt;
 	private ListView playlist_list;
-	private SimpleAdapter playListItemAdapter;
+	private MyAdapter playListItemAdapter;
 	private ArrayList<HashMap<String, Object>> playListItem;
 	
 	SharedPreferences settingPref;
 	SharedPreferences.Editor settingPrefEdt;
+	
+	
+	class MyAdapter extends SimpleAdapter {
+		public MyAdapter(Activity activity, List<HashMap<String, Object>> items,
+				int resource, String[] from, int[] to) {
+			super(activity, items, resource, from, to);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view = super.getView(position, convertView, parent);
+			Log.i("position", new Integer(position).toString());
+			if (position == selectedPos && selectedPos != -1) {
+				Log.i("selectedPos", new Integer(selectedPos).toString());
+				view.setBackgroundColor(Color.rgb(188, 123, 122));
+			}else {
+				view.setBackgroundColor(Color.BLACK);
+			}
+			return view;
+		}
+	}
 	
 	
 	@Override
@@ -60,19 +87,15 @@ public class MusicActivity extends Activity {
         unset_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "NULL").commit();
+        		selectedPos = -1;
+        		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "-1").commit();
         	}
         });
         
         playlist_list = (ListView)findViewById(R.id.playlist_list);
-        playListItem = new ArrayList<HashMap<String, Object>>();
-        playListItemAdapter = new SimpleAdapter(MusicActivity.this, playListItem, 
-        										R.layout.playlist_item, 
-        										new String[]{"playlistName"}, 
-        										new int[]{R.id.playlistName});
-        playlist_list.setAdapter(playListItemAdapter);
         
         playlist_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        	
         	@Override
         	public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
         		HashMap<String, Object> clickMap = playListItem.get(position);
@@ -80,18 +103,39 @@ public class MusicActivity extends Activity {
         		Bundle b = new Bundle();
         		b.putString("playlistName", clickMap.get("playlistName").toString());
         		b.putString("playlistId", clickMap.get("playlistId").toString());
+        		b.putInt("pos", position);
         		intent.putExtras(b);
-        		startActivity(intent);
+        		startActivityForResult(intent, 0);
+				Log.i("m-pos", new Integer(position).toString());
+        		//setPos(position);
         	}
+        	
 		});
         
     }
     
+	@Override
+	public void onResume() {
+		super.onResume();
+		playListItem = new ArrayList<HashMap<String, Object>>();
+		playListItemAdapter = new MyAdapter(MusicActivity.this, playListItem,
+				R.layout.playlist_item, new String[] { "playlistName" },
+				new int[] { R.id.playlistName });
+		playlist_list.setAdapter(playListItemAdapter);
+		getPlaylists();
+	}
+    
     @Override
-    public void onResume(){
-    	super.onResume();
-        getPlaylists();
-    }
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK){
+			Log.i("setPos-1", new Integer(selectedPos).toString());
+			if (data.getExtras().getString("state").equals("true")) {
+				selectedPos = data.getExtras().getInt("pos");
+				Log.i("setPos-2", new Integer(selectedPos).toString());
+			}
+    	}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 	
     @Override
     public void onBackPressed() {
