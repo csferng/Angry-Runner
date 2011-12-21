@@ -32,9 +32,7 @@ public class MusicActivity extends Activity {
 	private MyAdapter playListItemAdapter;
 	private ArrayList<HashMap<String, Object>> playListItem;
 	
-	SharedPreferences settingPref;
-	SharedPreferences.Editor settingPrefEdt;
-	
+	private SharedPreferences settingPref;
 	
 	class MyAdapter extends SimpleAdapter {
 		public MyAdapter(Activity activity, List<HashMap<String, Object>> items,
@@ -44,13 +42,14 @@ public class MusicActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = super.getView(position, convertView, parent);
+			View view;
 			Log.i("position", new Integer(position).toString());
 			if (position == selectedPos && selectedPos != -1) {
 				Log.i("selectedPos", new Integer(selectedPos).toString());
-				view.setBackgroundColor(Color.rgb(188, 123, 122));
+				view = super.getView(position, convertView, parent);
+				view.setBackgroundColor(Color.rgb(70, 50, 120));
 			}else {
-				view.setBackgroundColor(Color.BLACK);
+				view = super.getView(position, null, parent);
 			}
 			return view;
 		}
@@ -65,7 +64,7 @@ public class MusicActivity extends Activity {
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
-        settingPrefEdt = settingPref.edit();
+        selectedPos = Integer.parseInt(settingPref.getString(getString(R.string.KEY_PLAYLISTID), "-1"));
         
         setTitle("Playlists");
         
@@ -88,6 +87,7 @@ public class MusicActivity extends Activity {
         	@Override
         	public void onClick(View v) {
         		selectedPos = -1;
+        		SharedPreferences.Editor settingPrefEdt = settingPref.edit();
         		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "-1").commit();
         	}
         });

@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -150,7 +149,6 @@ public class PlaylistActivity extends Activity {
 		startManagingCursor(cursor);
 		cursor.moveToFirst();
 		
-		String playlist_id = cursor.getString(0);
 		long playlist_id2 = cursor.getLong(0);
 
 		if (playlist_id2 > 0) {
