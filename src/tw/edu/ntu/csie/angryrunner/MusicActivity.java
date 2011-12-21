@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,15 +21,24 @@ import android.widget.SimpleAdapter;
 public class MusicActivity extends Activity {
     /** Called when the activity is first created. */
 	
-	private Button add_bt;
+	private Button add_bt, unset_bt;
 	private ListView playlist_list;
 	private SimpleAdapter playListItemAdapter;
 	private ArrayList<HashMap<String, Object>> playListItem;
+	
+	SharedPreferences settingPref;
+	SharedPreferences.Editor settingPrefEdt;
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music);
+        
+        settingPref = getSharedPreferences(
+        		getString(R.string.NAME_SHAREDPREFERENCE), 
+        		MODE_PRIVATE);
+        settingPrefEdt = settingPref.edit();
         
         setTitle("Playlists");
         
@@ -42,6 +52,15 @@ public class MusicActivity extends Activity {
                 intent.setClass(MusicActivity.this, MusicPlaylistActivity.class);
         		//startActivityForResult(intent, 0);
                 startActivity(intent);
+        	}
+        });
+
+        unset_bt = (Button)findViewById(R.id.unsetPlaylist);
+        unset_bt.setTextSize(18);
+        unset_bt.setOnClickListener(new Button.OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "NULL").commit();
         	}
         });
         
