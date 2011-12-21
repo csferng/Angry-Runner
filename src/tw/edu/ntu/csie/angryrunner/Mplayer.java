@@ -97,7 +97,13 @@ public class Mplayer implements OnCompletionListener, OnBufferingUpdateListener 
 	}
 	
 	private int getPlaylistIdFromPreference(SharedPreferences sp) {
-		return Integer.parseInt(sp.getString(this.fromActivity.getString(R.string.KEY_PLAYLISTID), "-1"));
+		int id;
+		try {
+			id = Integer.parseInt(sp.getString(this.fromActivity.getString(R.string.KEY_PLAYLISTID), "-1"));
+		} catch(NumberFormatException e) {
+			id = -1;
+		}
+		return id;
 	}
 	
 	private void setPlaylistId(int id) {
