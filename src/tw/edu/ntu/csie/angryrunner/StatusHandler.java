@@ -38,7 +38,7 @@ public class StatusHandler {
 	
 	public void cleanUp() {
 		fromActivity = null;
-		timer.cancel();
+		if(timer != null) timer.cancel();
 	}
 
 	void start() {
