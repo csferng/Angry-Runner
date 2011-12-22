@@ -356,6 +356,8 @@ public class WorkoutActivity extends MapActivity {
 
 	@Override
 	public void onDestroy() {
+		statusHandler.stop();
+		if(timer.getCountdown() > 0) timer.setStopped(true);
 		speedChart.cleanUp();
 		mplayer.cleanUp();
 		super.onDestroy();
