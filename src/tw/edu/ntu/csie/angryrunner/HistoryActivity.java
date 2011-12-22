@@ -39,6 +39,7 @@ public class HistoryActivity extends Activity {
 						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
 						R.id.tvDuration, R.id.tvSpeed });
 		historylist.setAdapter(historyAdapter);
+		historylist.setEnabled(false);
 		
 	}
 	

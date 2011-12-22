@@ -76,5 +76,9 @@ public class GpsHandler {
 		status_img = iv;
 		status_img.setImageResource(R.drawable.gps_wa);
 	}
+	
+	void unregister(){
+		lm.removeUpdates(ll);
+	}
 
 }

@@ -356,6 +356,7 @@ public class WorkoutActivity extends MapActivity {
 
 	@Override
 	public void onDestroy() {
+		gpsH.unregister();
 		speedChart.cleanUp();
 		mplayer.cleanUp();
 		super.onDestroy();
