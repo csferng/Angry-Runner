@@ -358,6 +358,7 @@ public class WorkoutActivity extends MapActivity {
 	public void onDestroy() {
 		statusHandler.cleanUp();
 		if(timer.getCountdown() > 0) timer.setStopped(true);
+		gpsH.unregister();
 		speedChart.cleanUp();
 		mplayer.cleanUp();
 		super.onDestroy();
