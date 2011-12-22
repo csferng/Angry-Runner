@@ -221,6 +221,9 @@ public class WorkoutActivity extends MapActivity {
 									getString(R.string.KEY_MODE),
 									getString(R.string.INIT_MODE)));
 					
+					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
+							audioVariable.getInitVolume(), 
+							AudioManager.FLAG_PLAY_SOUND);
 					mplayer.stop();
 					mplayer.reset();
 					
@@ -577,6 +580,10 @@ public class WorkoutActivity extends MapActivity {
 		void setInitVolume(int initVolume) {
 			this.initVolume = initVolume;
 			lastVolume = initVolume;
+		}
+
+		int getInitVolume() {
+			return initVolume;
 		}
 
 	}

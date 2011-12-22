@@ -39,7 +39,12 @@ public class HistoryActivity extends Activity {
 		historyAdapter = new SimpleAdapter(HistoryActivity.this, historyItems,
 				R.layout.history_item, DatabaseTableColumn, new int[] {
 						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
-						R.id.tvDuration, R.id.tvSpeed });
+						R.id.tvDuration, R.id.tvSpeed }){
+			@Override
+			public boolean isEnabled(int position) {
+				return false;
+			}
+		};
 		historylist.setAdapter(historyAdapter);
 		/*
 		historylist.setOnTouchListener(new View.OnTouchListener() {
