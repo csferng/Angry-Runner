@@ -137,6 +137,12 @@ public class MusicActivity extends Activity {
 					
 					int playlist_column_index = playlistCursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.NAME);
 					String kstr = playlistCursor.getString(playlist_column_index);
+					
+					if (kstr.replaceAll("\\s", "").equals("")){
+						playlistCursor.moveToNext();
+						continue;
+					}
+					
 					if(playListItem.size() != selectedPos) {
 						playlist.put("playlistName", kstr);
 						playlist.put("playlistNameHL", "");
