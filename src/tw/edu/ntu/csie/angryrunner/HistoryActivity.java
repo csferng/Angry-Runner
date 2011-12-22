@@ -8,6 +8,8 @@ import android.app.TabActivity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -39,8 +41,14 @@ public class HistoryActivity extends Activity {
 						R.id.imageView1, R.id.tvDate, R.id.tvDistance,
 						R.id.tvDuration, R.id.tvSpeed });
 		historylist.setAdapter(historyAdapter);
-		historylist.setEnabled(false);
-		
+		/*
+		historylist.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return true;
+			}
+		});
+		*/
 	}
 	
 	@Override
