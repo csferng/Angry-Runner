@@ -35,6 +35,11 @@ public class StatusHandler {
 		speedCalculator = new SpeedCalculator();
 		settingpref = pref;
 	}
+	
+	public void cleanUp() {
+		fromActivity = null;
+		if(timer != null) timer.cancel();
+	}
 
 	void start() {
 		// TODO

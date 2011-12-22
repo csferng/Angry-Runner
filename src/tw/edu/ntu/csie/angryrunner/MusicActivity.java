@@ -131,17 +131,15 @@ public class MusicActivity extends Activity {
 				
 				playlistCursor.moveToFirst();
 				while (!playlistCursor.isAfterLast()) {
-					// get the 1st col in our returned data set
-					// (AlbumColumns.ALBUM)
-					HashMap<String, String> playlist = new HashMap<String, String>();
-					
 					int playlist_column_index = playlistCursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.NAME);
 					String kstr = playlistCursor.getString(playlist_column_index);
-					
 					if (kstr.replaceAll("\\s", "").equals("")){
 						playlistCursor.moveToNext();
 						continue;
 					}
+					// get the 1st col in our returned data set
+					// (AlbumColumns.ALBUM)
+					HashMap<String, String> playlist = new HashMap<String, String>();
 					
 					if(playListItem.size() != selectedPos) {
 						playlist.put("playlistName", kstr);

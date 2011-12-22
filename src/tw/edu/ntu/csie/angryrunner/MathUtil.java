@@ -48,7 +48,7 @@ public class MathUtil {
 		} else {
 			met = met1 + (met1-met0)*(speed-sp1)/(sp1-sp0);
 		}
-		return met*weight*seconds/60/60;
+		return met*weight*seconds/60.0/60.0;
 	}
 	
 	public static float getMaxSpeedForMode(String mode) {

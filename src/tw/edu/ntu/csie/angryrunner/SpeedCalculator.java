@@ -36,14 +36,14 @@ public class SpeedCalculator {
 	public double getLastPeriodTime() {
 		int n = record.size();
 		if(n < 2) return 0;
-		else return (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000f;
+		else return (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000.0;
 	}
 	
 	public double getLastPeriodSpeed() {
 		int n = record.size();
 		if(n < 2) return 0.0;
 		else {
-			double dt = (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000f;
+			double dt = (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000.0;
 			return MathUtil.distanceBetween(record.get(n-1).getLocation(), record.get(n-2).getLocation()) / dt;
 		}
 	}

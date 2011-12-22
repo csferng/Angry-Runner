@@ -45,12 +45,12 @@ public class GpsHandler {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			status_img.setImageResource(R.drawable.gps_wa);
+			//status_img.setImageResource(R.drawable.gps_wa);
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			status_img.setImageResource(R.drawable.gps_ok);
+			//status_img.setImageResource(R.drawable.gps_ok);
 		}
 
 		@Override
@@ -75,6 +75,10 @@ public class GpsHandler {
 		savact = activity;
 		status_img = iv;
 		status_img.setImageResource(R.drawable.gps_wa);
+	}
+	
+	void unregister(){
+		lm.removeUpdates(ll);
 	}
 
 }

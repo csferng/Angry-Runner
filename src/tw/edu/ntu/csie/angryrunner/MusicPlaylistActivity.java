@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MusicPlaylistActivity extends Activity {
 	private TextView enterName;
@@ -71,6 +72,10 @@ public class MusicPlaylistActivity extends Activity {
 		confirm_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
         	public void onClick(View v) {
+        		if(playlistName.getText().toString().equals("")) {
+        			Toast.makeText(MusicPlaylistActivity.this, "Playlist name cannot be empty.", Toast.LENGTH_SHORT).show();
+        			return;
+        		}
 				MediaUtil.writePlaylist(getApplicationContext(), playlistName.getText().toString(), getSelectedIds());
         		
         		//Intent it = new Intent();
