@@ -52,6 +52,7 @@ public class MusicPlaylistActivity extends Activity {
 		songAdapter = new SongArrayAdapter(this, allSongList);
 		musiclist.setAdapter(songAdapter);
 		
+		/*
 		musiclist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
@@ -65,7 +66,7 @@ public class MusicPlaylistActivity extends Activity {
     			}
 			}
 		});
-		
+		*/
 		confirm_bt = (Button)findViewById(R.id.confirmBT);
 		confirm_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
@@ -169,6 +170,14 @@ public class MusicPlaylistActivity extends Activity {
 	private class SongArrayAdapter extends ArrayAdapter<Song> {
 
 		private LayoutInflater inflater;
+
+		public boolean areAllItemsEnabled() {
+			return false;
+		}
+
+		public boolean isEnabled(int position) {
+			return false;
+		}
 
 		public SongArrayAdapter(Context context, List<Song> songlist) {
 			super(context, R.layout.musiclist_item, R.id.songName, songlist);
