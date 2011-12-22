@@ -126,8 +126,9 @@ public class MusicPlaylistActivity extends Activity {
 			Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 			// we now launch the query (be sure not to do this in the UI thread
 			// should it take a while)
+			String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 			musiccursor = getApplicationContext().getContentResolver().query(
-					uri, proj, null, null, null);
+					uri, proj, selection, null, null);
 			
 			if (musiccursor != null) {
 				
