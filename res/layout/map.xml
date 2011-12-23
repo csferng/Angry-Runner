@@ -37,5 +37,11 @@
         android:clickable="true"
         android:apiKey="06dz7PaWxKtmoW1q_-iiFgwYmbjH3nNhZCajlRQ"
         />
+    
+    <!-- debug map key -->
+    <!-- android:apiKey="06dz7PaWxKtmoW1q_-iiFgwYmbjH3nNhZCajlRQ" -->
+    
+    <!-- release map key -->
+    <!-- android:apiKey="06dz7PaWxKtkhipzUzizzf1lqh3pnaDtzTc5DCA" -->
 
 </LinearLayout>
