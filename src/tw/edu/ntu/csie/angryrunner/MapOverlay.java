@@ -37,7 +37,7 @@ public class MapOverlay extends Overlay {
 		super.draw(canvas, mapView, shadow);
 		
 		float savx, savy;
-		if(!shadow && pts != null){
+		if(!shadow && pts != null && pts.size() > 0){
 			Projection proj = mapView.getProjection();
 			Point po = new Point();
 			
