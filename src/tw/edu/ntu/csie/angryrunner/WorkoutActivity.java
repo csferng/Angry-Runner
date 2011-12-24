@@ -277,6 +277,7 @@ public class WorkoutActivity extends MapActivity {
 	}
 
 	private void zeroStatus() {
+		speedChart.setCurrentValue(0.0);
 		statDuration.setNumber("0:00:00");
 		statCalorie.setNumber("0");
 		statDistance.setNumber("0.00");

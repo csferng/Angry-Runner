@@ -44,7 +44,7 @@ public class SpeedCalculator {
 		if(n < 2) return 0.0;
 		else {
 			double dt = (record.get(n-1).getTime() - record.get(n-2).getTime()) / 1000.0;
-			return MathUtil.distanceBetween(record.get(n-1).getLocation(), record.get(n-2).getLocation()) / dt;
+			return MathUtil.distanceBetween(record.get(n-1).getLocation(), record.get(n-2).getLocation())*1000.0 / dt;
 		}
 	}
 

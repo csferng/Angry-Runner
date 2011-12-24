@@ -60,14 +60,14 @@ public class Mplayer implements OnCompletionListener, OnBufferingUpdateListener 
 				null);
 		
 		this.fromActivity.startManagingCursor(cursor);
-		cursor.moveToFirst();
 
-		if (cursor.isAfterLast()) {
+		if(cursor == null || cursor.getCount() == 0) {
+//		if (cursor.isAfterLast()) {
 			this.playlistSize = 0;
 			this.musicDataStream = new String[0];
 		} else {
+			cursor.moveToFirst();
 			long playlist_id_long = cursor.getLong(0);
-			cursor.close();
 			
 			String[] projection = {
 					MediaStore.Audio.Playlists.Members.PLAYLIST_ID, 	//0
@@ -92,7 +92,6 @@ public class Mplayer implements OnCompletionListener, OnBufferingUpdateListener 
 			for(int i = 0; i < this.playlistSize; ++i, cursor.moveToNext()) {
 				this.musicDataStream[i] = cursor.getString(6);
 			}
-			cursor.close();
 		}
 	}
 	

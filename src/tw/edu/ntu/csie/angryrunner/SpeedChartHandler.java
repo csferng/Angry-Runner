@@ -55,7 +55,7 @@ public class SpeedChartHandler {
 	}
 
 	public void setCurrentValue(double value) {
-    	animateThread.setGoal(value);
+    	animateThread.setGoal(adjustValue(value));
     }
     
     public void setExpectedValue(double exp) {
@@ -71,11 +71,15 @@ public class SpeedChartHandler {
     }
     
     private void adjustExpectedValue(double exp) {
-    	double max = dialRenderer.getMaxValue();
-    	if(exp > max) exp = max * 1.05;
-    	if(exp < 0) exp = -max * 0.05;
-    	dialData.set(1, "expected", exp);
+    	dialData.set(1, "expected", adjustValue(exp));
     }
+
+	private double adjustValue(double val) {
+		double max = dialRenderer.getMaxValue();
+    	if(val > max) val = max * 1.05;
+    	if(val < 0) val = -max * 0.05;
+		return val;
+	}
 
 	private void invalidate() {
 		if(activity == null) return;
