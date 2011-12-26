@@ -24,8 +24,9 @@ public class StatusHandler {
 	private Timer timer;
 	private SpeedCalculator speedCalculator;
 	private SharedPreferences settingpref;
+	private UnitHandler unitHandler;
 
-	public StatusHandler(final WorkoutActivity activity, SharedPreferences pref) {
+	public StatusHandler(final WorkoutActivity activity, SharedPreferences pref, UnitHandler unitHandler) {
 		fromActivity = activity;
 
 		state = State.BEFORE_START;
@@ -34,6 +35,7 @@ public class StatusHandler {
 		positions = new ArrayList<GeoPoint>();
 		speedCalculator = new SpeedCalculator();
 		settingpref = pref;
+		this.unitHandler = unitHandler;
 	}
 	
 	public void cleanUp() {
@@ -42,7 +44,6 @@ public class StatusHandler {
 	}
 
 	void start() {
-		// TODO
 		state = State.WORKING;
 		distance = 0.0;
 		calories = 0.0;
@@ -78,21 +79,13 @@ public class StatusHandler {
 						(finalDuration / 60) / 60, 
 						(finalDuration / 60) % 60, 
 						finalDuration % 60));
-		String nowunit = settingpref.getString(
-				fromActivity.getString(R.string.KEY_UNIT), 
-				fromActivity.getString(R.string.INIT_UNIT));
-		if(nowunit.equals("Kilometer")){
-			bun.putString(fromActivity.getString(R.string.KEY_DISTANCE),
-					String.format("%.2f Km", distance));
-		}else{
-			bun.putString(fromActivity.getString(R.string.KEY_DISTANCE),
-					String.format("%.2f Mile", distance*0.62137));
-		}
+		bun.putString(fromActivity.getString(R.string.KEY_DISTANCE), 
+				unitHandler.presentDistanceWithUnit(distance));
 		bun.putString(
 				fromActivity.getString(R.string.KEY_CALORIE), 
 				String.format("%.0f kcal", calories));
 		
-		// TODO clear variable
+		// clear variables
 		positions.clear();
 		distance = 0.0;
 		calories = 0.0;
@@ -102,14 +95,12 @@ public class StatusHandler {
 	}
 
 	void pause() {
-		// TODO
 		state = State.PAUSE;
 		pauseTime = System.currentTimeMillis();
 		speedCalculator.clearRecord();
 	}
 
 	void resume() {
-		// TODO
 		state = State.WORKING;
 		startTime += (System.currentTimeMillis() - pauseTime);
 	}
@@ -149,6 +140,10 @@ public class StatusHandler {
 			calories += MathUtil.calculateCalories(mode, speed, duration, weight);
 			fromActivity.updateCaloriesDisplay(calories);
 		}
+	}
+	
+	public void refreshDistanceDisplay() {
+		fromActivity.updateDistanceDisplay(distance);
 	}
 
 	boolean isStateBeforeStart() {

@@ -43,6 +43,7 @@ public class WorkoutActivity extends MapActivity {
 	AudioVariable audioVariable;
 	ARTimer timer;
 	Mplayer mplayer;
+	UnitHandler unitHandler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -59,8 +60,8 @@ public class WorkoutActivity extends MapActivity {
 				AUDIO_SERVICE);
 		audioVariable = new AudioVariable();
 		timer = new ARTimer();
-		
 		mplayer = new Mplayer(this);
+		unitHandler = new UnitHandler(this, settingpref);
 
 		LayoutInflater infla = getLayoutInflater();
 		pageViews = new ArrayList<View>();
@@ -82,7 +83,7 @@ public class WorkoutActivity extends MapActivity {
 		gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
 		gpsH = new GpsHandler(this, (ImageView) pageViews.get(0).findViewById(R.id.imageView1));
 
-		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref);
+		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
 
 	}
 
@@ -277,22 +278,11 @@ public class WorkoutActivity extends MapActivity {
 	}
 
 	private void zeroStatus() {
+		updateProgressDisplay(0, 0);
 		speedChart.setCurrentValue(0.0);
 		statDuration.setNumber("0:00:00");
 		statCalorie.setNumber("0");
 		statDistance.setNumber("0.00");
-		String goalRemain = null;
-		String initGoalValues = getString(R.string.INIT_GOALVALUES);
-		String goal = settingpref.getString(getString(R.string.KEY_TIMEGOAL), initGoalValues);
-		if(goal.equals(initGoalValues)) {
-			goal = settingpref.getString(getString(R.string.KEY_DISTANCEGOAL), initGoalValues);
-			float distance = Float.parseFloat(goal);
-			goalRemain = distanceToString(distance) + getUnit();
-		} else {
-			long duration = Long.parseLong(goal);
-			goalRemain = durationToString(duration);
-		}
-		progressBar.setProgress(0, "Remain: "+goalRemain);
 	}
 
 	private void resetStatus(View v) {
@@ -316,7 +306,7 @@ public class WorkoutActivity extends MapActivity {
 		statDuration.setType(getString(R.string.KEY_DURATION));
 		statDuration.setUnit("h:mm:ss");
 		statDistance.setType(getString(R.string.KEY_DISTANCE));
-		statDistance.setUnit(getUnit());
+		statDistance.setUnit(unitHandler.getDisplayUnit());
 		statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
 		statCalorie.setType(getString(R.string.KEY_CALORIE));
 		statCalorie.setUnit("kcal");
@@ -339,22 +329,14 @@ public class WorkoutActivity extends MapActivity {
 		});
 	}
 
-	private String getUnit() {
-		String nowUnit = settingpref.getString(
-				getString(R.string.KEY_UNIT), getString(R.string.INIT_UNIT));
-		if (nowUnit.equals("Kilometer"))
-			return "Km";
-		else
-			return "Mile";
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
 		String mode = settingpref.getString(
 				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE));
 		tvMode.setText(mode);
-		statDistance.setUnit(getUnit());
+		statusHandler.refreshDistanceDisplay();
+		statDistance.setUnit(unitHandler.getDisplayUnit());
 		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));
 	}
 
@@ -390,10 +372,7 @@ public class WorkoutActivity extends MapActivity {
 	}
 
 	void updateDistanceDisplay(double distance) {
-		if(getUnit().equals("Mile")) {
-			distance *= 0.62137;
-		}
-		final String str = distanceToString(distance);
+		final String str = unitHandler.presentDistance(distance);
 		WorkoutActivity.this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -415,7 +394,7 @@ public class WorkoutActivity extends MapActivity {
 			if (goal > 0) {
 				prog = (float) distance / goal;
 			}
-			remain = distanceToString(Math.max(0, goal-distance)) + getUnit();
+			remain = unitHandler.presentDistanceWithUnit(Math.max(0, goal-distance));
 		} else {
 			if (duration < 0) return;
 			float goal = Float.parseFloat(settingpref.getString(keyTimeGoal, initGoalValues));
@@ -445,10 +424,6 @@ public class WorkoutActivity extends MapActivity {
 		long hours = (duration / 60) / 60;
 		final String str = String.format("%d:%02d:%02d", hours,	minutes, seconds);
 		return str;
-	}
-
-	private String distanceToString(double distance) {
-		return String.format("%.2f", distance);
 	}
 
 	void gps2gmap(GeoPoint newgp) {

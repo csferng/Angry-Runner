@@ -15,17 +15,17 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class WorkoutSettingActivity extends Activity {
-	ListView wslist;
-	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
-	SimpleAdapter wsAdapter;
-	String[] workoutsettings = new String[4];
-	String[] inits = new String[4];
-	String[] goalsettings = new String[4];
-	String goalinit;
-	String[] values = new String[4];
-	Button bt_confirm, bt_cancel;
-	SharedPreferences settingPref;
-	SharedPreferences.Editor settingPrefEdt;
+	private ListView wslist;
+	private ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
+	private SimpleAdapter wsAdapter;
+	private String[] workoutsettings = new String[4];
+	private String[] inits = new String[4];
+	private String[] goalsettings = new String[4];
+	private String goalinit;
+	private String[] values = new String[4];
+	private Button bt_confirm, bt_cancel;
+	private SharedPreferences settingPref;
+	private UnitHandler unitHandler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +51,31 @@ public class WorkoutSettingActivity extends Activity {
 		settingPref = getSharedPreferences(
 				getString(R.string.NAME_SHAREDPREFERENCE), 
 				MODE_PRIVATE);
-        settingPrefEdt = settingPref.edit();
+        unitHandler = new UnitHandler(this, settingPref);
 		
 		for(int i=0; i<workoutsettings.length; ++i){
-			HashMap<String,String> tmphm = new HashMap<String,String>();
-			if(i == 1){
-				tmphm.put("name", workoutsettings[1] + " & " + 
-						getString(R.string.KEY_PACE));
-			}else{
-				tmphm.put("name", workoutsettings[i]);
-			}
-			tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
-			alhm.add(tmphm);
-			
 			values[i] = settingPref.getString(goalsettings[i], goalinit);
+
+			HashMap<String,String> tmphm = new HashMap<String,String>();
+			switch(i) {
+			case 0:
+			case 2:
+				tmphm.put("name", workoutsettings[i]);
+				tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
+				break;
+			case 3:
+				tmphm.put("name", workoutsettings[i]);
+				tmphm.put("value", unitHandler.presentDistanceWithUnit(Double.parseDouble(values[i])));
+				break;
+			case 1:
+				double speed = Double.parseDouble(values[1]);
+				double pace = Double.parseDouble(values[0])/unitHandler.distanceToUnit(1.0);
+				String unit = unitHandler.getDisplayUnit();
+				tmphm.put("name", workoutsettings[1] + " & " + getString(R.string.KEY_PACE));
+				tmphm.put("value", String.format("%.2f m/s & %.0f s/%s", speed, pace, unit));
+				break;
+			}
+			alhm.add(tmphm);
 		}
         wsAdapter = new SimpleAdapter(WorkoutSettingActivity.this, 
         		alhm, 
@@ -116,6 +127,7 @@ public class WorkoutSettingActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO 
+		        SharedPreferences.Editor settingPrefEdt = settingPref.edit();
 				settingPrefEdt.putString(workoutsettings[0], alhm.get(0).get("value"));
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
 				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
@@ -159,7 +171,6 @@ public class WorkoutSettingActivity extends Activity {
     				break;
     			default:
     		}
-    		//values[requestCode] = data.getExtras().getString("value");
     	}
 	}
 	

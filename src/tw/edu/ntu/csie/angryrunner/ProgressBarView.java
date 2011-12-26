@@ -42,7 +42,7 @@ public class ProgressBarView extends View {
 		float x = ((width-1)*progress) / 100.0f;
 		Paint paint = new Paint();
 		paint.getTextBounds("M", 0, "M".length(), rect);
-		float tw = Math.abs(rect.right-rect.left) * 11;
+		float tw = Math.abs(rect.right-rect.left) * 12;
 		float th = Math.abs(rect.bottom-rect.top);
 		float scale = Math.min(((height-1)/2f)/th, (width-2)/tw);
 		float h1 = th*scale + 1;
