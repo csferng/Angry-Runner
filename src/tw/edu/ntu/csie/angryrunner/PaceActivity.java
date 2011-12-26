@@ -20,17 +20,17 @@ import android.widget.TextView;
 
 public class PaceActivity extends Activity {
 
-	String Unit, Pace, Speed;
-	SharedPreferences settingPref;
-	SharedPreferences.Editor settingPrefEdt;
+	private TextView min_tv, sec_tv, pace_tv, speed_tv;
+	private Button confirm_bt, cancel_bt;
+	private WheelView min, sec;
 	
-	TextView min_tv, sec_tv, pace_tv, speed_tv;
-	Button confirm_bt, cancel_bt;
-	WheelView min, sec;
-	
-	int curMinItemIndex, curSecItemIndex;
-	int curMin, curSec;
-	String [] ms;
+	private String unit;
+	private int pace;
+	private SharedPreferences settingPref;
+	private int curMinItemIndex, curSecItemIndex;
+	private int curMin, curSec;
+	private String [] ms;
+	private UnitHandler unitHandler;
 	
 	
 	@Override
@@ -40,16 +40,13 @@ public class PaceActivity extends Activity {
         setTitle(getString(R.string.KEY_SPEED) + " & " + getString(R.string.KEY_PACE)
         		+ " " + getString(R.string.TITLE));
 
-        final DecimalFormat f = new DecimalFormat("0000.00");
-
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
-        settingPrefEdt = settingPref.edit();
+        unitHandler = new UnitHandler(this, settingPref);
         
-        Unit = getUnit();
-        Pace = getPace(this.getIntent().getExtras());
-        Speed = getSpeed(this.getIntent().getExtras());
+        unit = unitHandler.getDisplayUnit();
+        pace = getPace(this.getIntent().getExtras());
         
         min_tv = (TextView)findViewById(R.id.minuteText);
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
@@ -60,41 +57,33 @@ public class PaceActivity extends Activity {
         sec_tv.setTextColor(Color.YELLOW);
         sec_tv.setTextSize(18);
         
-        
         pace_tv = (TextView)findViewById(R.id.paceText);
         pace_tv.setTextSize(32);
-        pace_tv.setText("/ "+Unit);
-        
+        pace_tv.setText("/ "+unit);
         
         speed_tv = (TextView)findViewById(R.id.speedText);
         speed_tv.setTypeface(Typeface.DEFAULT_BOLD);
         speed_tv.setTextColor(Color.CYAN);
         speed_tv.setTextSize(24);
-		speed_tv.setText("Speed:    "+f.format( Double.parseDouble(Speed) )+" m/s");
-        
+        updateSpeedText();
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
-        //confirm_bt.setTypeface(Typeface.DEFAULT_BOLD);
         confirm_bt.setTextSize(16);
         confirm_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
         	public void onClick(View v) {
         		
-        		Pace = calculatePace();
-//				settingPrefEdt.putString("Pace", Pace).commit();
-        		Speed = calculateSpeed();
-//				settingPrefEdt.putString("Speed", Speed).commit();
+        		pace = calculatePace();
+        		double secPerKm = pace * unitHandler.distanceToUnit(1.0);
+        		double speed = calcSpeed();
 
         		Intent it = new Intent();
 				Bundle bun = new Bundle();
-				//bun.putString("value", Speed);
-				bun.putString(
-						getString(R.string.KEY_PACEGOAL), 
-						Pace);
-				bun.putString(
-						getString(R.string.KEY_SPEEDGOAL), 
-						Speed);
-				bun.putString("display", Speed + " m/s" + " & " + Pace + " s/" + Unit);
+				bun.putString(getString(R.string.KEY_PACEGOAL), 
+						Double.toString(secPerKm));
+				bun.putString(getString(R.string.KEY_SPEEDGOAL), 
+						Double.toString(speed));
+				bun.putString("display", String.format("%.2f m/s & %d s/%s", speed, pace, unit));
 				it.putExtras(bun);
 				
 				setResult(RESULT_OK, it);
@@ -103,7 +92,6 @@ public class PaceActivity extends Activity {
         });
         
         cancel_bt = (Button)findViewById(R.id.cancelBT);
-        //cancel_bt.setTypeface(Typeface.DEFAULT_BOLD);
         cancel_bt.setTextSize(16);
         cancel_bt.setOnClickListener(new Button.OnClickListener(){
         	@Override
@@ -122,19 +110,16 @@ public class PaceActivity extends Activity {
         
         OnWheelChangedListener minListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                //updateDays(year, month, day);
             	curMinItemIndex = min.getCurrentItem();
             	curMin = Integer.parseInt( ms[curMinItemIndex] );
             	min.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curMinItemIndex));
             	min.setCurrentItem( curMinItemIndex );
                 
-                Pace = calculatePace();
-        		Speed = calculateSpeed();
-        		speed_tv.setText("Speed:    "+f.format( Double.parseDouble(Speed) )+" m/s");
+            	pace = calculatePace();
+            	updateSpeedText();
             }
         };
         
-        //curMinItemIndex = findIndex( paceDigits[0] );
         curMin = Integer.parseInt( ms[curMinItemIndex] );
         min.setViewAdapter(new DateArrayAdapter(this, ms, curMinItemIndex));
         min.setCurrentItem( curMinItemIndex );
@@ -142,108 +127,65 @@ public class PaceActivity extends Activity {
 
         OnWheelChangedListener secListener = new OnWheelChangedListener() {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                //updateDays(year, month, day);
             	curSecItemIndex = sec.getCurrentItem();
             	curSec = Integer.parseInt( ms[curSecItemIndex] );
             	sec.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curSecItemIndex));
             	sec.setCurrentItem( curSecItemIndex );
                 
-                Pace = calculatePace();
-        		Speed = calculateSpeed();
-        		speed_tv.setText("Speed:    "+f.format( Double.parseDouble(Speed) )+" m/s");
+            	pace = calculatePace();
+            	updateSpeedText();
             }
         };
         
-        //curSecItemIndex = findIndex( paceDigits[1] );
         curSec = Integer.parseInt( ms[curSecItemIndex] );
         sec.setViewAdapter(new DateArrayAdapter(this, ms, curSecItemIndex));
         sec.setCurrentItem( curSecItemIndex );
         sec.addChangingListener(secListener);
         
+        pace = calculatePace();
+        updateSpeedText();
 	}
 	
-	
-	String [] initArray(int size, int start) {
+	private String [] initArray(int size, int start) {
 		String [] as = new String[size];
 		for (int i=0; i < size; ++i) {
 			as[i] = new Integer(start+i).toString();
 		}
 		return as;
 	}
-	
-	String getUnit(){
-        String str = settingPref.getString(
-        		getString(R.string.KEY_UNIT), 
-        		getString(R.string.INIT_UNIT));
-        if (str.equals("Kilometer")) {
-        	return "Km";
-        }else if (str.equals("Mile")) {
-        	return "Mile";
-        }else {
-        	return "Km";
-        }
+
+	private void updateSpeedText() {
+		DecimalFormat f = new DecimalFormat("0000.00");
+		double speed = calcSpeed();
+		speed_tv.setText("Speed:    "+f.format( speed )+" m/s");
 	}
 
-	String getPace(Bundle bun){
-		String str = bun.getString(
-				getString(R.string.KEY_PACEGOAL));
-		if (str.equals("")) {
-			return getString(R.string.INIT_UNIT);
+	private double calcSpeed() {
+		return (pace==0) ? 0 : (unitHandler.distanceFromUnit(1.0)*1000.0/pace);
+	}
+	
+	private int getPace(Bundle bun) {
+		String str = bun.getString(getString(R.string.KEY_PACEGOAL));
+		if (str == null || str.equals("")) {
+			str = getString(R.string.INIT_GOALVALUES);
 		}
         Log.i("getPace()", str);
-        return str;
+        double v = Double.parseDouble(str) / unitHandler.distanceToUnit(1.0);
+        return (int)(v+0.5);
 	}
 	
-	String calculatePace() {
-		Integer sum = curMin*60 + curSec;
-		return sum.toString();
-	}
-
-	String getSpeed(Bundle bun){
-		String str = bun.getString(
-				getString(R.string.KEY_SPEEDGOAL));
-		if (str.equals("")) {
-			return getString(R.string.INIT_UNIT);
-		}
-        Log.i("getSpeed()", str);
-        return str;
+	private int calculatePace() {
+		return curMin*60 + curSec;
 	}
 	
-	String calculateSpeed() {
-		Integer sum = curMin*60 + curSec;
-		if (sum.equals(0)) return "0";
-		
-		Double speed = new Double(0);
-		if (Unit.equals("Km")) {
-			speed = new Double(1000)/new Double(sum);
-		}else if (Unit.equals("Mile")) {
-			speed = new Double(1609.344)/new Double(sum);
-		}
-
-		return doubleStringFormation( String.format("%.2f", speed) );
-	}
-	
-	String doubleStringFormation(String target) {
-		int pos = target.indexOf(".");
-		Log.i("target", target);
-		Double d0 = Double.parseDouble(target);
-		Double d1 = Double.parseDouble(target.substring(0, pos+2));
-		Double d2 = Double.parseDouble(target.substring(0, pos+3));
-		if ( d0.equals(d1) && d0.equals(d2)) {
-			return target.substring(0, pos);
-		}else if ( d1.equals(d2) ) {
-			return target.substring(0, pos+2);
-		}else {
-			return target;
-		}
-	}
-	
-	void initWheelValueIndex() {
-		int pace = Integer.parseInt(Pace);
+	private void initWheelValueIndex() {
 		curSecItemIndex = pace%60;
 		curMinItemIndex = pace/60;
+		if(curMinItemIndex > ms.length) {
+			curMinItemIndex = ms.length - 1;
+			curSecItemIndex = ms.length - 1;
+		}
 	}
-	
 	
 	public class DateArrayAdapter extends ArrayWheelAdapter<String> {
         // Index of current item
