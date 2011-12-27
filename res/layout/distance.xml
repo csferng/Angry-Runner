@@ -7,19 +7,27 @@
     android:orientation="vertical"
     android:screenOrientation="portrait" >
 
+    <Button
+        android:id="@+id/unsetBT"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="Unset" />
+
     <LinearLayout
         android:id="@+id/linearLayout3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:orientation="vertical" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/minuteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="3dp"
             android:text="Km" />
 
@@ -27,7 +35,7 @@
             android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -96,7 +104,8 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="1dp"
-            android:text="Confirm" android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Confirm" />
 
         <Button
             android:id="@+id/cancelBT"
@@ -106,7 +115,8 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="2dp"
-            android:text="Cancel" android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Cancel" />
     </LinearLayout>
 
 </RelativeLayout>

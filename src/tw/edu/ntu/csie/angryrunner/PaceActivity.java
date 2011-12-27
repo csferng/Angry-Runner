@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class PaceActivity extends Activity {
 
 	private TextView min_tv, sec_tv, pace_tv, speed_tv;
-	private Button confirm_bt, cancel_bt;
+	private Button unset_bt, confirm_bt, cancel_bt;
 	private WheelView min, sec;
 	
 	private String unit;
@@ -66,6 +66,26 @@ public class PaceActivity extends Activity {
         speed_tv.setTextColor(Color.CYAN);
         speed_tv.setTextSize(24);
         updateSpeedText();
+        
+        unset_bt = (Button)findViewById(R.id.unsetBT);
+        unset_bt.setTextSize(16);
+        unset_bt.setOnClickListener(new Button.OnClickListener(){
+        	@Override
+        	public void onClick(View v) {
+            	curMinItemIndex = 0;
+            	curMin = Integer.parseInt( ms[curMinItemIndex] );
+            	min.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curMinItemIndex));
+            	min.setCurrentItem( curMinItemIndex );
+                
+            	curSecItemIndex = 0;
+            	curSec = Integer.parseInt( ms[curSecItemIndex] );
+            	sec.setViewAdapter(new DateArrayAdapter(PaceActivity.this, ms, curSecItemIndex));
+            	sec.setCurrentItem( curSecItemIndex );
+                
+            	pace = calculatePace();
+            	updateSpeedText();
+        	}
+        });
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
         confirm_bt.setTextSize(16);

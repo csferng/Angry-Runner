@@ -1,5 +1,6 @@
 package tw.edu.ntu.csie.angryrunner;
 
+import tw.edu.ntu.csie.angryrunner.PaceActivity.DateArrayAdapter;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -20,7 +21,7 @@ public class DistanceActivity extends Activity {
 
 	private TextView dec_tv;
 	private WheelView cen, dec, unit;
-	private Button confirm_bt, cancel_bt;
+	private Button unset_bt, confirm_bt, cancel_bt;
 	
 	private int curCenItemIndex, curDecItemIndex, curUnitItemIndex;
 	private int curCen, curDec;
@@ -50,6 +51,30 @@ public class DistanceActivity extends Activity {
         dec_tv.setTextColor(Color.YELLOW);
         dec_tv.setTextSize(24);
         dec_tv.setText(unitHandler.getDisplayUnit());
+        
+        unset_bt = (Button)findViewById(R.id.unsetBT);
+        unset_bt.setTextSize(16);
+        unset_bt.setOnClickListener(new Button.OnClickListener(){
+        	@Override
+        	public void onClick(View v) {
+            	curCenItemIndex = 0;
+            	curCen = Integer.parseInt( digits[curCenItemIndex] );
+            	cen.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curCenItemIndex));
+            	cen.setCurrentItem( curCenItemIndex );
+
+            	curDecItemIndex = 0;
+            	curDec = Integer.parseInt( digits[curDecItemIndex] );
+            	dec.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, digits, curDecItemIndex));
+            	dec.setCurrentItem( curDecItemIndex );
+
+            	curUnitItemIndex = 0;
+            	curUnit = Double.parseDouble( dpoints[curUnitItemIndex] );
+            	unit.setViewAdapter(new DateArrayAdapter(DistanceActivity.this, dpoints, curUnitItemIndex));
+            	unit.setCurrentItem( curUnitItemIndex );
+            	
+            	distance = calculateDistance();
+        	}
+        });
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
         confirm_bt.setTextSize(16);

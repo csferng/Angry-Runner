@@ -23,7 +23,7 @@ public class TimeActivity extends Activity {
 
 	WheelView hour, min;
 	TextView hour_tv, min_tv;
-	Button confirm_bt, cancel_bt;
+	Button unset_bt, confirm_bt, cancel_bt;
 	
 	int curHourItemIndex, curMinItemIndex;
 	int curHour, curMin;
@@ -51,6 +51,26 @@ public class TimeActivity extends Activity {
         min_tv.setTypeface(Typeface.DEFAULT_BOLD);
         min_tv.setTextColor(Color.YELLOW);
         min_tv.setTextSize(18);
+        
+        
+        unset_bt = (Button)findViewById(R.id.unsetBT);
+        unset_bt.setTextSize(16);
+        unset_bt.setOnClickListener(new Button.OnClickListener(){
+        	@Override
+        	public void onClick(View v) {
+        		curHourItemIndex = 0;
+            	curHour = Integer.parseInt( hours[curHourItemIndex] );
+            	hour.setViewAdapter(new DateArrayAdapter(TimeActivity.this, hours, curHourItemIndex));
+            	hour.setCurrentItem(curHourItemIndex);
+            	
+            	curMinItemIndex = 0;
+            	curMin = Integer.parseInt( ms[curMinItemIndex] );
+            	min.setViewAdapter(new DateArrayAdapter(TimeActivity.this, ms, curMinItemIndex));
+            	min.setCurrentItem(curMinItemIndex);
+            	
+            	Time = calculateTime();
+        	}
+        });
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
