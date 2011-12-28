@@ -1,6 +1,5 @@
 package tw.edu.ntu.csie.angryrunner;
 
-import tw.edu.ntu.csie.angryrunner.PaceActivity.DateArrayAdapter;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
