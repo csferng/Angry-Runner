@@ -3,7 +3,10 @@ package tw.edu.ntu.csie.angryrunner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,6 +27,38 @@ public class MusicActivity extends Activity {
 	private SimpleAdapter playListItemAdapter;
 	private ArrayList<HashMap<String, String>> playListItem;
 	private SharedPreferences settingPref;
+	
+	private void ShowMagicDialog(String Msg, final int position) {
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
+		MyAlertDialog.setTitle("Delete Playlist");
+		MyAlertDialog.setMessage(Msg);
+		DialogInterface.OnClickListener confirmClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				if (selectedPos == position) {
+					String val = playListItem.get(selectedPos).get("playlistNameHL");
+        			if(!val.equals("")) {
+        				playListItem.get(selectedPos).put("playlistName", val);
+        				playListItem.get(selectedPos).put("playlistNameHL", "");
+        				playListItemAdapter.notifyDataSetChanged();
+            		}
+        			selectedPos = -1;
+            		SharedPreferences.Editor settingPrefEdt = settingPref.edit();
+            		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "-1").commit();
+				}
+        		HashMap<String, String> clickMap = playListItem.get(position);
+        		MediaUtil.deletePlaylist(getApplicationContext(), clickMap.get("playlistName").toString());
+        		playListItem.remove(position);
+        		playListItemAdapter.notifyDataSetChanged();
+			}
+		};
+		DialogInterface.OnClickListener cancelClick = new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		};
+		MyAlertDialog.setPositiveButton("Confirm", confirmClick);
+		MyAlertDialog.setNegativeButton("Cancel", cancelClick);
+		MyAlertDialog.show();
+	}
 	
     /** Called when the activity is first created. */
 	@Override
@@ -81,6 +116,14 @@ public class MusicActivity extends Activity {
         		intent.putExtras(b);
         		startActivityForResult(intent, 0);
         	}
+		});
+        playlist_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        	@Override
+        	public boolean onItemLongClick(AdapterView<?> parent, View item, int position, long id) {
+        		ShowMagicDialog("Are you sure?", position);
+        		return true;
+        	}
+        	// The return of onItemLongClick should be true, 否則長按會是執行 setOnItemClickListener
 		});
 		playListItem = new ArrayList<HashMap<String, String>>();
 		playListItemAdapter = new SimpleAdapter(MusicActivity.this, playListItem,

@@ -3,6 +3,7 @@ package tw.edu.ntu.csie.angryrunner;
 import java.util.ArrayList;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -55,6 +56,18 @@ public class MediaUtil {
 		c.close();
 		return id;
 	}
+	
+	private static long longFromCursor(Cursor c) {
+		long id = -1;
+		if (c != null) {
+			c.moveToFirst();
+			if (!c.isAfterLast()) {
+				id = c.getLong(0);
+			}
+		}
+		c.close();
+		return id;
+	}
 
 	public static int idForplaylist(Context context, String name) {
 		Cursor c = query(context,
@@ -65,6 +78,15 @@ public class MediaUtil {
 		return intFromCursor(c);
 	}
 
+	public static long lidForplaylist(Context context, String name) {
+		Cursor c = query(context,
+				MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
+				new String[] { MediaStore.Audio.Playlists._ID },
+				MediaStore.Audio.Playlists.NAME + "=?", new String[] { name },
+				MediaStore.Audio.Playlists.NAME);
+		return longFromCursor(c);
+	}
+	
 	public static void writePlaylist(Context context, String playlistName,
 			ArrayList<Integer> trackIds) {
 		ContentResolver resolver = context.getContentResolver();
@@ -96,5 +118,14 @@ public class MediaUtil {
 		}
 
 		resolver.bulkInsert(uri, values);
+	}
+	
+	public static void deletePlaylist(Context context, String playlistName) {
+		ContentResolver resolver = context.getContentResolver();
+		Uri uri = ContentUris.withAppendedId(
+                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, 
+                lidForplaylist(context, playlistName));
+		resolver.delete(uri, null, null);
+		
 	}
 }
