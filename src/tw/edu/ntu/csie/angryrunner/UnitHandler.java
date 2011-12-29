@@ -23,6 +23,13 @@ public class UnitHandler {
 		else return "Mile";
 	}
 	
+	public String getSpeakUnit() {
+		// TODO Use act.getString() for different languages
+		String s = getPrefUnit();
+		if(s.equals("Kilometer")) return "Kilometers";
+		else return "Miles";
+	}
+	
 	public double distanceFromUnit(double distance) {
 		if(getPrefUnit().equals("Mile")) {
 			return distance * 1.609;

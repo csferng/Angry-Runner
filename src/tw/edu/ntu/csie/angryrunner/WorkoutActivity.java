@@ -3,6 +3,8 @@ package tw.edu.ntu.csie.angryrunner;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,7 +16,9 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +29,7 @@ import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
-public class WorkoutActivity extends MapActivity {
+public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitListener{
 	private Button btStart, btStop, btWorkout, btMap;
 	private TextView tvMode;
 	private SpeedChartHandler speedChart;
@@ -44,6 +48,8 @@ public class WorkoutActivity extends MapActivity {
 	ARTimer timer;
 	Mplayer mplayer;
 	UnitHandler unitHandler;
+	TextToSpeech ttsHandler;
+	TtsSpeakProgress ttsSpeakHandler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,7 +82,6 @@ public class WorkoutActivity extends MapActivity {
 				R.id.progressBar);
 
 		initSpeedChart(pageViews.get(0));
-		resetStatus(pageViews.get(0));
 		initButtons(pageViews.get(0));
 		initMode(pageViews.get(0));
 
@@ -84,26 +89,45 @@ public class WorkoutActivity extends MapActivity {
 		gpsH = new GpsHandler(this, (ImageView) pageViews.get(0).findViewById(R.id.imageView1));
 
 		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
+		Intent checkit = new Intent();
+		checkit.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkit, 5);
+		ttsSpeakHandler = new TtsSpeakProgress();
+		
+		resetStatus(pageViews.get(0));
 
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode != RESULT_OK) return;
-		Bundle extras = (data==null) ? null : data.getExtras();
-		if(requestCode == 1) {
-			saveHistory(extras);
-		} else if(requestCode == 0) {
-		} else if(requestCode == 2) {
-			editPreference(getString(R.string.KEY_TIMEGOAL), getString(R.string.KEY_TIME), extras);
-		} else if(requestCode == 3) {
-			editPreference(getString(R.string.KEY_DISTANCEGOAL), getString(R.string.KEY_DISTANCE), extras);
-		} else if(requestCode == 4) {
-			editPreference(getString(R.string.KEY_SPEEDGOAL), getString(R.string.KEY_SPEED), extras);
-			editPreference(getString(R.string.KEY_PACEGOAL), null, extras);
+		if(requestCode == 5){
+			if(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+				ttsHandler = new TextToSpeech(WorkoutActivity.this.getParent(), WorkoutActivity.this);
+			}else{
+				Intent installit = new Intent();
+				installit.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				startActivity(installit);
+			}
+		}else{
+			if (resultCode != RESULT_OK)	return;
+			Bundle extras = (data == null) ? null : data.getExtras();
+			if (requestCode == 1) {
+				saveHistory(extras);
+			} else if (requestCode == 0) {
+			} else if (requestCode == 2) {
+				editPreference(getString(R.string.KEY_TIMEGOAL),
+						getString(R.string.KEY_TIME), extras);
+			} else if (requestCode == 3) {
+				editPreference(getString(R.string.KEY_DISTANCEGOAL),
+						getString(R.string.KEY_DISTANCE), extras);
+			} else if (requestCode == 4) {
+				editPreference(getString(R.string.KEY_SPEEDGOAL),
+						getString(R.string.KEY_SPEED), extras);
+				editPreference(getString(R.string.KEY_PACEGOAL), null, extras);
+			}
+			resetStatus(pageViews.get(0));
 		}
-		resetStatus(pageViews.get(0));
 	}
 
 	private void editPreference(String keyGoal, String keyDisplay, Bundle extras) {
@@ -347,6 +371,7 @@ public class WorkoutActivity extends MapActivity {
 		gpsH.unregister();
 		speedChart.cleanUp();
 		mplayer.cleanUp();
+		if(ttsHandler != null)	ttsHandler.shutdown();
 		super.onDestroy();
 	}
 
@@ -382,7 +407,7 @@ public class WorkoutActivity extends MapActivity {
 		updateProgressDisplay(distance, -1);
 	}
 
-	void updateProgressDisplay(double distance, double duration) {
+	void updateProgressDisplay(double distance, long duration) {
 		float prog = 0.0f;
 		String remain = null;
 		String keyTimeGoal = getString(R.string.KEY_TIMEGOAL);
@@ -395,6 +420,8 @@ public class WorkoutActivity extends MapActivity {
 				prog = (float) distance / goal;
 			}
 			remain = unitHandler.presentDistanceWithUnit(Math.max(0, goal-distance));
+			
+			ttsSpeakHandler.checkSpeakDistanceProgress(distance);
 		} else {
 			if (duration < 0) return;
 			float goal = Float.parseFloat(settingpref.getString(keyTimeGoal, initGoalValues));
@@ -403,6 +430,8 @@ public class WorkoutActivity extends MapActivity {
 			}
 			int dt = Math.max(0, (int)(goal-duration+0.5));
 			remain = durationToString(dt);
+			
+			ttsSpeakHandler.checkSpeakTimeProgress(duration);
 		}
 		if (prog > 1.0f) prog = 1.0f;
 		progressBar.setProgress(prog*100.0f, "Remain: "+remain);
@@ -447,6 +476,8 @@ public class WorkoutActivity extends MapActivity {
 			statusHandler.start();
 			btStart.setText("Pause");
 			btStart.setClickable(true);
+			//ttsHandler.speak("Start", TextToSpeech.QUEUE_FLUSH, null);
+			ttsSpeakHandler.init();
 			playMusic();
 		}
 	}
@@ -563,4 +594,64 @@ public class WorkoutActivity extends MapActivity {
 		}
 
 	}
+
+	@Override
+	public void onInit(int status) {
+		if(status == TextToSpeech.SUCCESS){
+			int langStatus = ttsHandler.isLanguageAvailable(Locale.US);
+			
+			switch (langStatus) {
+				case TextToSpeech.LANG_AVAILABLE:
+				case TextToSpeech.LANG_COUNTRY_AVAILABLE:
+				case TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE:
+					ttsHandler.setLanguage(Locale.US);
+					break;
+				case TextToSpeech.LANG_MISSING_DATA:
+				case TextToSpeech.LANG_NOT_SUPPORTED:
+					Log.d("tts", "can not speak english");
+					break;
+				default:
+					break;
+			}
+		}else if(status == TextToSpeech.ERROR){
+			Log.d("tts", "init status error");
+		}
+		
+	}
+	
+	class TtsSpeakProgress{
+		int time;	// 30 minutes
+		double distance;	// 1 km or mile
+		
+		public TtsSpeakProgress() {
+			init();
+		}
+		
+		void init(){
+			time = 5;
+			distance = 1.0;
+		}
+		
+		void checkSpeakTimeProgress(long nowSeconds){
+			if(nowSeconds/60 >= time){
+				ttsHandler.speak(time + " minutes", TextToSpeech.QUEUE_FLUSH, null);
+				time += 5;
+			}
+			
+			return;
+		}
+		
+		void checkSpeakDistanceProgress(double nowDistance){
+			double tmpdis = unitHandler.distanceToUnit(nowDistance);
+			
+			if(tmpdis >= distance){
+				ttsHandler.speak(distance + unitHandler.getDisplayUnit(), TextToSpeech.QUEUE_FLUSH, null);
+				distance += 1.0;
+			}
+			
+			return;
+		}
+		
+	}
+	
 }
