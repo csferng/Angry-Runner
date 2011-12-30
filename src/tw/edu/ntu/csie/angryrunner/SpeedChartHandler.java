@@ -55,6 +55,7 @@ public class SpeedChartHandler {
 	}
 
 	public void setCurrentValue(double value) {
+		if(Double.isNaN(value)) return;
     	animateThread.setGoal(adjustValue(value));
     }
     
