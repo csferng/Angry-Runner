@@ -63,6 +63,7 @@ public class StatusHandler {
 	}
 
 	Bundle stop() {
+		if(state != State.WORKING) resume();
 		state = State.BEFORE_START;
 		timer.cancel();
 
