@@ -248,7 +248,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					
 					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
 							audioVariable.getInitVolume(), 
-							AudioManager.FLAG_PLAY_SOUND);
+							0);
 					mplayer.stop();
 					mplayer.reset();
 					
@@ -391,8 +391,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 
 		int newVolume = audioVariable.newVolume(speed);
 		if (newVolume != -1) {
-			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume,
-					AudioManager.FLAG_PLAY_SOUND);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume, 0);
 		}
 	}
 
