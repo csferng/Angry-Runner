@@ -26,7 +26,7 @@ public class MathUtil {
 		double d = (Math.acos(Math.sin(tmplat1) * Math.sin(tmplat2)
 				+ Math.cos(tmplat1) * Math.cos(tmplat2)
 				* Math.cos(tmplong2 - tmplong1)) * 6371.0);
-		return d;
+		return (Double.isNaN(d) || Double.isInfinite(d)) ? 0 : d;
 	}
 
 	public static double calculateCalories(String mode, double speed, double seconds, double weight) {

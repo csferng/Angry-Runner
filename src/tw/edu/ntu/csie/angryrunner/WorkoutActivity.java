@@ -3,7 +3,6 @@ package tw.edu.ntu.csie.angryrunner;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -387,6 +386,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	}
 
 	void updateSpeedDisplay(double speed) {
+		if(Double.isInfinite(speed) || Double.isNaN(speed)) return;
 		speedChart.setCurrentValue(speed);
 
 		int newVolume = audioVariable.newVolume(speed);
@@ -396,6 +396,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	}
 
 	void updateDistanceDisplay(double distance) {
+		if(Double.isInfinite(distance) || Double.isNaN(distance)) return;
 		final String str = unitHandler.presentDistance(distance);
 		WorkoutActivity.this.runOnUiThread(new Runnable() {
 			@Override
@@ -422,7 +423,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			
 			ttsSpeakHandler.checkSpeakDistanceProgress(distance);
 		} else {
-			if (duration < 0) return;
+			if(duration < 0) return;
 			float goal = Float.parseFloat(settingpref.getString(keyTimeGoal, initGoalValues));
 			if (goal > 0) {
 				prog = (float) duration / goal;
@@ -437,6 +438,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	}
 
 	void updateCaloriesDisplay(double calorie) {
+		if(Double.isInfinite(calorie) || Double.isNaN(calorie)) return;
 		final String s = String.format("%.0f", calorie);
 		WorkoutActivity.this.runOnUiThread(new Runnable() {
 			@Override
