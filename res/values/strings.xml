@@ -31,6 +31,16 @@
     <string name="INIT_COUNTDOWNVALUE">0</string>
     <string name="INIT_GOALVALUES">0</string>
     <string name="KEY_PLAYLISTID">PlaylistID</string>
+    <string name="DISPLAY_WEIGHT">Weight</string>
+    <string name="DISPLAY_UNIT">Unit</string>
+    <string name="DISPLAY_MODE">Mode</string>
+    <string name="DISPLAY_COUNTDOWN">Countdown Before Start</string>
+    <string name="DISPLAY_SPEED">Speed</string>
+    <string name="DISPLAY_PACE">Speed &amp; Pace</string>
+    <string name="DISPLAY_TIME">Time</string>
+    <string name="DISPLAY_DISTANCE">Distance</string>
+    <string name="DISPLAY_DURATION">Duration</string>
+    <string name="DISPLAY_CALORIE">Calorie</string>
     
     
 </resources>

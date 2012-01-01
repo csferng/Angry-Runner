@@ -37,7 +37,7 @@ public class PaceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pace);
-        setTitle(getString(R.string.KEY_SPEED) + " & " + getString(R.string.KEY_PACE)
+        setTitle(getString(R.string.DISPLAY_PACE)
         		+ " " + getString(R.string.TITLE));
 
         settingPref = getSharedPreferences(

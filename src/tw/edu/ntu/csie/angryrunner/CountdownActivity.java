@@ -19,7 +19,7 @@ public class CountdownActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.countdown);
-		setTitle(getString(R.string.KEY_COUNTDOWN) + " " + getString(R.string.TITLE));
+		setTitle(getString(R.string.DISPLAY_COUNTDOWN) + " " + getString(R.string.TITLE));
 		
 		countdownlist = (ListView) findViewById(R.id.listView1);
 		

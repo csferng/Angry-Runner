@@ -18,6 +18,7 @@ public class SettingActivity extends Activity {
 	ListView settinglist;
 	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
 	SimpleAdapter settingAdapter;
+	String[] display = new String[4];
 	String[] settings = new String[4];
 	String[] inits = new String[4];
 	SharedPreferences settingPref;
@@ -46,6 +47,10 @@ public class SettingActivity extends Activity {
         inits[1] = getString(R.string.INIT_UNIT);
         inits[2] = getString(R.string.INIT_MODE);
         inits[3] = getString(R.string.INIT_COUNTDOWN);
+        display[0] = getString(R.string.DISPLAY_WEIGHT);
+        display[1] = getString(R.string.DISPLAY_UNIT);
+        display[2] = getString(R.string.DISPLAY_MODE);
+        display[3] = getString(R.string.DISPLAY_COUNTDOWN);
         
         settinglist = (ListView) findViewById(R.id.listView1);
         settingPref = getSharedPreferences(
@@ -55,7 +60,7 @@ public class SettingActivity extends Activity {
         
         for(int i=0; i<settings.length; ++i){
         	HashMap<String,String> tmphm = new HashMap<String,String>();
-        	tmphm.put("name", settings[i]);
+        	tmphm.put("name", display[i]);
         	tmphm.put("value", settingPref.getString(settings[i], inits[i]));
         	alhm.add(tmphm);
         }

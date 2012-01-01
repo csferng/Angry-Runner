@@ -16,6 +16,7 @@ public class ResultActivity extends Activity {
 	ArrayList<HashMap<String,Object>> alhm = new ArrayList<HashMap<String,Object>>();
 	SimpleAdapter resultAdapter;
 	String[] resultItems = new String[5];
+	String[] display = new String[5];
 	Button btConfirm, btCancel;
 	
 	@Override
@@ -29,6 +30,11 @@ public class ResultActivity extends Activity {
 		resultItems[2] = getString(R.string.KEY_DURATION);
 		resultItems[3] = getString(R.string.KEY_DISTANCE);
 		resultItems[4] = getString(R.string.KEY_CALORIE);
+		display[0] = getString(R.string.DISPLAY_MODE);
+		display[1] = getString(R.string.DISPLAY_SPEED);
+		display[2] = getString(R.string.DISPLAY_DURATION);
+		display[3] = getString(R.string.DISPLAY_DISTANCE);
+		display[4] = getString(R.string.DISPLAY_CALORIE);
 		
 		resultlist = (ListView) findViewById(R.id.listView1);
 		btConfirm = (Button) findViewById(R.id.btConfirm);
@@ -60,7 +66,7 @@ public class ResultActivity extends Activity {
 			}
 			*/
 			//tmphm.put("pic", R.drawable.ic_launcher);
-			tmphm.put("name", resultItems[i]);
+			tmphm.put("name", display[i]);
 			tmphm.put("value", value);
 			alhm.add(tmphm);
 		}

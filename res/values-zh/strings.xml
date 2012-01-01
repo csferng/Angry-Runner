@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">跑跑憤怒豬</string>
+    <string name="TITLE">- 跑跑憤怒豬</string>
+    <string name="INIT_WEIGHT">60 公斤</string>
+    <string name="INIT_UNIT">公里</string>
+    <string name="INIT_MODE">健走</string>
+    <string name="INIT_COUNTDOWN">關閉</string>
+    <string name="DISPLAY_WEIGHT">體重</string>
+    <string name="DISPLAY_UNIT">距離單位</string>
+    <string name="DISPLAY_MODE">運動型態</string>
+    <string name="DISPLAY_COUNTDOWN">在開始前倒數</string>
+    <string name="DISPLAY_SPEED">速度</string>
+    <string name="DISPLAY_PACE">速度</string>
+    <string name="DISPLAY_TIME">時間</string>
+    <string name="DISPLAY_DISTANCE">距離</string>
+    <string name="DISPLAY_DURATION">時間</string>
+    <string name="DISPLAY_CALORIE">卡路里</string>
+    
+    
+</resources>

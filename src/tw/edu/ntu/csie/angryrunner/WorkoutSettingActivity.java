@@ -21,6 +21,7 @@ public class WorkoutSettingActivity extends Activity {
 	private String[] workoutsettings = new String[4];
 	private String[] inits = new String[4];
 	private String[] goalsettings = new String[4];
+	private String[] display = new String[4];
 	private String goalinit;
 	private String[] values = new String[4];
 	private Button bt_confirm, bt_cancel;
@@ -44,6 +45,10 @@ public class WorkoutSettingActivity extends Activity {
 		goalsettings[2] = getString(R.string.KEY_TIMEGOAL);
 		goalsettings[3] = getString(R.string.KEY_DISTANCEGOAL);
 		goalinit = getString(R.string.INIT_GOALVALUES);
+		display[0] = getString(R.string.DISPLAY_MODE);
+		display[1] = getString(R.string.DISPLAY_PACE);
+		display[2] = getString(R.string.DISPLAY_TIME);
+		display[3] = getString(R.string.DISPLAY_DISTANCE);
 		
 		wslist = (ListView) findViewById(R.id.listView1);
 		bt_confirm = (Button) findViewById(R.id.btConfirm);
@@ -60,18 +65,18 @@ public class WorkoutSettingActivity extends Activity {
 			switch(i) {
 			case 0:
 			case 2:
-				tmphm.put("name", workoutsettings[i]);
+				tmphm.put("name", display[i]);
 				tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
 				break;
 			case 3:
-				tmphm.put("name", workoutsettings[i]);
+				tmphm.put("name", display[i]);
 				tmphm.put("value", unitHandler.presentDistanceWithUnit(Double.parseDouble(values[i])));
 				break;
 			case 1:
 				double speed = Double.parseDouble(values[1]);
 				double pace = Double.parseDouble(values[0])/unitHandler.distanceToUnit(1.0);
 				String unit = unitHandler.getDisplayUnit();
-				tmphm.put("name", workoutsettings[1] + " & " + getString(R.string.KEY_PACE));
+				tmphm.put("name", display[1]);
 				tmphm.put("value", String.format("%.2f m/s & %.0f s/%s", speed, pace, unit));
 				break;
 			}

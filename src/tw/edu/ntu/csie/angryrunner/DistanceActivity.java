@@ -35,7 +35,7 @@ public class DistanceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.distance);
-        setTitle(getString(R.string.KEY_DISTANCE) + " " + getString(R.string.TITLE));
+        setTitle(getString(R.string.DISPLAY_DISTANCE) + " " + getString(R.string.TITLE));
 
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 

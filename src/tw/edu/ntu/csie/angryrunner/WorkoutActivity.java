@@ -326,12 +326,12 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			statDuration = statMajor;
 			statDistance = statMinor;
 		}
-		statDuration.setType(getString(R.string.KEY_DURATION));
+		statDuration.setType(getString(R.string.DISPLAY_DURATION));
 		statDuration.setUnit("h:mm:ss");
-		statDistance.setType(getString(R.string.KEY_DISTANCE));
+		statDistance.setType(getString(R.string.DISPLAY_DISTANCE));
 		statDistance.setUnit(unitHandler.getDisplayUnit());
 		statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
-		statCalorie.setType(getString(R.string.KEY_CALORIE));
+		statCalorie.setType(getString(R.string.DISPLAY_CALORIE));
 		statCalorie.setUnit("kcal");
 		zeroStatus();
 		statDuration.setOnClickListener(new View.OnClickListener() {

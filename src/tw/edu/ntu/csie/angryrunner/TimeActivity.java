@@ -34,7 +34,7 @@ public class TimeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time);
-        setTitle(getString(R.string.KEY_TIME) + " " + getString(R.string.TITLE));
+        setTitle(getString(R.string.DISPLAY_TIME) + " " + getString(R.string.TITLE));
         
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
