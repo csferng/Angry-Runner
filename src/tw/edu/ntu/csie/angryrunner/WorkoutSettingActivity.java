@@ -38,7 +38,7 @@ public class WorkoutSettingActivity extends Activity {
 		workoutsettings[1] = getString(R.string.KEY_SPEED);
 		workoutsettings[2] = getString(R.string.KEY_TIME);
 		workoutsettings[3] = getString(R.string.KEY_DISTANCE);
-		inits[0] = getString(R.string.INIT_MODE);
+		inits[0] = getString(R.string.VALUE_WALKING);
 		inits[1] = ""; inits[2] = ""; inits[3] = "";
 		goalsettings[0] = getString(R.string.KEY_PACEGOAL);
 		goalsettings[1] = getString(R.string.KEY_SPEEDGOAL);
@@ -64,6 +64,9 @@ public class WorkoutSettingActivity extends Activity {
 			HashMap<String,String> tmphm = new HashMap<String,String>();
 			switch(i) {
 			case 0:
+				tmphm.put("name", display[i]);
+				tmphm.put("value", getModeDisplay(settingPref.getString(workoutsettings[i], inits[i])));
+				break;
 			case 2:
 				tmphm.put("name", display[i]);
 				tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
@@ -133,7 +136,7 @@ public class WorkoutSettingActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO 
 		        SharedPreferences.Editor settingPrefEdt = settingPref.edit();
-				settingPrefEdt.putString(workoutsettings[0], alhm.get(0).get("value"));
+				settingPrefEdt.putString(workoutsettings[0], getMode(alhm.get(0).get("value")));
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
 				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
 				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
@@ -155,6 +158,30 @@ public class WorkoutSettingActivity extends Activity {
 			}
 		});
 		
+	}
+	
+	String getModeDisplay(String mode){
+		if(mode.equals(getString(R.string.VALUE_WALKING))){
+			return getString(R.string.STR_WALKING);
+		}else if(mode.equals(getString(R.string.VALUE_RUNNING))){
+			return getString(R.string.STR_RUNNING);
+		}else if(mode.equals(getString(R.string.VALUE_CYCLING))){
+			return getString(R.string.STR_CYCLING);
+		}
+		
+		return getString(R.string.INIT_MODE);
+	}
+	
+	String getMode(String mode){
+		if(mode.equals(getString(R.string.STR_WALKING))){
+			return getString(R.string.VALUE_WALKING);
+		}else if(mode.equals(getString(R.string.STR_RUNNING))){
+			return getString(R.string.VALUE_RUNNING);
+		}else if(mode.equals(getString(R.string.STR_CYCLING))){
+			return getString(R.string.VALUE_CYCLING);
+		}
+		
+		return getString(R.string.VALUE_WALKING);
 	}
 	
 	@Override

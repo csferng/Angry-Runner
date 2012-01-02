@@ -28,7 +28,14 @@ public class SettingActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		for(int i=0; i<settings.length; ++i){
-			alhm.get(i).put("value", settingPref.getString(settings[i], inits[i]));
+			if(i == 2){
+				alhm.get(i).put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
+			}else if(i == 3){
+				alhm.get(i).put("value", getCountdownDisplay(
+						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
+			}else{
+				alhm.get(i).put("value", settingPref.getString(settings[i], inits[i]));
+			}
 			settingAdapter.notifyDataSetChanged();
 		}
 	}
@@ -45,8 +52,8 @@ public class SettingActivity extends Activity {
         settings[3] = getString(R.string.KEY_COUNTDOWN);
         inits[0] = getString(R.string.INIT_WEIGHT);
         inits[1] = getString(R.string.INIT_UNIT);
-        inits[2] = getString(R.string.INIT_MODE);
-        inits[3] = getString(R.string.INIT_COUNTDOWN);
+        inits[2] = getString(R.string.VALUE_WALKING);
+        inits[3] = getString(R.string.INIT_COUNTDOWNVALUE);
         display[0] = getString(R.string.DISPLAY_WEIGHT);
         display[1] = getString(R.string.DISPLAY_UNIT);
         display[2] = getString(R.string.DISPLAY_MODE);
@@ -61,7 +68,14 @@ public class SettingActivity extends Activity {
         for(int i=0; i<settings.length; ++i){
         	HashMap<String,String> tmphm = new HashMap<String,String>();
         	tmphm.put("name", display[i]);
-        	tmphm.put("value", settingPref.getString(settings[i], inits[i]));
+        	if(i == 2){
+        		tmphm.put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
+        	}else if(i == 3){
+        		tmphm.put("value", getCountdownDisplay(
+						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
+			}else{
+        		tmphm.put("value", settingPref.getString(settings[i], inits[i]));
+        	}
         	alhm.add(tmphm);
         }
         settingAdapter = new SimpleAdapter(SettingActivity.this, 
@@ -110,7 +124,11 @@ public class SettingActivity extends Activity {
     	if(resultCode == RESULT_OK){
     		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		settingAdapter.notifyDataSetChanged();
-    		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
+    		if(requestCode == 2 || requestCode == 3){
+    			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
+    		}else{
+    			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
+    		}
     		if(requestCode == 0){
     			settingPrefEdt.putString(
     					getString(R.string.KEY_WEIGHTVALUE), 
@@ -124,6 +142,26 @@ public class SettingActivity extends Activity {
     	}
     }
     
+    String getModeDisplay(String mode){
+		if(mode.equals(getString(R.string.VALUE_WALKING))){
+			return getString(R.string.STR_WALKING);
+		}else if(mode.equals(getString(R.string.VALUE_RUNNING))){
+			return getString(R.string.STR_RUNNING);
+		}else if(mode.equals(getString(R.string.VALUE_CYCLING))){
+			return getString(R.string.STR_CYCLING);
+		}
+		
+		return getString(R.string.INIT_MODE);
+	}
+    
+    String getCountdownDisplay(int sec){
+    	if(sec > 0){
+    		return (sec + " " + getString(R.string.STR_SEC));
+    	}
+    	
+    	return getString(R.string.INIT_COUNTDOWN);
+    }
+	    
     @Override
     public void onBackPressed() {
     	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);

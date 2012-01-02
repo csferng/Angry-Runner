@@ -44,10 +44,10 @@ public class GmapHandler{
 			public void onClick(View arg0) {
 				if(mv.isEnabled()){
 					mv.setEnabled(false);
-					isEnable.setText("Enable ");
+					isEnable.setText(R.string.BT_ENABLE);
 				}else{
 					mv.setEnabled(true);
-					isEnable.setText("Disable");
+					isEnable.setText(R.string.BT_DISABLE);
 				}
 			}
 		});
