@@ -41,7 +41,7 @@ public class MusicPlaylistActivity extends Activity {
 		setContentView(R.layout.musiclist);
 		
 		enterName = (TextView)findViewById(R.id.enterName);
-		enterName.setText("Playlist Name");
+//		enterName.setText("Playlist Name");
 		playlistName = (EditText)findViewById(R.id.playlistName);
 		musiclist = (ListView)findViewById(R.id.PhoneMusicList);
 		

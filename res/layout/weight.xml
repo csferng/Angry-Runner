@@ -90,7 +90,8 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="5dp"
-            android:text="Confirm" android:layout_weight="1"/>
+            android:text="@string/STR_CONFIRM" 
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/cancelBT"
@@ -100,7 +101,8 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="2dp"
             android:layout_marginBottom="5dp"
-            android:text="Cancel" android:layout_weight="1"/>
+            android:text="@string/STR_CANCEL" 
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </RelativeLayout>

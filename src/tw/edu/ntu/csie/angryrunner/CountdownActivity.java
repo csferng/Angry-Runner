@@ -12,7 +12,8 @@ import android.widget.ListView;
 public class CountdownActivity extends Activity {
 	ListView countdownlist;
 	ArrayAdapter<String> countdownAdapter;
-	String[] countdowns = {"Off", "10 secs", "20 secs", "30 secs", "60 secs"};
+	//String[] countdowns = {"Off", "10 secs", "20 secs", "30 secs", "60 secs"};
+	String[] countdowns = new String[5];
 	String[] cdValues = {"0", "10", "20", "30", "60"};
 	
 	@Override
@@ -21,6 +22,11 @@ public class CountdownActivity extends Activity {
 		setContentView(R.layout.countdown);
 		setTitle(getString(R.string.DISPLAY_COUNTDOWN) + " " + getString(R.string.TITLE));
 		
+		countdowns[0] = getString(R.string.INIT_COUNTDOWN);
+		countdowns[1] = cdValues[1] + " " + getString(R.string.STR_SEC);
+		countdowns[2] = cdValues[2] + " " + getString(R.string.STR_SEC);
+		countdowns[3] = cdValues[3] + " " + getString(R.string.STR_SEC);
+		countdowns[4] = cdValues[4] + " " + getString(R.string.STR_SEC);
 		countdownlist = (ListView) findViewById(R.id.listView1);
 		
 		countdownAdapter = new ArrayAdapter<String>(CountdownActivity.this, android.R.layout.simple_list_item_1, countdowns);

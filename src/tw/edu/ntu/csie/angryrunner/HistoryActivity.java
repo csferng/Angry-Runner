@@ -17,6 +17,7 @@ public class HistoryActivity extends Activity {
 	ArrayList<HashMap<String, Object>> historyItems;
 	SQLiteDatabase historydb;
 	String[] DatabaseTableColumn = new String[5];
+	String[] modeString = new String[3];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,10 @@ public class HistoryActivity extends Activity {
 		setContentView(R.layout.history);
 		//setTitle("History " + getString(R.string.TITLE));
 
+		modeString[0] = getString(R.string.VALUE_WALKING);
+		modeString[1] = getString(R.string.VALUE_RUNNING);
+		modeString[2] = getString(R.string.VALUE_CYCLING);
+		
 		DatabaseTableColumn[0] = getString(R.string.KEY_MODE);
 		DatabaseTableColumn[1] = getString(R.string.KEY_DATE);
 		DatabaseTableColumn[2] = getString(R.string.KEY_DISTANCE);
@@ -68,11 +73,11 @@ public class HistoryActivity extends Activity {
 			HashMap<String, Object> tmpitem = new HashMap<String, Object>();
 			
 			String mode = historyCursor.getString(0);
-			if(mode.equals("Walking")){
+			if(mode.equals(modeString[0])){
 				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_walking);
-			}else if(mode.equals("Running")){
+			}else if(mode.equals(modeString[1])){
 				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_running);
-			}else if(mode.equals("Cycling")){
+			}else if(mode.equals(modeString[2])){
 				tmpitem.put(DatabaseTableColumn[0], R.drawable.mode_cycling);
 			}else{
 				tmpitem.put(DatabaseTableColumn[0], R.drawable.ic_launcher);

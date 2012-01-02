@@ -25,12 +25,15 @@
     <string name="KEY_DISTANCEGOAL">DistanceGoal</string>
     <string name="INIT_WEIGHT">60 Kg</string>
     <string name="INIT_UNIT">Kilometer</string>
-    <string name="INIT_MODE">Walking</string>
+    <string name="INIT_MODE">Walking mode</string>
     <string name="INIT_COUNTDOWN">Off</string>
     <string name="INIT_WEIGHTVALUE">60</string>
     <string name="INIT_COUNTDOWNVALUE">0</string>
     <string name="INIT_GOALVALUES">0</string>
     <string name="KEY_PLAYLISTID">PlaylistID</string>
+    <string name="VALUE_WALKING">Walking</string>
+    <string name="VALUE_RUNNING">Running</string>
+    <string name="VALUE_CYCLING">Cycling</string>
     <string name="DISPLAY_WEIGHT">Weight</string>
     <string name="DISPLAY_UNIT">Unit</string>
     <string name="DISPLAY_MODE">Mode</string>
@@ -41,6 +44,33 @@
     <string name="DISPLAY_DISTANCE">Distance</string>
     <string name="DISPLAY_DURATION">Duration</string>
     <string name="DISPLAY_CALORIE">Calorie</string>
-    
+    <string name="BT_GOAL">Goal Setting</string>
+    <string name="BT_START">Start</string>
+    <string name="BT_STOP">Stop</string>
+    <string name="BT_PAUSE">Pause</string>
+    <string name="BT_RESUME">Resume</string>
+    <string name="BT_MAP">Map</string>
+    <string name="BT_BACK">Back</string>
+    <string name="BT_CENTER">My Location</string>
+    <string name="BT_ENABLE">Enable </string>
+    <string name="BT_DISABLE">Disable</string>
+    <string name="STR_MODE">mode</string>
+    <string name="STR_WALKING">Walking mode</string>
+    <string name="STR_RUNNING">Running mode</string>
+    <string name="STR_CYCLING">Cycling mode</string>
+    <string name="STR_SEC">secs</string>
+    <string name="STR_MAIN">Main</string>
+    <string name="STR_PLAYLIST">Playlist</string>
+    <string name="STR_HISTORY">History</string>
+    <string name="STR_SETTING">Setting</string>
+    <string name="STR_CONFIRM">Confirm</string>
+    <string name="STR_CANCEL">Cancel</string>
+    <string name="STR_UNSET">Unset</string>
+    <string name="STR_MINS">Mins</string>
+    <string name="STR_SECS">Secs</string>
+    <string name="STR_HOURS">Hours</string>
+    <string name="STR_ADDPL">Add a playlist</string>
+    <string name="STR_UNSETPL">Unset playlist</string>
+    <string name="STR_PLTITLE">Playlist Name</string>
     
 </resources>

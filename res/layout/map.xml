@@ -13,20 +13,20 @@
             android:id="@+id/btBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/BT_BACK" />
 
         <Button
         	android:id="@+id/btCenter"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:layout_weight="1"
-        	android:text="Center" />
+        	android:text="@string/BT_CENTER" />
         
         <Button
             android:id="@+id/btEnable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable " />
+            android:text="@string/BT_ENABLE" />
 
     </TableRow>
     

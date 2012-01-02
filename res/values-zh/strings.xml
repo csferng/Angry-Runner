@@ -3,9 +3,9 @@
 
     <string name="app_name">跑跑憤怒豬</string>
     <string name="TITLE">- 跑跑憤怒豬</string>
-    <string name="INIT_WEIGHT">60 公斤</string>
+    <!-- <string name="INIT_WEIGHT">60 公斤</string> -->
     <string name="INIT_UNIT">公里</string>
-    <string name="INIT_MODE">健走</string>
+    <string name="INIT_MODE">健走模式</string>
     <string name="INIT_COUNTDOWN">關閉</string>
     <string name="DISPLAY_WEIGHT">體重</string>
     <string name="DISPLAY_UNIT">距離單位</string>
@@ -17,6 +17,33 @@
     <string name="DISPLAY_DISTANCE">距離</string>
     <string name="DISPLAY_DURATION">時間</string>
     <string name="DISPLAY_CALORIE">卡路里</string>
-    
-    
+    <string name="BT_GOAL">設定運動目標</string>
+    <string name="BT_START">開始</string>
+    <string name="BT_STOP">停止</string>
+    <string name="BT_PAUSE">暫停</string>
+    <string name="BT_RESUME">繼續</string>
+    <string name="BT_MAP">地圖</string>
+    <string name="BT_BACK">返回</string>
+    <string name="BT_CENTER">我的位置</string>
+    <string name="BT_ENABLE">開啟地圖模式</string>
+    <string name="BT_DISABLE">關閉地圖模式</string>
+    <string name="STR_MODE">模式</string>
+    <string name="STR_WALKING">健走模式</string>
+    <string name="STR_RUNNING">跑步模式</string>
+    <string name="STR_CYCLING">騎單車模式</string>
+    <string name="STR_SEC">秒</string>
+    <string name="STR_MAIN">運動主頁</string>
+    <string name="STR_PLAYLIST">音樂清單</string>
+    <string name="STR_HISTORY">歷史記錄</string>
+    <string name="STR_SETTING">其它設定</string>
+    <string name="STR_CONFIRM">確定</string>
+    <string name="STR_CANCEL">取消</string>
+    <string name="STR_UNSET">歸零</string>
+    <string name="STR_MINS">分</string>
+    <string name="STR_SECS">秒</string>
+    <string name="STR_HOURS">時</string>
+    <string name="STR_ADDPL">新增清單</string>
+    <string name="STR_UNSETPL">清除設定</string>
+    <string name="STR_PLTITLE">音樂清單名稱</string>
+        
 </resources>

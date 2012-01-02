@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:text="Unset" />
+        android:text="@string/STR_UNSET" />
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="3dp"
-                    android:text="Mins" />
+                    android:text="@string/STR_MINS" />
 
                 <kankan.wheel.widget.WheelView
                     android:id="@+id/minute"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="3dp"
-                    android:text="Secs" />
+                    android:text="@string/STR_SECS" />
 
                 <kankan.wheel.widget.WheelView
                     android:id="@+id/second"
@@ -112,7 +112,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:text="Confirm" />
+            android:text="@string/STR_CONFIRM" />
 
         <Button
             android:id="@+id/cancelBT"
@@ -123,7 +123,7 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="@string/STR_CANCEL" />
     </LinearLayout>
 
 </RelativeLayout>

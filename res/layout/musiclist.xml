@@ -11,7 +11,7 @@
 		android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
-        android:text="Title"
+        android:text="@string/STR_PLTITLE"
         android:textStyle="bold" >
     </TextView>
 
@@ -52,13 +52,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/cancel_bt"
-            android:text="Confirm" android:layout_weight="1"/>
+            android:text="@string/STR_CONFIRM" android:layout_weight="1"/>
 
         <Button
             android:id="@+id/cancelBT"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel" android:layout_weight="1"/>
+            android:text="@string/STR_CANCEL" android:layout_weight="1"/>
     </LinearLayout>
 
 </RelativeLayout>

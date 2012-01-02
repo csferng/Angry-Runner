@@ -21,17 +21,17 @@ public class MainActivity extends TabActivity {
         res = getResources();
         tabHost = getTabHost();
         
-        addTab("Main", WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_main));
-        addTab("Playlist", MusicActivity.class, res.getDrawable(R.drawable.icon_tab_playlist));
-        addTab("History", HistoryActivity.class, res.getDrawable(R.drawable.icon_tab_history));
-        addTab("Setting", SettingActivity.class, res.getDrawable(R.drawable.icon_tab_setting));
+        addTab(R.string.STR_MAIN, WorkoutActivity.class, res.getDrawable(R.drawable.icon_tab_main));
+        addTab(R.string.STR_PLAYLIST, MusicActivity.class, res.getDrawable(R.drawable.icon_tab_playlist));
+        addTab(R.string.STR_HISTORY, HistoryActivity.class, res.getDrawable(R.drawable.icon_tab_history));
+        addTab(R.string.STR_SETTING, SettingActivity.class, res.getDrawable(R.drawable.icon_tab_setting));
         
     }
 
-	private void addTab(String tag, Class<? extends Activity> activity, Drawable icon) {
+	private void addTab(int tag, Class<? extends Activity> activity, Drawable icon) {
 		Intent intent = new Intent().setClass(this, activity);
-        TabHost.TabSpec spec = tabHost.newTabSpec(tag)
-        		.setIndicator(tag, icon)
+        TabHost.TabSpec spec = tabHost.newTabSpec(getString(tag))
+        		.setIndicator(getString(tag), icon)
         		.setContent(intent);
         tabHost.addTab(spec);
 	}

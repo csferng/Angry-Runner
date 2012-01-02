@@ -132,7 +132,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			resetStatus(pageViews.get(0));
 		}
 	}
-
+/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -140,7 +140,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		menu.add(Menu.NONE, Menu.FIRST + 1, 1, "Help");
 		return true;
 	}
-
+*/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
@@ -198,7 +198,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			builder.setMessage(
 					"Current session would lost. Are you sure you want to exit?")
 					.setCancelable(false)
-					.setPositiveButton("Confirm",
+					.setPositiveButton(getString(R.string.STR_CONFIRM),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -206,7 +206,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 									WorkoutActivity.this.finish();
 								}
 							})
-					.setNegativeButton("Cancel",
+					.setNegativeButton(getString(R.string.STR_CANCEL),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -221,9 +221,9 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 
 	private void initMode(View v) {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
-		tvMode.setText(settingpref.getString(
+		tvMode.setText(getModeDisplay(settingpref.getString(
 				getString(R.string.KEY_MODE), 
-				getString(R.string.INIT_MODE)));
+				getString(R.string.VALUE_WALKING))));
 	}
 
 	private void initButtons(View v) {
@@ -254,11 +254,11 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 				} else if (statusHandler.isStateWorking()) {
 					statusHandler.pause();
 					mplayer.pause();
-					btStart.setText("Resume");
+					btStart.setText(R.string.BT_RESUME);
 				} else if (statusHandler.isStatePause()) {
 					statusHandler.resume();
 					mplayer.resume();
-					btStart.setText("Pause");
+					btStart.setText(R.string.BT_PAUSE);
 				}
 			}
 		});
@@ -286,7 +286,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					mplayer.stop();
 					mplayer.reset();
 					
-					btStart.setText("Start");
+					btStart.setText(R.string.BT_START);
 					zeroStatus();
 					btWorkout.setEnabled(true);
 
@@ -297,7 +297,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 				}else{
 					if(timer.getCountdown() > 0){
 						timer.setStopped(true);
-						btStart.setText("Start");
+						btStart.setText(R.string.BT_START);
 						btStart.setClickable(true);
 						btWorkout.setEnabled(true);
 					}
@@ -390,8 +390,8 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	@Override
 	protected void onResume() {
 		super.onResume();
-		String mode = settingpref.getString(
-				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE));
+		String mode = getModeDisplay(settingpref.getString(
+				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE)));
 		tvMode.setText(mode);
 		statusHandler.refreshDistanceDisplay();
 		statDistance.setUnit(unitHandler.getDisplayUnit());
@@ -510,7 +510,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			btStart.setText(nowcd + "");
 		} else {
 			statusHandler.start();
-			btStart.setText("Pause");
+			btStart.setText(R.string.BT_PAUSE);
 			btStart.setClickable(true);
 			//ttsHandler.speak("Start", TextToSpeech.QUEUE_FLUSH, null);
 			ttsSpeakHandler.init();
@@ -688,6 +688,18 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			return;
 		}
 		
+	}
+	
+	String getModeDisplay(String mode){
+		if(mode.equals(getString(R.string.VALUE_WALKING))){
+			return getString(R.string.STR_WALKING);
+		}else if(mode.equals(getString(R.string.VALUE_RUNNING))){
+			return getString(R.string.STR_RUNNING);
+		}else if(mode.equals(getString(R.string.VALUE_CYCLING))){
+			return getString(R.string.STR_CYCLING);
+		}
+		
+		return getString(R.string.INIT_MODE);
 	}
 	
 }
