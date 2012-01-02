@@ -1,6 +1,8 @@
 package tw.edu.ntu.csie.angryrunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -152,6 +154,16 @@ public class MusicActivity extends Activity {
     public void onBackPressed() {
     	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);
     }
+    
+    private class myComparator implements Comparator {
+        public int compare ( Object object1 , Object object2 )
+        {
+        	String obj1Value = (String) ((HashMap) object1).get ( "playlistName" );
+        	String obj2Value = (String) ((HashMap) object1).get ( "playlistName" );
+        	System.err.println( obj1Value+" & "+obj2Value+": "+obj1Value.compareTo(obj2Value) );
+            return obj1Value.compareTo(obj2Value);
+        }
+    }
    
     private void getPlaylists() {
     	
@@ -199,6 +211,7 @@ public class MusicActivity extends Activity {
 		    		playListItem.add(playlist);
 					playlistCursor.moveToNext();
 				}
+				//Collections.sort(playListItem, new myComparator());
 	    		playListItemAdapter.notifyDataSetChanged();
 			}
 

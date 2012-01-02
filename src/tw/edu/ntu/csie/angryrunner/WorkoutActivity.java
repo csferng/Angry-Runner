@@ -8,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,9 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -127,6 +131,37 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			}
 			resetStatus(pageViews.get(0));
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_menu, menu);
+		menu.add(Menu.NONE, Menu.FIRST + 1, 1, "Help");
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case Menu.FIRST + 1:
+			if (vpWorkout.getCurrentItem() == 0) {
+				ShowHelpDialog("MAIN HELP");
+			}else if (vpWorkout.getCurrentItem() == 1) {
+				ShowHelpDialog("MAP HELP");
+			}
+			return true;
+		default:
+			return false;
+		}
+	}
+	
+	private void ShowHelpDialog(String Msg) {
+		Builder MyAlertDialog = new AlertDialog.Builder(this);
+		MyAlertDialog.setTitle("Help");
+		MyAlertDialog.setMessage(Msg);
+		MyAlertDialog.show();
 	}
 
 	private void editPreference(String keyGoal, String keyDisplay, Bundle extras) {
