@@ -195,8 +195,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			super.onBackPressed();
 		else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(
-					"Current session would lost. Are you sure you want to exit?")
+			builder.setMessage(getString(R.string.MSG_EXIT))
 					.setCancelable(false)
 					.setPositiveButton(getString(R.string.STR_CONFIRM),
 							new DialogInterface.OnClickListener() {
@@ -469,7 +468,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			ttsSpeakHandler.checkSpeakTimeProgress(duration);
 		}
 		if (prog > 1.0f) prog = 1.0f;
-		progressBar.setProgress(prog*100.0f, "Remain: "+remain);
+		progressBar.setProgress(prog*100.0f, getString(R.string.STR_REMAIN)+": "+remain);
 	}
 
 	void updateCaloriesDisplay(double calorie) {

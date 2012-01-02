@@ -78,5 +78,6 @@
     <string name="STR_KM">Km</string>
     <string name="STR_MILE">Mile</string>
     <string name="STR_REMAIN">Remain</string>
+    <string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
         
 </resources>

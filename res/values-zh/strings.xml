@@ -49,5 +49,6 @@
     <string name="STR_KM">公里</string>
     <string name="STR_MILE">英里</string>
     <string name="STR_REMAIN">剩下</string>
+    <string name="MSG_EXIT">您正在運動中，離開將清除這次的記錄。請問確定要離開嗎？</string>
         
 </resources>
