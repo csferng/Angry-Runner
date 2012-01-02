@@ -163,7 +163,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			builder.setMessage(
 					"Current session would lost. Are you sure you want to exit?")
 					.setCancelable(false)
-					.setPositiveButton("Confirm",
+					.setPositiveButton(getString(R.string.STR_CONFIRM),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -171,7 +171,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 									WorkoutActivity.this.finish();
 								}
 							})
-					.setNegativeButton("Cancel",
+					.setNegativeButton(getString(R.string.STR_CANCEL),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,

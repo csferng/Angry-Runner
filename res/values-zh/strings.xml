@@ -32,6 +32,18 @@
     <string name="STR_RUNNING">跑步模式</string>
     <string name="STR_CYCLING">騎單車模式</string>
     <string name="STR_SEC">秒</string>
-    
-    
+    <string name="STR_MAIN">運動主頁</string>
+    <string name="STR_PLAYLIST">音樂清單</string>
+    <string name="STR_HISTORY">歷史記錄</string>
+    <string name="STR_SETTING">其它設定</string>
+    <string name="STR_CONFIRM">確定</string>
+    <string name="STR_CANCEL">取消</string>
+    <string name="STR_UNSET">歸零</string>
+    <string name="STR_MINS">分</string>
+    <string name="STR_SECS">秒</string>
+    <string name="STR_HOURS">時</string>
+    <string name="STR_ADDPL">新增清單</string>
+    <string name="STR_UNSETPL">清除設定</string>
+    <string name="STR_PLTITLE">音樂清單名稱</string>
+        
 </resources>

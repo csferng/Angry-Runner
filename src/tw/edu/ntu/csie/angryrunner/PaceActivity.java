@@ -177,7 +177,7 @@ public class PaceActivity extends Activity {
 	private void updateSpeedText() {
 		DecimalFormat f = new DecimalFormat("0000.00");
 		double speed = calcSpeed();
-		speed_tv.setText("Speed:    "+f.format( speed )+" m/s");
+		speed_tv.setText(getString(R.string.DISPLAY_SPEED) + ":    "+f.format( speed )+" m/s");
 	}
 
 	private double calcSpeed() {

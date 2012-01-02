@@ -59,5 +59,18 @@
     <string name="STR_RUNNING">Running mode</string>
     <string name="STR_CYCLING">Cycling mode</string>
     <string name="STR_SEC">secs</string>
+    <string name="STR_MAIN">Main</string>
+    <string name="STR_PLAYLIST">Playlist</string>
+    <string name="STR_HISTORY">History</string>
+    <string name="STR_SETTING">Setting</string>
+    <string name="STR_CONFIRM">Confirm</string>
+    <string name="STR_CANCEL">Cancel</string>
+    <string name="STR_UNSET">Unset</string>
+    <string name="STR_MINS">Mins</string>
+    <string name="STR_SECS">Secs</string>
+    <string name="STR_HOURS">Hours</string>
+    <string name="STR_ADDPL">Add a playlist</string>
+    <string name="STR_UNSETPL">Unset playlist</string>
+    <string name="STR_PLTITLE">Playlist Name</string>
     
 </resources>

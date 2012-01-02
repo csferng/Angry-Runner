@@ -55,8 +55,8 @@ public class MusicActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		};
-		MyAlertDialog.setPositiveButton("Confirm", confirmClick);
-		MyAlertDialog.setNegativeButton("Cancel", cancelClick);
+		MyAlertDialog.setPositiveButton(getString(R.string.STR_CONFIRM), confirmClick);
+		MyAlertDialog.setNegativeButton(getString(R.string.STR_CANCEL), cancelClick);
 		MyAlertDialog.show();
 	}
 	
