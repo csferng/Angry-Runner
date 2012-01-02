@@ -13,21 +13,21 @@ public class UnitHandler {
 	}
 	
 	private String getPrefUnit() {
-		return pref.getString(act.getString(R.string.KEY_UNIT), act.getString(R.string.INIT_UNIT));
+		return pref.getString(act.getString(R.string.KEY_UNIT), act.getString(R.string.VALUE_KILOMETER));
 	}
 	
 	public String getDisplayUnit() {
-		// TODO Use act.getString() for different languages
 		String s = getPrefUnit();
-		if(s.equals("Kilometer")) return "Km";
-		else return "Mile";
+		if(s.equals(act.getString(R.string.VALUE_KILOMETER)))
+			return act.getString(R.string.STR_KM);
+		else return act.getString(R.string.STR_MILE);
 	}
 	
 	public String getSpeakUnit() {
-		// TODO Use act.getString() for different languages
 		String s = getPrefUnit();
-		if(s.equals("Kilometer")) return "Kilometers";
-		else return "Miles";
+		if(s.equals(act.getString(R.string.VALUE_KILOMETER)))
+			return act.getString(R.string.STR_KILOMETER);
+		else return act.getString(R.string.STR_MILE);
 	}
 	
 	public double distanceFromUnit(double distance) {

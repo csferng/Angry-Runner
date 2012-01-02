@@ -45,5 +45,9 @@
     <string name="STR_ADDPL">新增清單</string>
     <string name="STR_UNSETPL">清除設定</string>
     <string name="STR_PLTITLE">音樂清單名稱</string>
+    <string name="STR_KILOMETER">公里</string>
+    <string name="STR_KM">公里</string>
+    <string name="STR_MILE">英里</string>
+    <string name="STR_REMAIN">剩下</string>
         
 </resources>

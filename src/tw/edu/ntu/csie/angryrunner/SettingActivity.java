@@ -15,20 +15,22 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class SettingActivity extends Activity {
-	ListView settinglist;
-	ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
-	SimpleAdapter settingAdapter;
-	String[] display = new String[4];
-	String[] settings = new String[4];
-	String[] inits = new String[4];
-	SharedPreferences settingPref;
-	SharedPreferences.Editor settingPrefEdt;
+	private ListView settinglist;
+	private ArrayList<HashMap<String,String>> alhm = new ArrayList<HashMap<String,String>>();
+	private SimpleAdapter settingAdapter;
+	private String[] title = new String[4];
+	private String[] settings = new String[4];
+	private String[] inits = new String[4];
+	private SharedPreferences settingPref;
+	private UnitHandler unitHandler;
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		for(int i=0; i<settings.length; ++i){
-			if(i == 2){
+			if(i == 1) {
+				alhm.get(i).put("value", unitHandler.getSpeakUnit());
+			}else if(i == 2){
 				alhm.get(i).put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
 			}else if(i == 3){
 				alhm.get(i).put("value", getCountdownDisplay(
@@ -54,21 +56,23 @@ public class SettingActivity extends Activity {
         inits[1] = getString(R.string.INIT_UNIT);
         inits[2] = getString(R.string.VALUE_WALKING);
         inits[3] = getString(R.string.INIT_COUNTDOWNVALUE);
-        display[0] = getString(R.string.DISPLAY_WEIGHT);
-        display[1] = getString(R.string.DISPLAY_UNIT);
-        display[2] = getString(R.string.DISPLAY_MODE);
-        display[3] = getString(R.string.DISPLAY_COUNTDOWN);
+        title[0] = getString(R.string.DISPLAY_WEIGHT);
+        title[1] = getString(R.string.DISPLAY_UNIT);
+        title[2] = getString(R.string.DISPLAY_MODE);
+        title[3] = getString(R.string.DISPLAY_COUNTDOWN);
         
         settinglist = (ListView) findViewById(R.id.listView1);
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
-        settingPrefEdt = settingPref.edit();
+        unitHandler = new UnitHandler(this, settingPref);
         
         for(int i=0; i<settings.length; ++i){
         	HashMap<String,String> tmphm = new HashMap<String,String>();
-        	tmphm.put("name", display[i]);
-        	if(i == 2){
+        	tmphm.put("name", title[i]);
+        	if(i == 1) {
+        		tmphm.put("value", unitHandler.getSpeakUnit());
+        	}else if(i == 2){
         		tmphm.put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
         	}else if(i == 3){
         		tmphm.put("value", getCountdownDisplay(
@@ -122,9 +126,10 @@ public class SettingActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
     	if(resultCode == RESULT_OK){
+            SharedPreferences.Editor settingPrefEdt = settingPref.edit();
     		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		settingAdapter.notifyDataSetChanged();
-    		if(requestCode == 2 || requestCode == 3){
+    		if(requestCode == 2 || requestCode == 3 || requestCode == 1){
     			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
     		}else{
     			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));

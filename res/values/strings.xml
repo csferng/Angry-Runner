@@ -34,6 +34,8 @@
     <string name="VALUE_WALKING">Walking</string>
     <string name="VALUE_RUNNING">Running</string>
     <string name="VALUE_CYCLING">Cycling</string>
+    <string name="VALUE_KILOMETER">Kilometer</string>
+    <string name="VALUE_MILE">Mile</string>
     <string name="DISPLAY_WEIGHT">Weight</string>
     <string name="DISPLAY_UNIT">Unit</string>
     <string name="DISPLAY_MODE">Mode</string>
@@ -72,5 +74,9 @@
     <string name="STR_ADDPL">Add a playlist</string>
     <string name="STR_UNSETPL">Unset playlist</string>
     <string name="STR_PLTITLE">Playlist Name</string>
-    
+    <string name="STR_KILOMETER">Kilometer</string>
+    <string name="STR_KM">Km</string>
+    <string name="STR_MILE">Mile</string>
+    <string name="STR_REMAIN">Remain</string>
+        
 </resources>

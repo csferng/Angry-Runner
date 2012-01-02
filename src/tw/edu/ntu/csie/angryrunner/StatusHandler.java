@@ -134,7 +134,7 @@ public class StatusHandler {
 			double duration = speedCalculator.getLastPeriodTime();
 			String mode = settingpref.getString(
 					fromActivity.getString(R.string.KEY_MODE), 
-					fromActivity.getString(R.string.INIT_MODE));
+					fromActivity.getString(R.string.VALUE_WALKING));
 			double weight = Double.parseDouble(settingpref.getString(
 					fromActivity.getString(R.string.KEY_WEIGHTVALUE), 
 					fromActivity.getString(R.string.INIT_WEIGHTVALUE)));
