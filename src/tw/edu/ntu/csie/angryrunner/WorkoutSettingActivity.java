@@ -37,10 +37,12 @@ public class WorkoutSettingActivity extends Activity {
 		
 		workoutsettings[0] = getString(R.string.KEY_MODE);
 		workoutsettings[1] = getString(R.string.KEY_SPEED);
-		workoutsettings[2] = getString(R.string.KEY_TIME);
+		workoutsettings[2] = getString(R.string.KEY_TIMEGOAL);
 		workoutsettings[3] = getString(R.string.KEY_DISTANCE);
 		inits[0] = getString(R.string.VALUE_WALKING);
-		inits[1] = ""; inits[2] = ""; inits[3] = "";
+		inits[1] = ""; 
+		inits[2] = getString(R.string.INIT_GOALVALUES); 
+		inits[3] = "";
 		goalsettings[0] = getString(R.string.KEY_PACEGOAL);
 		goalsettings[1] = getString(R.string.KEY_SPEEDGOAL);
 		goalsettings[2] = getString(R.string.KEY_TIMEGOAL);
@@ -72,7 +74,8 @@ public class WorkoutSettingActivity extends Activity {
 				break;
 			case 2:
 				tmphm.put("name", display[i]);
-				tmphm.put("value", settingPref.getString(workoutsettings[i], inits[i]));
+				tmphm.put("value", getTimeDisplay(Integer.parseInt(
+						settingPref.getString(workoutsettings[i], inits[i]))));
 				break;
 			case 3:
 				tmphm.put("name", display[i]);
@@ -136,13 +139,12 @@ public class WorkoutSettingActivity extends Activity {
 
         bt_confirm.setOnClickListener(new Button.OnClickListener(){
 			@Override
-			public void onClick(View arg0) {
-				// TODO 
+			public void onClick(View arg0) { 
 		        SharedPreferences.Editor settingPrefEdt = settingPref.edit();
 				settingPrefEdt.putString(workoutsettings[0], 
 						modeHandler.getMode(alhm.get(0).get("value")));
 				settingPrefEdt.putString(workoutsettings[1], alhm.get(1).get("value"));
-				settingPrefEdt.putString(workoutsettings[2], alhm.get(2).get("value"));
+				settingPrefEdt.putString(workoutsettings[2], values[2]);
 				settingPrefEdt.putString(workoutsettings[3], alhm.get(3).get("value"));
 				settingPrefEdt.putString(goalsettings[0], values[0]);
 				settingPrefEdt.putString(goalsettings[1], values[1]);
@@ -184,6 +186,25 @@ public class WorkoutSettingActivity extends Activity {
     			default:
     		}
     	}
+	}
+	
+	String getTimeDisplay(int secs){
+		int hrs = (secs / 60) / 60;
+		int mins = (secs / 60) % 60;
+		String timestr = "";
+//		String hrstr = null;
+//		String minstr = null;
+		
+		if(hrs != 0){
+			timestr += hrs + " " + getString(R.string.STR_HR) + " ";
+//			hrstr = hrs + " " + getString(R.string.STR_HR);
+		}
+		if(mins != 0){
+			timestr += mins + " " + getString(R.string.STR_MIN);
+//			minstr = mins + " " + getString(R.string.STR_MIN);
+		}
+		
+		return timestr;
 	}
 	
 }
