@@ -139,7 +139,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
-		menu.add(Menu.NONE, Menu.FIRST + 1, 1, "Help");
+		menu.add(Menu.NONE, Menu.FIRST + 1, 1, R.string.STR_HELP);
 		return true;
 	}
 
@@ -161,7 +161,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	
 	private void ShowHelpDialog(String Msg) {
 		Builder MyAlertDialog = new AlertDialog.Builder(this);
-		MyAlertDialog.setTitle("Help");
+		MyAlertDialog.setTitle(R.string.STR_HELP);
 		MyAlertDialog.setMessage(Msg);
 		MyAlertDialog.show();
 	}
