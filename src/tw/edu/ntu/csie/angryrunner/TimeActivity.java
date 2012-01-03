@@ -82,11 +82,11 @@ public class TimeActivity extends Activity {
 
         		String target = "";
         		if (curHour != 0) {
-        			target += new Integer(curHour).toString()+" hr ";
+        			target += new Integer(curHour).toString()+" "+ getString(R.string.STR_HR) +" ";
         		}
         		
         		if (curMin != 0) {
-        			target += new Integer(curMin).toString()+" min ";
+        			target += new Integer(curMin).toString()+" "+ getString(R.string.STR_MIN) +" ";
         		}
         		
         		Time = calculateTime();
