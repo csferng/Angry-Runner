@@ -363,12 +363,12 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			statDistance = statMinor;
 		}
 		statDuration.setType(getString(R.string.DISPLAY_DURATION));
-		statDuration.setUnit("h:mm:ss");
+		statDuration.setUnit(getString(R.string.STR_HMMSS));
 		statDistance.setType(getString(R.string.DISPLAY_DISTANCE));
 		statDistance.setUnit(unitHandler.getDisplayUnit());
 		statCalorie = (StatusItemLayout) v.findViewById(R.id.statCalorie);
 		statCalorie.setType(getString(R.string.DISPLAY_CALORIE));
-		statCalorie.setUnit("kcal");
+		statCalorie.setUnit(getString(R.string.STR_KCAL));
 		zeroStatus();
 		statDuration.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -470,7 +470,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			ttsSpeakHandler.checkSpeakTimeProgress(duration);
 		}
 		if (prog > 1.0f) prog = 1.0f;
-		progressBar.setProgress(prog*100.0f, getString(R.string.STR_REMAIN)+": "+remain);
+		progressBar.setProgress(prog*100.0f, getString(R.string.STR_REMAIN)+" "+remain);
 	}
 
 	void updateCaloriesDisplay(double calorie) {
