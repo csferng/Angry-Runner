@@ -49,7 +49,7 @@ public class WeightActivity extends Activity {
         dec_tv.setTypeface(Typeface.DEFAULT_BOLD);
         dec_tv.setTextColor(Color.YELLOW);
         dec_tv.setTextSize(24);
-        dec_tv.setText("Kg");
+        dec_tv.setText(R.string.STR_KG);
         
         
         confirm_bt = (Button)findViewById(R.id.confirmBT);
@@ -62,7 +62,7 @@ public class WeightActivity extends Activity {
         		//int sum = curCen*100 + curDec*10 + curUnit;
         		Weight = calculateWeight();
         		
-        		String target = Weight+" Kg";
+        		String target = Weight + " " + getString(R.string.STR_KG);
         		
         		Intent it = new Intent();
 				Bundle bun = new Bundle();

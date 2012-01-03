@@ -89,6 +89,7 @@
     <string name="STR_UNIT_S">s</string>
     <string name="STR_UNIT_M_S">m/s</string>
     <string name="STR_HELP">Help</string>
+    <string name="STR_KG">Kg</string>
 	<string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
     <string name="MSG_PLNAME">Playlist name cannot be empty.</string>
     <string name="MSG_DPL">Are you sure?</string>

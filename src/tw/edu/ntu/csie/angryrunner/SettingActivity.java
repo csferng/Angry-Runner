@@ -38,7 +38,8 @@ public class SettingActivity extends Activity {
 				alhm.get(i).put("value", getCountdownDisplay(
 						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
 			}else{
-				alhm.get(i).put("value", settingPref.getString(settings[i], inits[i]));
+				alhm.get(i).put("value", settingPref.getString(settings[i], inits[i])
+						+ " " + getString(R.string.STR_KG));
 			}
 			settingAdapter.notifyDataSetChanged();
 		}
@@ -50,11 +51,11 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         
-        settings[0] = getString(R.string.KEY_WEIGHT);
+        settings[0] = getString(R.string.KEY_WEIGHTVALUE);
         settings[1] = getString(R.string.KEY_UNIT);
         settings[2] = getString(R.string.KEY_MODE);
         settings[3] = getString(R.string.KEY_COUNTDOWN);
-        inits[0] = getString(R.string.INIT_WEIGHT);
+        inits[0] = getString(R.string.INIT_WEIGHTVALUE);
         inits[1] = getString(R.string.INIT_UNIT);
         inits[2] = getString(R.string.VALUE_WALKING);
         inits[3] = getString(R.string.INIT_COUNTDOWNVALUE);
@@ -82,7 +83,8 @@ public class SettingActivity extends Activity {
         		tmphm.put("value", getCountdownDisplay(
 						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
 			}else{
-        		tmphm.put("value", settingPref.getString(settings[i], inits[i]));
+        		tmphm.put("value", settingPref.getString(settings[i], inits[i])
+						+ " " + getString(R.string.STR_KG));
         	}
         	alhm.add(tmphm);
         }
@@ -133,11 +135,8 @@ public class SettingActivity extends Activity {
             SharedPreferences.Editor settingPrefEdt = settingPref.edit();
     		alhm.get(requestCode).put("value", data.getExtras().getString("display"));
     		settingAdapter.notifyDataSetChanged();
-    		if(requestCode == 2 || requestCode == 3 || requestCode == 1){
-    			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
-    		}else{
-    			settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("display"));
-    		}
+    		settingPrefEdt.putString(settings[requestCode], data.getExtras().getString("value"));
+    		
     		if(requestCode == 0){
     			settingPrefEdt.putString(
     					getString(R.string.KEY_WEIGHTVALUE), 
