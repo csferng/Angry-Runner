@@ -470,7 +470,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			ttsSpeakHandler.checkSpeakTimeProgress(duration);
 		}
 		if (prog > 1.0f) prog = 1.0f;
-		progressBar.setProgress(prog*100.0f, getString(R.string.STR_REMAIN)+": "+remain);
+		progressBar.setProgress(prog*100.0f, getString(R.string.STR_REMAIN)+" "+remain);
 	}
 
 	void updateCaloriesDisplay(double calorie) {

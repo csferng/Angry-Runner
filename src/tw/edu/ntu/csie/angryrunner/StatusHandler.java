@@ -73,7 +73,7 @@ public class StatusHandler {
 		//bun.putString("Mode", "");
 		bun.putString(
 				fromActivity.getString(R.string.KEY_SPEED), 
-				String.format("%.2f m/s", finalSpeed));
+				String.format("%.2f %s", finalSpeed, fromActivity.getString(R.string.STR_UNIT_M_S)));
 		bun.putString(
 				fromActivity.getString(R.string.KEY_DURATION), 
 				String.format("%d:%02d:%02d", 
@@ -84,7 +84,7 @@ public class StatusHandler {
 				unitHandler.presentDistanceWithUnit(distance));
 		bun.putString(
 				fromActivity.getString(R.string.KEY_CALORIE), 
-				String.format("%.0f kcal", calories));
+				String.format("%.0f %s", calories, fromActivity.getString(R.string.STR_KCAL)));
 		
 		// clear variables
 		positions.clear();
