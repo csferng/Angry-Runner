@@ -27,6 +27,13 @@
     <string name="BT_CENTER">我的位置</string>
     <string name="BT_ENABLE">開啟地圖模式</string>
     <string name="BT_DISABLE">關閉地圖模式</string>
+    <string name="BT_CONFIRM">確定</string>
+    <string name="BT_CANCEL">取消</string>
+    <string name="BT_UNSET">歸零</string>
+    <string name="BT_ADDPL">新增清單</string>
+    <string name="BT_ADDHIS">加到歷史紀錄中</string>
+    <string name="BT_USEPL">設為此音樂清單</string>
+    <string name="BT_UNSETPL">清除設定</string>
     <string name="STR_MODE">模式</string>
     <string name="STR_WALKING">健走模式</string>
     <string name="STR_RUNNING">跑步模式</string>
@@ -36,19 +43,18 @@
     <string name="STR_PLAYLIST">音樂清單</string>
     <string name="STR_HISTORY">歷史記錄</string>
     <string name="STR_SETTING">其它設定</string>
-    <string name="STR_CONFIRM">確定</string>
-    <string name="STR_CANCEL">取消</string>
-    <string name="STR_UNSET">歸零</string>
     <string name="STR_MINS">分</string>
     <string name="STR_SECS">秒</string>
     <string name="STR_HOURS">時</string>
-    <string name="STR_ADDPL">新增清單</string>
-    <string name="STR_UNSETPL">清除設定</string>
     <string name="STR_PLTITLE">音樂清單名稱</string>
     <string name="STR_KILOMETER">公里</string>
     <string name="STR_KM">公里</string>
     <string name="STR_MILE">英里</string>
     <string name="STR_REMAIN">剩下</string>
+    <string name="STR_RESULT">本次運動紀錄</string>
+    <string name="STR_DPLTITLE">刪除此音樂清單</string>
     <string name="MSG_EXIT">您正在運動中，離開將清除這次的記錄。請問確定要離開嗎？</string>
+    <string name="MSG_PLNAME">音樂清單的名字不可以是空的。</string>
+    <string name="MSG_DPL">您確定要執行此動作嗎？</string>
         
 </resources>

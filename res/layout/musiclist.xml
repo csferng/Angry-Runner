@@ -52,13 +52,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/cancel_bt"
-            android:text="@string/STR_CONFIRM" android:layout_weight="1"/>
+            android:text="@string/BT_CONFIRM" android:layout_weight="1"/>
 
         <Button
             android:id="@+id/cancelBT"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/STR_CANCEL" android:layout_weight="1"/>
+            android:text="@string/BT_CANCEL" android:layout_weight="1"/>
     </LinearLayout>
 
 </RelativeLayout>

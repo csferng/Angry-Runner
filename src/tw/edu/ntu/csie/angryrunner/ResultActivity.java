@@ -18,12 +18,13 @@ public class ResultActivity extends Activity {
 	String[] resultItems = new String[5];
 	String[] display = new String[5];
 	Button btConfirm, btCancel;
+	private ModeHandler modeHandler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.result);
-		setTitle("Result " + getString(R.string.TITLE));
+		setTitle(getString(R.string.STR_RESULT) + " " + getString(R.string.TITLE));
 		
 		resultItems[0] = getString(R.string.KEY_MODE);
 		resultItems[1] = getString(R.string.KEY_SPEED);
@@ -39,6 +40,7 @@ public class ResultActivity extends Activity {
 		resultlist = (ListView) findViewById(R.id.listView1);
 		btConfirm = (Button) findViewById(R.id.btConfirm);
 		btCancel = (Button) findViewById(R.id.btCancel);
+		modeHandler = new ModeHandler(this);
 		
 		final Bundle bun = this.getIntent().getExtras();
 		for(int i=0; i<resultItems.length; ++i){
@@ -67,7 +69,11 @@ public class ResultActivity extends Activity {
 			*/
 			//tmphm.put("pic", R.drawable.ic_launcher);
 			tmphm.put("name", display[i]);
-			tmphm.put("value", value);
+			if(i == 0){
+				tmphm.put("value", modeHandler.getModeDisplay(value));
+			}else{
+				tmphm.put("value", value);
+			}
 			alhm.add(tmphm);
 		}
 		/*

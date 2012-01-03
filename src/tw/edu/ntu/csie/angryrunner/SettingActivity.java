@@ -23,6 +23,7 @@ public class SettingActivity extends Activity {
 	private String[] inits = new String[4];
 	private SharedPreferences settingPref;
 	private UnitHandler unitHandler;
+	private ModeHandler modeHandler;
 	
 	@Override
 	protected void onResume() {
@@ -31,7 +32,8 @@ public class SettingActivity extends Activity {
 			if(i == 1) {
 				alhm.get(i).put("value", unitHandler.getSpeakUnit());
 			}else if(i == 2){
-				alhm.get(i).put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
+				alhm.get(i).put("value", modeHandler.getModeDisplay(
+						settingPref.getString(settings[i], inits[i])));
 			}else if(i == 3){
 				alhm.get(i).put("value", getCountdownDisplay(
 						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
@@ -66,6 +68,7 @@ public class SettingActivity extends Activity {
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
         unitHandler = new UnitHandler(this, settingPref);
+        modeHandler = new ModeHandler(this);
         
         for(int i=0; i<settings.length; ++i){
         	HashMap<String,String> tmphm = new HashMap<String,String>();
@@ -73,7 +76,8 @@ public class SettingActivity extends Activity {
         	if(i == 1) {
         		tmphm.put("value", unitHandler.getSpeakUnit());
         	}else if(i == 2){
-        		tmphm.put("value", getModeDisplay(settingPref.getString(settings[i], inits[i])));
+        		tmphm.put("value", modeHandler.getModeDisplay(
+        				settingPref.getString(settings[i], inits[i])));
         	}else if(i == 3){
         		tmphm.put("value", getCountdownDisplay(
 						Integer.parseInt(settingPref.getString(settings[i], inits[i]))));
@@ -146,18 +150,6 @@ public class SettingActivity extends Activity {
     		settingPrefEdt.commit();
     	}
     }
-    
-    String getModeDisplay(String mode){
-		if(mode.equals(getString(R.string.VALUE_WALKING))){
-			return getString(R.string.STR_WALKING);
-		}else if(mode.equals(getString(R.string.VALUE_RUNNING))){
-			return getString(R.string.STR_RUNNING);
-		}else if(mode.equals(getString(R.string.VALUE_CYCLING))){
-			return getString(R.string.STR_CYCLING);
-		}
-		
-		return getString(R.string.INIT_MODE);
-	}
     
     String getCountdownDisplay(int sec){
     	if(sec > 0){

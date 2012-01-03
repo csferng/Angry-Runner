@@ -72,7 +72,7 @@ public class MusicPlaylistActivity extends Activity {
         	@Override
         	public void onClick(View v) {
         		if(playlistName.getText().toString().equals("")) {
-        			Toast.makeText(MusicPlaylistActivity.this, "Playlist name cannot be empty.", Toast.LENGTH_SHORT).show();
+        			Toast.makeText(MusicPlaylistActivity.this, R.string.MSG_PLNAME, Toast.LENGTH_SHORT).show();
         			return;
         		}
 				MediaUtil.writePlaylist(getApplicationContext(), playlistName.getText().toString(), getSelectedIds());

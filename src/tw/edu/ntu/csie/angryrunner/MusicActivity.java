@@ -32,7 +32,7 @@ public class MusicActivity extends Activity {
 	
 	private void ShowMagicDialog(String Msg, final int position) {
 		Builder MyAlertDialog = new AlertDialog.Builder(this);
-		MyAlertDialog.setTitle("Delete Playlist");
+		MyAlertDialog.setTitle(getString(R.string.STR_DPLTITLE));
 		MyAlertDialog.setMessage(Msg);
 		DialogInterface.OnClickListener confirmClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -57,8 +57,8 @@ public class MusicActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		};
-		MyAlertDialog.setPositiveButton(getString(R.string.STR_CONFIRM), confirmClick);
-		MyAlertDialog.setNegativeButton(getString(R.string.STR_CANCEL), cancelClick);
+		MyAlertDialog.setPositiveButton(getString(R.string.BT_CONFIRM), confirmClick);
+		MyAlertDialog.setNegativeButton(getString(R.string.BT_CANCEL), cancelClick);
 		MyAlertDialog.show();
 	}
 	
@@ -122,7 +122,7 @@ public class MusicActivity extends Activity {
         playlist_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         	@Override
         	public boolean onItemLongClick(AdapterView<?> parent, View item, int position, long id) {
-        		ShowMagicDialog("Are you sure?", position);
+        		ShowMagicDialog(getString(R.string.MSG_DPL), position);
         		return true;
         	}
         	// The return of onItemLongClick should be true, 否則長按會是執行 setOnItemClickListener

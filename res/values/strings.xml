@@ -56,6 +56,13 @@
     <string name="BT_CENTER">My Location</string>
     <string name="BT_ENABLE">Enable </string>
     <string name="BT_DISABLE">Disable</string>
+    <string name="BT_CONFIRM">Confirm</string>
+    <string name="BT_CANCEL">Cancel</string>
+    <string name="BT_UNSET">Unset</string>
+    <string name="BT_ADDPL">Add a playlist</string>
+    <string name="BT_ADDHIS">Add To History</string>
+    <string name="BT_USEPL">Use this playlist</string>
+    <string name="BT_UNSETPL">Unset playlist</string>
     <string name="STR_MODE">mode</string>
     <string name="STR_WALKING">Walking mode</string>
     <string name="STR_RUNNING">Running mode</string>
@@ -65,19 +72,18 @@
     <string name="STR_PLAYLIST">Playlist</string>
     <string name="STR_HISTORY">History</string>
     <string name="STR_SETTING">Setting</string>
-    <string name="STR_CONFIRM">Confirm</string>
-    <string name="STR_CANCEL">Cancel</string>
-    <string name="STR_UNSET">Unset</string>
     <string name="STR_MINS">Mins</string>
     <string name="STR_SECS">Secs</string>
     <string name="STR_HOURS">Hours</string>
-    <string name="STR_ADDPL">Add a playlist</string>
-    <string name="STR_UNSETPL">Unset playlist</string>
     <string name="STR_PLTITLE">Playlist Name</string>
     <string name="STR_KILOMETER">Kilometer</string>
     <string name="STR_KM">Km</string>
     <string name="STR_MILE">Mile</string>
     <string name="STR_REMAIN">Remain</string>
+    <string name="STR_RESULT">Result</string>
+    <string name="STR_DPLTITLE">Delete Playlist</string>
     <string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
+    <string name="MSG_PLNAME">Playlist name cannot be empty.</string>
+    <string name="MSG_DPL">Are you sure?</string>
         
 </resources>

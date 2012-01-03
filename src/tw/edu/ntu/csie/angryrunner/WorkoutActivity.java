@@ -53,6 +53,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	UnitHandler unitHandler;
 	TextToSpeech ttsHandler;
 	TtsSpeakProgress ttsSpeakHandler;
+	ModeHandler modeHandler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -71,6 +72,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		timer = new ARTimer();
 		mplayer = new Mplayer(this);
 		unitHandler = new UnitHandler(this, settingpref);
+		modeHandler = new ModeHandler(this);
 
 		LayoutInflater infla = getLayoutInflater();
 		pageViews = new ArrayList<View>();
@@ -197,7 +199,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(getString(R.string.MSG_EXIT))
 					.setCancelable(false)
-					.setPositiveButton(getString(R.string.STR_CONFIRM),
+					.setPositiveButton(getString(R.string.BT_CONFIRM),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -205,7 +207,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 									WorkoutActivity.this.finish();
 								}
 							})
-					.setNegativeButton(getString(R.string.STR_CANCEL),
+					.setNegativeButton(getString(R.string.BT_CANCEL),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -220,7 +222,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 
 	private void initMode(View v) {
 		tvMode = (TextView) v.findViewById(R.id.tvMode);
-		tvMode.setText(getModeDisplay(settingpref.getString(
+		tvMode.setText(modeHandler.getModeDisplay(settingpref.getString(
 				getString(R.string.KEY_MODE), 
 				getString(R.string.VALUE_WALKING))));
 	}
@@ -389,7 +391,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	@Override
 	protected void onResume() {
 		super.onResume();
-		String mode = getModeDisplay(settingpref.getString(
+		String mode = modeHandler.getModeDisplay(settingpref.getString(
 				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE)));
 		tvMode.setText(mode);
 		statusHandler.refreshDistanceDisplay();
@@ -687,18 +689,6 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			return;
 		}
 		
-	}
-	
-	String getModeDisplay(String mode){
-		if(mode.equals(getString(R.string.VALUE_WALKING))){
-			return getString(R.string.STR_WALKING);
-		}else if(mode.equals(getString(R.string.VALUE_RUNNING))){
-			return getString(R.string.STR_RUNNING);
-		}else if(mode.equals(getString(R.string.VALUE_CYCLING))){
-			return getString(R.string.STR_CYCLING);
-		}
-		
-		return getString(R.string.INIT_MODE);
 	}
 	
 }

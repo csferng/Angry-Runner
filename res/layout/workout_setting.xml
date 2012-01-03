@@ -20,14 +20,14 @@
             android:id="@+id/btConfirm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/STR_CONFIRM" 
+            android:text="@string/BT_CONFIRM" 
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/btCancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/STR_CANCEL" 
+            android:text="@string/BT_CANCEL" 
             android:layout_weight="1" />
         
     </LinearLayout>

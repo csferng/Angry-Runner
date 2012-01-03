@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:text="@string/STR_UNSET" />
+        android:text="@string/BT_UNSET" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -105,7 +105,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:text="@string/STR_CONFIRM" />
+            android:text="@string/BT_CONFIRM" />
 
         <Button
             android:id="@+id/cancelBT"
@@ -116,7 +116,7 @@
             android:layout_marginLeft="1dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:text="@string/STR_CANCEL" />
+            android:text="@string/BT_CANCEL" />
     </LinearLayout>
 
 </RelativeLayout>

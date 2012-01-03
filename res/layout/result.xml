@@ -21,14 +21,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add To History" />
+            android:text="@string/BT_ADDHIS" />
 
         <Button
             android:id="@+id/btCancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/STR_CANCEL" />
+            android:text="@string/BT_CANCEL" />
 
     </LinearLayout>
 
