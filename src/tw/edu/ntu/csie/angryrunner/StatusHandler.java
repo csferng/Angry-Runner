@@ -68,7 +68,7 @@ public class StatusHandler {
 		timer.cancel();
 
 		long finalDuration = (System.currentTimeMillis() - startTime) / 1000;
-		double finalSpeed = (distance*1000) / finalDuration;
+		double finalSpeed = (distance*1000) / (finalDuration+0.0001);
 		Bundle bun = new Bundle();
 		//bun.putString("Mode", "");
 		bun.putString(
