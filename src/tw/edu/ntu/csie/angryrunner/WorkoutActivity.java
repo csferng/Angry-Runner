@@ -134,7 +134,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			resetStatus(pageViews.get(0));
 		}
 	}
-/*
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -142,7 +142,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		menu.add(Menu.NONE, Menu.FIRST + 1, 1, R.string.STR_HELP);
 		return true;
 	}
-*/
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
