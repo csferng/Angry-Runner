@@ -149,9 +149,9 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		switch (item.getItemId()) {
 		case Menu.FIRST + 1:
 			if (vpWorkout.getCurrentItem() == 0) {
-				ShowHelpDialog("MAIN HELP");
+				ShowHelpDialog(getString(R.string.MSG_MAINHELP));
 			}else if (vpWorkout.getCurrentItem() == 1) {
-				ShowHelpDialog("MAP HELP");
+				ShowHelpDialog(getString(R.string.MSG_MAPHELP));
 			}
 			return true;
 		default:

@@ -91,5 +91,18 @@
 	<string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
     <string name="MSG_PLNAME">Playlist name cannot be empty.</string>
     <string name="MSG_DPL">Are you sure?</string>
-        
+    <string name="MSG_MAINHELP">Each grid on the main page is a shortcut to the corresponding setting. 
+        You can either touch the grid directly or press the "Goal Setting" button to set your goal. 
+        You can have speed/pace goal, duration goal, or distance goal. 
+        The oval-shaped circle reflects your current GPS state. 
+        When it\'s red, you should turn on your GPS; when it\'s orange, the GPS service is temporarily unavailable; or else it should be green which implies that your GPS is functioning properly.
+        Before pressing the "Start" button to begin your exercise, you can first switch to the "Setting" tab to enter some one-time settings 
+        such as countdown seconds before start, weight and workout mode for calorie calculation, and unit for distance and speed conversion. 
+        After that you can switch to the "Playlist" tab to choose or insert a favorite playlist. 
+        The songs in the playlist will sequentially be played right after the "Start" button is pressed. 
+        During your workout you can "Pause" and "Resume" it at any time. 
+        Finally, press the "Stop" button to end this workout.
+        </string>
+    <string name="MSG_MAPHELP"></string>
+
 </resources>

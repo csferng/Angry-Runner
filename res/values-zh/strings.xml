@@ -62,5 +62,7 @@
     <string name="MSG_EXIT">您正在運動中，離開將清除這次的記錄。請問確定要離開嗎？</string>
     <string name="MSG_PLNAME">音樂清單的名字不可以是空的。</string>
     <string name="MSG_DPL">您確定要執行此動作嗎？</string>
+    <string name="MSG_MAINHELP"></string>
+    <string name="MSG_MAPHELP"></string>
         
 </resources>
