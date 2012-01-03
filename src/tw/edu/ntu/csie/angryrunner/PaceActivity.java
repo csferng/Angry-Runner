@@ -1,7 +1,5 @@
 package tw.edu.ntu.csie.angryrunner;
 
-import java.text.DecimalFormat;
-
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -175,9 +173,8 @@ public class PaceActivity extends Activity {
 	}
 
 	private void updateSpeedText() {
-		DecimalFormat f = new DecimalFormat("0000.00");
 		double speed = calcSpeed();
-		speed_tv.setText(getString(R.string.DISPLAY_SPEED) + ":    "+f.format( speed )+" m/s");
+		speed_tv.setText(String.format("%s:    %07.2f %s", getString(R.string.DISPLAY_SPEED), speed, getString(R.string.STR_UNIT_M_S)));
 	}
 
 	private double calcSpeed() {
