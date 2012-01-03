@@ -84,7 +84,11 @@
     <string name="STR_DPLTITLE">Delete Playlist</string>
     <string name="STR_HR">hr</string>
     <string name="STR_MIN">min</string>
-    <string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
+    <string name="STR_KCAL">kcal</string>
+    <string name="STR_HMMSS">h:mm:ss</string>
+    <string name="STR_UNIT_S">s</string>
+    <string name="STR_UNIT_M_S">m/s</string>
+	<string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
     <string name="MSG_PLNAME">Playlist name cannot be empty.</string>
     <string name="MSG_DPL">Are you sure?</string>
         

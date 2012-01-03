@@ -84,9 +84,10 @@ public class WorkoutSettingActivity extends Activity {
 			case 1:
 				double speed = Double.parseDouble(values[1]);
 				double pace = Double.parseDouble(values[0])/unitHandler.distanceToUnit(1.0);
-				String unit = unitHandler.getDisplayUnit();
+				String unitPace = getString(R.string.STR_UNIT_S) + "/" + unitHandler.getDisplayUnit();
+				String unitSpeed = getString(R.string.STR_UNIT_M_S);
 				tmphm.put("name", display[1]);
-				tmphm.put("value", String.format("%.2f m/s & %.0f s/%s", speed, pace, unit));
+				tmphm.put("value", String.format("%.2f %s & %.0f %s", speed, unitSpeed, pace, unitPace));
 				break;
 			}
 			alhm.add(tmphm);
