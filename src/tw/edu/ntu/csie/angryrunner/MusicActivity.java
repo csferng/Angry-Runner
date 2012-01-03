@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,7 +24,8 @@ import android.widget.SimpleAdapter;
 
 public class MusicActivity extends Activity {
 	
-	private int selectedPos = -1;
+	private String selectedId = "-1";
+	private int selectedPosAfterSort = -1;
 	
 	private Button add_bt, unset_bt;
 	private SimpleAdapter playListItemAdapter;
@@ -36,14 +38,15 @@ public class MusicActivity extends Activity {
 		MyAlertDialog.setMessage(Msg);
 		DialogInterface.OnClickListener confirmClick = new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				if (selectedPos == position) {
-					String val = playListItem.get(selectedPos).get("playlistNameHL");
+				if (selectedPosAfterSort == position) {
+					String val = playListItem.get(selectedPosAfterSort).get("playlistNameHL");
         			if(!val.equals("")) {
-        				playListItem.get(selectedPos).put("playlistName", val);
-        				playListItem.get(selectedPos).put("playlistNameHL", "");
+        				playListItem.get(selectedPosAfterSort).put("playlistName", val);
+        				playListItem.get(selectedPosAfterSort).put("playlistNameHL", "");
         				playListItemAdapter.notifyDataSetChanged();
             		}
-        			selectedPos = -1;
+        			selectedId = "-1";
+        			selectedPosAfterSort = -1;
             		SharedPreferences.Editor settingPrefEdt = settingPref.edit();
             		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "-1").commit();
 				}
@@ -71,7 +74,7 @@ public class MusicActivity extends Activity {
         settingPref = getSharedPreferences(
         		getString(R.string.NAME_SHAREDPREFERENCE), 
         		MODE_PRIVATE);
-        selectedPos = Integer.parseInt(settingPref.getString(getString(R.string.KEY_PLAYLISTID), "-1"));
+        selectedId = settingPref.getString(getString(R.string.KEY_PLAYLISTID), "-1");
         
         setTitle("Playlists");
         
@@ -91,15 +94,16 @@ public class MusicActivity extends Activity {
         unset_bt.setOnClickListener(new Button.OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		if(0 <= selectedPos && selectedPos < playListItem.size()) {
-        			String val = playListItem.get(selectedPos).get("playlistNameHL");
+        		if(0 <= selectedPosAfterSort && selectedPosAfterSort < playListItem.size()) {
+        			String val = playListItem.get(selectedPosAfterSort).get("playlistNameHL");
         			if(!val.equals("")) {
-        				playListItem.get(selectedPos).put("playlistName", val);
-        				playListItem.get(selectedPos).put("playlistNameHL", "");
+        				playListItem.get(selectedPosAfterSort).put("playlistName", val);
+        				playListItem.get(selectedPosAfterSort).put("playlistNameHL", "");
         				playListItemAdapter.notifyDataSetChanged();
             		}
         		}
-        		selectedPos = -1;
+        		selectedId = "-1";
+        		selectedPosAfterSort = -1;
         		SharedPreferences.Editor settingPrefEdt = settingPref.edit();
         		settingPrefEdt.putString(getString(R.string.KEY_PLAYLISTID), "-1").commit();
         	}
@@ -112,11 +116,17 @@ public class MusicActivity extends Activity {
         		HashMap<String, String> clickMap = playListItem.get(position);
         		Intent intent = new Intent(MusicActivity.this, PlaylistActivity.class);
         		Bundle b = new Bundle();
-        		b.putString("playlistName", clickMap.get("playlistName").toString());
-        		b.putString("playlistId", clickMap.get("playlistId").toString());
+        		
+        		String name = clickMap.get("playlistName").toString();
+        		String pid = clickMap.get("playlistId").toString();
+        		
+        		b.putString("playlistName", name);
+        		b.putString("playlistId", pid);
         		b.putInt("pos", position);
         		intent.putExtras(b);
         		startActivityForResult(intent, 0);
+        		
+        		Log.i(new Integer(position).toString(), name);
         	}
 		});
         playlist_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -144,7 +154,10 @@ public class MusicActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == 0 && resultCode == RESULT_OK){
 			if (data.getExtras().getString("state").equals("true")) {
-				selectedPos = data.getExtras().getInt("pos");
+				selectedId = data.getExtras().getString("playlistId");
+				selectedPosAfterSort = data.getExtras().getInt("pos");
+        		Log.i("selectedId", selectedId);
+        		Log.i("selectedPosAfterSort", new Integer(selectedPosAfterSort).toString());
 			}
     	}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -155,14 +168,38 @@ public class MusicActivity extends Activity {
     	((TabActivity) this.getParent()).getTabHost().setCurrentTab(0);
     }
     
-    private class myComparator implements Comparator {
-        public int compare ( Object object1 , Object object2 )
-        {
-        	String obj1Value = (String) ((HashMap) object1).get ( "playlistName" );
-        	String obj2Value = (String) ((HashMap) object1).get ( "playlistName" );
-        	System.err.println( obj1Value+" & "+obj2Value+": "+obj1Value.compareTo(obj2Value) );
-            return obj1Value.compareTo(obj2Value);
-        }
+    private void sortPlaylist(ArrayList<String> Name, ArrayList<String> Id) {
+    	HashMap<String, Integer> order = new HashMap<String, Integer>();
+    	
+    	for (int i = 0; i < Name.size(); ++i) {
+    		String tmp = Name.get(i);
+    		order.put(tmp, i);	// Assume that each Name is unique
+    		Log.i(new Integer(i).toString(), tmp);
+    	}
+    	
+    	playListItem.clear();
+    	Collections.sort(Name);
+    	
+    	for (int i = 0; i < Name.size(); ++i) {
+    		String tmp = Name.get(i);
+    		int index = order.get(tmp);
+    		String tid = Id.get(index);
+    		
+    		HashMap<String, String> playlist = new HashMap<String, String>();
+    		playlist.put("playlistId", tid);
+    		
+    		if (!tid.equals(selectedId)) {
+    			playlist.put("playlistName", tmp);
+    			playlist.put("playlistNameHL", "");
+    		}else {
+    			playlist.put("playlistName", "");
+    			playlist.put("playlistNameHL", tmp);
+    			selectedPosAfterSort = i;
+    		}
+    		
+    		playListItem.add(playlist);
+    		Log.i(new Integer(i).toString(), tmp);
+    	}
     }
    
     private void getPlaylists() {
@@ -184,34 +221,40 @@ public class MusicActivity extends Activity {
 			
 			if (playlistCursor != null) {
 				
+				ArrayList<String> Name = new ArrayList<String>();
+				ArrayList<String> Id = new ArrayList<String>();
+				
 				playlistCursor.moveToFirst();
 				while (!playlistCursor.isAfterLast()) {
+					
+					HashMap<String, String> playlist = new HashMap<String, String>();
+					
 					int playlist_column_index = playlistCursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists.NAME);
-					String kstr = playlistCursor.getString(playlist_column_index);
-					if (kstr.replaceAll("\\s", "").equals("")){
+					String nstr = playlistCursor.getString(playlist_column_index);
+					if (nstr.replaceAll("\\s", "").equals("")){
 						playlistCursor.moveToNext();
 						continue;
 					}
-					// get the 1st col in our returned data set
-					// (AlbumColumns.ALBUM)
-					HashMap<String, String> playlist = new HashMap<String, String>();
-					
-					if(playListItem.size() != selectedPos) {
-						playlist.put("playlistName", kstr);
-						playlist.put("playlistNameHL", "");
-					} else {
-						playlist.put("playlistNameHL", kstr);
-						playlist.put("playlistName", "");
-					}
 		    		
 		    		playlist_column_index = playlistCursor.getColumnIndexOrThrow(MediaStore.Audio.Playlists._ID);
-					kstr = playlistCursor.getString(playlist_column_index);
-		    		playlist.put("playlistId", kstr);
+					String idstr = playlistCursor.getString(playlist_column_index);
+		    		playlist.put("playlistId", idstr);
+		    		Id.add(idstr);
+					
+					if(!selectedId.equals(idstr)) {
+						playlist.put("playlistName", nstr);
+						playlist.put("playlistNameHL", "");
+					} else {
+						playlist.put("playlistNameHL", nstr);
+						playlist.put("playlistName", "");
+					}
+					Name.add(nstr);
 		    		
-		    		playListItem.add(playlist);
+		    		//playListItem.add(playlist);
 					playlistCursor.moveToNext();
+					
 				}
-				//Collections.sort(playListItem, new myComparator());
+				sortPlaylist(Name, Id);
 	    		playListItemAdapter.notifyDataSetChanged();
 			}
 
