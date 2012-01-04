@@ -234,6 +234,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		btStop = (Button) v.findViewById(R.id.btStop);
 		btWorkout = (Button) v.findViewById(R.id.btWorkout);
 		btMap = (Button) v.findViewById(R.id.btMap);
+		if(statusHandler.isStateBeforeStart()) btStop.setEnabled(false);
 
 		btStart.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -246,6 +247,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 									getString(R.string.KEY_SPEEDGOAL),
 									getString(R.string.INIT_GOALVALUES))));
 					btWorkout.setEnabled(false);
+					btStop.setEnabled(true);
 					int countdown = Integer.parseInt(settingpref.getString(
 							getString(R.string.KEY_COUNTDOWNVALUE),
 							getString(R.string.INIT_COUNTDOWNVALUE)));
@@ -292,6 +294,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					btStart.setText(R.string.BT_START);
 					zeroStatus();
 					btWorkout.setEnabled(true);
+					btStop.setEnabled(false);
 
 					Intent it = new Intent();
 					it.setClass(WorkoutActivity.this, ResultActivity.class);
