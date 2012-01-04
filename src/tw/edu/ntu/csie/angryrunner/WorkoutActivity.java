@@ -153,6 +153,8 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			}else if (vpWorkout.getCurrentItem() == 1) {
 				ShowHelpDialog(getString(R.string.MSG_MAPHELP));
 			}
+			Log.i("MAIN", getString(R.string.MSG_MAINHELP));
+			Log.i("MAP", getString(R.string.MSG_MAPHELP));
 			return true;
 		default:
 			return false;
