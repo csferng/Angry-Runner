@@ -82,7 +82,7 @@ public class GpsHandler {
 	
 	void register(){
 		if(isRegister == false){
-			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, ll);
+			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 			isRegister = true;
 		}
 	}
