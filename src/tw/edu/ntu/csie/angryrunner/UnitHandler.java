@@ -12,7 +12,7 @@ public class UnitHandler {
 		this.pref = pref;
 	}
 	
-	private String getPrefUnit() {
+	public String getPrefUnit() {
 		return pref.getString(act.getString(R.string.KEY_UNIT), act.getString(R.string.VALUE_KILOMETER));
 	}
 	
