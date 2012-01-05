@@ -21,6 +21,7 @@ public class GpsHandler {
 	List<Double> savlat;
 	Activity savact;
 	ImageView status_img;
+	boolean isRegister;
 	
 	LocationListener ll = new LocationListener(){
 
@@ -70,15 +71,27 @@ public class GpsHandler {
 		super();
 		savlong = new ArrayList<Double>();
 		savlat = new ArrayList<Double>();
-		lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, ll);
 		savact = activity;
 		status_img = iv;
 		status_img.setImageResource(R.drawable.gps_wa);
+		isRegister = false;
+		lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+		//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, ll);
+		//register();
+	}
+	
+	void register(){
+		if(isRegister == false){
+			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, ll);
+			isRegister = true;
+		}
 	}
 	
 	void unregister(){
-		lm.removeUpdates(ll);
+		if(isRegister == true){
+			lm.removeUpdates(ll);
+			isRegister = false;
+		}
 	}
 
 }

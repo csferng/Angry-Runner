@@ -102,7 +102,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		resetStatus(pageViews.get(0));
 
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -396,6 +396,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	@Override
 	protected void onResume() {
 		super.onResume();
+		gpsH.register();
 		String mode = modeHandler.getModeDisplay(settingpref.getString(
 				getString(R.string.KEY_MODE), getString(R.string.INIT_MODE)));
 		tvMode.setText(mode);
@@ -405,10 +406,16 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	}
 
 	@Override
+	public void finish() {
+		gpsH.unregister();
+		super.finish();
+	}
+
+	@Override
 	public void onDestroy() {
+		//gpsH.unregister();
 		statusHandler.cleanUp();
 		if(timer.getCountdown() > 0) timer.setStopped(true);
-		gpsH.unregister();
 		speedChart.cleanUp();
 		mplayer.cleanUp();
 		if(ttsHandler != null)	ttsHandler.shutdown();
@@ -662,7 +669,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	}
 	
 	class TtsSpeakProgress{
-		int time;	// 30 minutes
+		int time;	// 5 minutes
 		double distance;	// 1 km or mile
 		
 		public TtsSpeakProgress() {
