@@ -195,30 +195,34 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 
 	@Override
 	public void onBackPressed() {
-		if (statusHandler.isStateBeforeStart())
-			super.onBackPressed();
-		else {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(getString(R.string.MSG_EXIT))
-					.setCancelable(false)
-					.setPositiveButton(getString(R.string.BT_CONFIRM),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									WorkoutActivity.this.finish();
-								}
-							})
-					.setNegativeButton(getString(R.string.BT_CANCEL),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.cancel();
-								}
-							});
-			AlertDialog alert = builder.create();
-			alert.show();
+		if(vpWorkout.getCurrentItem() == 1){
+			vpWorkout.setCurrentItem(0);
+		}else{
+			if (statusHandler.isStateBeforeStart())
+				super.onBackPressed();
+			else {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.MSG_EXIT))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.BT_CONFIRM),
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										WorkoutActivity.this.finish();
+									}
+								})
+						.setNegativeButton(getString(R.string.BT_CANCEL),
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+									}
+								});
+				AlertDialog alert = builder.create();
+				alert.show();
+			}
 		}
 	}
 
