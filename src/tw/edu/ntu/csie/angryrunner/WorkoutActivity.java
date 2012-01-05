@@ -425,6 +425,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		speedChart.cleanUp();
 		mplayer.cleanUp();
 		if(ttsHandler != null)	ttsHandler.shutdown();
+		historydb.close();
 		super.onDestroy();
 	}
 
