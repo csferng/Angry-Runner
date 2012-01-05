@@ -83,6 +83,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		vpAdapter = new WorkoutPagerAdapter(pageViews);
 		vpWorkout.setAdapter(vpAdapter);
 
+		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
 		progressBar = (ProgressBarView) pageViews.get(0).findViewById(
 				R.id.progressBar);
 
@@ -93,7 +94,6 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
 		gpsH = new GpsHandler(this, (ImageView) pageViews.get(0).findViewById(R.id.imageView1));
 
-		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
 		Intent checkit = new Intent();
 		checkit.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkit, 5);
@@ -234,6 +234,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		btStop = (Button) v.findViewById(R.id.btStop);
 		btWorkout = (Button) v.findViewById(R.id.btWorkout);
 		btMap = (Button) v.findViewById(R.id.btMap);
+		if(statusHandler.isStateBeforeStart()) btStop.setEnabled(false);
 
 		btStart.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -246,6 +247,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 									getString(R.string.KEY_SPEEDGOAL),
 									getString(R.string.INIT_GOALVALUES))));
 					btWorkout.setEnabled(false);
+					btStop.setEnabled(true);
 					int countdown = Integer.parseInt(settingpref.getString(
 							getString(R.string.KEY_COUNTDOWNVALUE),
 							getString(R.string.INIT_COUNTDOWNVALUE)));
@@ -281,7 +283,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					bun.putString(getString(R.string.KEY_MODE), 
 							settingpref.getString(
 									getString(R.string.KEY_MODE),
-									getString(R.string.INIT_MODE)));
+									getString(R.string.VALUE_WALKING)));
 					
 					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
 							audioVariable.getInitVolume(), 
@@ -292,6 +294,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					btStart.setText(R.string.BT_START);
 					zeroStatus();
 					btWorkout.setEnabled(true);
+					btStop.setEnabled(false);
 
 					Intent it = new Intent();
 					it.setClass(WorkoutActivity.this, ResultActivity.class);
