@@ -23,10 +23,10 @@
     <string name="BT_PAUSE">暫停</string>
     <string name="BT_RESUME">繼續</string>
     <string name="BT_MAP">地圖</string>
-    <string name="BT_BACK">返回</string>
+    <string name="BT_BACK">返回主頁</string>
     <string name="BT_CENTER">我的位置</string>
-    <string name="BT_ENABLE">開啟地圖模式</string>
-    <string name="BT_DISABLE">關閉地圖模式</string>
+    <string name="BT_ENABLE">移動地圖</string>
+    <string name="BT_DISABLE">固定地圖</string>
     <string name="BT_CONFIRM">確定</string>
     <string name="BT_CANCEL">取消</string>
     <string name="BT_UNSET">歸零</string>
