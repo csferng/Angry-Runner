@@ -83,6 +83,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		vpAdapter = new WorkoutPagerAdapter(pageViews);
 		vpWorkout.setAdapter(vpAdapter);
 
+		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
 		progressBar = (ProgressBarView) pageViews.get(0).findViewById(
 				R.id.progressBar);
 
@@ -93,7 +94,6 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		gMapH = new GmapHandler(pageViews.get(1), this, vpWorkout);
 		gpsH = new GpsHandler(this, (ImageView) pageViews.get(0).findViewById(R.id.imageView1));
 
-		statusHandler = new StatusHandler(WorkoutActivity.this, settingpref, unitHandler);
 		Intent checkit = new Intent();
 		checkit.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkit, 5);
@@ -283,7 +283,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 					bun.putString(getString(R.string.KEY_MODE), 
 							settingpref.getString(
 									getString(R.string.KEY_MODE),
-									getString(R.string.INIT_MODE)));
+									getString(R.string.VALUE_WALKING)));
 					
 					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 
 							audioVariable.getInitVolume(), 
