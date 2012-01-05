@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- When selected -->
+    <item android:drawable="@drawable/stop_3_2"
+          android:state_pressed="true" />
+    <!-- When disabled -->
+    <item android:drawable="@drawable/stop_3_2"
+          android:state_enabled="false" />
+    <!-- Default -->
+    <item android:drawable="@drawable/stop_3" />
+</selector>
