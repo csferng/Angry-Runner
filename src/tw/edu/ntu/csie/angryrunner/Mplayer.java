@@ -156,7 +156,11 @@ public class Mplayer implements OnCompletionListener, OnBufferingUpdateListener 
 	}
 	
 	public void reset() {
-		this.mplayer.reset();
+		try {
+			this.mplayer.reset();
+		} catch(IllegalStateException e) {
+			// This shouldn't happen but it did on Android 2.3.6 
+		}
 	}
 
 	public void cleanUp() {
