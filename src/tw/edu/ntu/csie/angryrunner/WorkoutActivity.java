@@ -417,7 +417,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 
 	@Override
 	public void onDestroy() {
-		//gpsH.unregister();
+		gpsH.unregister();
 		statusHandler.cleanUp();
 		if(timer.getCountdown() > 0) timer.setStopped(true);
 		speedChart.cleanUp();
