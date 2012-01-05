@@ -686,14 +686,14 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		}
 		
 		void init(){
-			time = 5;
+			time = 3;
 			distance = 1.0;
 		}
 		
 		void checkSpeakTimeProgress(long nowSeconds){
 			if(nowSeconds/60 >= time){
 				ttsHandler.speak(time + " minutes", TextToSpeech.QUEUE_FLUSH, null);
-				time += 5;
+				time += 3;
 			}
 			
 			return;
@@ -703,7 +703,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 			double tmpdis = unitHandler.distanceToUnit(nowDistance);
 			
 			if(tmpdis >= distance){
-				ttsHandler.speak(distance + unitHandler.getDisplayUnit(), TextToSpeech.QUEUE_FLUSH, null);
+				ttsHandler.speak(distance + unitHandler.getPrefUnit(), TextToSpeech.QUEUE_FLUSH, null);
 				distance += 1.0;
 			}
 			
