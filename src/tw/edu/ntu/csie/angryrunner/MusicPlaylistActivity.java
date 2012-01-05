@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MusicPlaylistActivity extends Activity {
-	private TextView enterName;
+//	private TextView enterName;
 	private EditText playlistName;
 	private ListView musiclist;
 	private Button confirm_bt, cancel_bt;
@@ -40,7 +40,7 @@ public class MusicPlaylistActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.musiclist);
 		
-		enterName = (TextView)findViewById(R.id.enterName);
+//		enterName = (TextView)findViewById(R.id.enterName);
 //		enterName.setText("Playlist Name");
 		playlistName = (EditText)findViewById(R.id.playlistName);
 		musiclist = (ListView)findViewById(R.id.PhoneMusicList);

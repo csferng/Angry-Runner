@@ -407,6 +407,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 		tvMode.setText(mode);
 		statusHandler.refreshDistanceDisplay();
 		statDistance.setUnit(unitHandler.getDisplayUnit());
+		mode = modeHandler.getMode(mode);
 		speedChart.setMaxValue(MathUtil.getMaxSpeedForMode(mode));
 	}
 

@@ -2,7 +2,6 @@ package tw.edu.ntu.csie.angryrunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
