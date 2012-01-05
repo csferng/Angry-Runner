@@ -38,7 +38,7 @@ public class SpeedChartHandler {
 	    dialRenderer.setZoomEnabled(false);
 	    dialRenderer.setPanEnabled(false);
 	    dialRenderer.setChartTitle(String.format("%s (%s)", activity.getString(R.string.DISPLAY_SPEED), activity.getString(R.string.STR_UNIT_M_S)));
-	    dialRenderer.setChartTitleTextSize(20);
+	    dialRenderer.setChartTitleTextSize(26);
 	    dialRenderer.setVisualTypes(new DialRenderer.Type[] {Type.ARROW, Type.ARROW});
 	    dialRenderer.setMinValue(0);
 	    dialRenderer.setMaxValue(10);
