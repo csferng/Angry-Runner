@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -44,7 +43,10 @@ public class GpsHandler {
 			}
 			
 			if(location.hasSpeed()){
-				savact.updateSpeedDisplay(location.getSpeed() * 1.0);
+				savact.gps2speed(location.getSpeed()*1.0);
+			} else {
+				// Indicate GPS only provide location, no speed information 
+				savact.gps2speed(-1.0);
 			}
 		}
 

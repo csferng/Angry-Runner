@@ -310,6 +310,7 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 						btStart.setText(R.string.BT_START);
 						btStart.setClickable(true);
 						btWorkout.setEnabled(true);
+						btStop.setEnabled(false);
 					}
 				}
 			}
@@ -511,6 +512,10 @@ public class WorkoutActivity extends MapActivity implements TextToSpeech.OnInitL
 	void gps2gmap(GeoPoint newgp) {
 		statusHandler.addPosition(newgp);
 		gMapH.updatePosition(statusHandler.getPositions());
+	}
+	
+	void gps2speed(double speed) {
+		statusHandler.touchSpeed(speed);
 	}
 
 	GeoPoint getLastPosition() {

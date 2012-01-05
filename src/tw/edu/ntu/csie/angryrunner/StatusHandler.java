@@ -55,8 +55,6 @@ public class StatusHandler {
 				long duration = (System.currentTimeMillis() - startTime) / 1000;
 				if (state == State.WORKING) {
 					fromActivity.updateDurationDisplay(duration);
-					double speed = speedCalculator.getSpeed();
-					//fromActivity.updateSpeedDisplay(speed);
 				}
 			}
 		}, 1000, 1000);
@@ -121,6 +119,14 @@ public class StatusHandler {
 			return positions.get(positions.size() - 1);
 
 		return null;
+	}
+	
+	void touchSpeed(double speed) {
+		if (state == State.WORKING) {
+			if(speed < 0)
+				speed = speedCalculator.getSpeed();
+			fromActivity.updateSpeedDisplay(speed);
+		}
 	}
 
 	void addPosition(GeoPoint newgp) {
