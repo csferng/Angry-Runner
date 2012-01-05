@@ -93,18 +93,7 @@
 	<string name="MSG_EXIT">Current session would lost. Are you sure you want to exit?</string>
     <string name="MSG_PLNAME">Playlist name cannot be empty.</string>
     <string name="MSG_DPL">Are you sure?</string>
-    <string name="MSG_MAINHELP">Each grid on the main page is a shortcut to the corresponding setting. 
-        You can either touch the grid directly or press the "Goal Setting" button to set your goal. 
-        You can have speed/pace goal, duration goal, or distance goal. 
-        The oval-shaped circle reflects your current GPS state. 
-        When it\'s red, you should turn on your GPS; when it\'s orange, the GPS service is temporarily unavailable; or else it should be green which implies that your GPS is functioning properly.
-        Before pressing the "Start" button to begin your exercise, you can first switch to the "Setting" tab to enter some one-time settings 
-        such as countdown seconds before start, weight and workout mode for calorie calculation, and unit for distance and speed conversion. 
-        After that you can switch to the "Playlist" tab to choose or insert a favorite playlist. 
-        The songs in the playlist will sequentially be played right after the "Start" button is pressed. 
-        During your workout you can "Pause" and "Resume" it at any time. 
-        Finally, press the "Stop" button to end this workout.
-        </string>
-    <string name="MSG_MAPHELP"></string>
+    <string name="MSG_MAINHELP">This is the main page. Each grid on the main page is a shortcut to the corresponding setting. You can either touch the grid directly or press the \"Goal Setting\" button to set your goal. You can have a speed/pace goal, a duration goal, or a distance goal.\n\nThe oval-shaped circle reflects the present GPS state of your phone. When it\'s red, you should turn on your GPS; when it\'s orange, the GPS service is temporarily unavailable; or else it should be green which implies that your GPS is functioning properly. Pressing the \"Map\" button or performing a right-scroll will bring you the map showing current location.\n\nBefore pressing the \"Start\" button to begin your exercise, you can first switch to the \"Setting\" tab to enter some one-time settings such as countdown seconds before start, weight and workout mode for calorie calculation, and unit for distance and speed conversion. When all the settings are ready, you can then switch to the \"Playlist\" tab to choose or insert a favorite playlist. The songs in the playlist will sequentially be played right after the \"Start\" button is pressed.\n\nThereafter you can \"Pause\" and \"Resume\" at any time, and finally press the \"Stop\" button to end this workout.</string>
+    <string name="MSG_MAPHELP">This is the map page. Initially your current place will be located on the center of the view. Press the \"Enable\" button and you\'ll be allowed to drag and move the map to wherever you want. If you happen to lose your direction, press the \"Center\" button and the map\'ll be navigated back to your current place. To relock the map view, the \"Disable\" button will surely help you.\n\nLastly, pressing the \"Back\" button or a left-scroll will bring you back to the main page.</string>
 
 </resources>

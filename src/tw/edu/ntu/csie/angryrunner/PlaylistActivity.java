@@ -76,11 +76,12 @@ public class PlaylistActivity extends Activity {
 				Intent it = new Intent();
 				Bundle bun = new Bundle();
 				bun.putString("state", "true");
+				bun.putString("playlistId", playlistId);
 				bun.putInt("pos", listview_pos);
 				it.putExtras(bun);
 				setResult(RESULT_OK, it);
 				Log.i("p-pos", new Integer(listview_pos).toString());
-				
+				Log.i(new Integer(listview_pos).toString(), playlistName);
 				finish();
 			}
 		});
