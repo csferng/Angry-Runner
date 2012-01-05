@@ -19,7 +19,7 @@ public class GpsHandler {
 	LocationManager lm;
 	List<Double> savlong;
 	List<Double> savlat;
-	Activity savact;
+	WorkoutActivity savact;
 	ImageView status_img;
 	boolean isRegister;
 	
@@ -41,6 +41,10 @@ public class GpsHandler {
 				
 				savlong.remove(0);
 				savlat.remove(0);
+			}
+			
+			if(location.hasSpeed()){
+				savact.updateSpeedDisplay(location.getSpeed() * 1.0);
 			}
 		}
 
@@ -67,7 +71,7 @@ public class GpsHandler {
 		
 	};
 	
-	public GpsHandler(Activity activity, ImageView iv) {
+	public GpsHandler(WorkoutActivity activity, ImageView iv) {
 		super();
 		savlong = new ArrayList<Double>();
 		savlat = new ArrayList<Double>();

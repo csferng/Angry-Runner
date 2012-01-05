@@ -56,7 +56,7 @@ public class StatusHandler {
 				if (state == State.WORKING) {
 					fromActivity.updateDurationDisplay(duration);
 					double speed = speedCalculator.getSpeed();
-					fromActivity.updateSpeedDisplay(speed);
+					//fromActivity.updateSpeedDisplay(speed);
 				}
 			}
 		}, 1000, 1000);
