@@ -29,6 +29,7 @@
             android:id="@+id/btMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="@string/BT_MAP" 
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
@@ -98,6 +99,8 @@
         android:id="@+id/btWorkout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bt_goal_selector"
+        android:textStyle="bold"
         android:text="@string/BT_GOAL" />
 
     <LinearLayout
@@ -109,6 +112,8 @@
             android:id="@+id/btStart"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bt_start_selector"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:text="@string/BT_START" />
         
@@ -118,6 +123,8 @@
             android:id="@+id/btStop"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bt_stop_selector"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:text="@string/BT_STOP" />
 
