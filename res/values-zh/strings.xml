@@ -65,6 +65,6 @@
     <string name="MSG_PLNAME">音樂清單的名字不可以是空的。</string>
     <string name="MSG_DPL">您確定要執行此動作嗎？</string>
     <string name="MSG_MAINHELP"></string>
-    <string name="MSG_MAPHELP"></string>
+    <string name="MSG_MAPHELP">此頁是地圖頁，一開始會將您的所在位置定位在地圖的中央。\n\n按下 [移動地圖] 可將地圖解鎖，方便您將地圖拖曳移動、放大縮小。\n\n如在拖曳過程中不小心迷失方向，只要按下 [我的位置]，系統會自動將您的現在位置重新定位回地圖中央。\n\n確定要顯示的地圖位置和大小後，按下 [固定地圖]，可重新鎖住地圖。\n\n最後，按下 [返回主頁] 或將螢幕向左滑動，即可回到主頁。</string>
         
 </resources>
